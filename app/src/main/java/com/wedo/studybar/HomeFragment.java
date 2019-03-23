@@ -17,8 +17,8 @@ import android.view.ViewGroup;
 
 public class HomeFragment extends Fragment {
 
-    private SearchView searchView = null;
-    private SearchView.OnQueryTextListener queryTextListener;
+    //private SearchView searchView = null;
+    //private SearchView.OnQueryTextListener queryTextListener;
 
     @Nullable
     @Override
@@ -30,9 +30,10 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+       // setHasOptionsMenu(true);
     }
 
+    /*
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu, menu);
@@ -76,6 +77,8 @@ public class HomeFragment extends Fragment {
         searchView.setOnQueryTextListener(queryTextListener);
         return super.onOptionsItemSelected(item);
     }
+
+    */
 
     public HomeFragment(){
 
