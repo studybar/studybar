@@ -8,4 +8,5 @@
     <string name="title_discussion">Discussion</string>
     <string name="action_search">Search</string>
     <string name="search_hint">Search books and topics</string>
+    <string name="settings">Settings</string>
 </resources>
