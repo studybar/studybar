@@ -3,31 +3,56 @@ package com.wedo.studybar;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
 
+    private boolean loadFragment(Fragment fragment){
+        //switching fragments
+        if(fragment != null){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,fragment).commit();
+            return true;
+        }
+        return false;
+    }
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            Fragment fragment = null;
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
-                    return true;
-                case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
-                    return true;
+                    fragment = new HomeFragment();
+                    //mTextMessage.setText(R.string.title_home);
+                    break;
+                case R.id.navigation_category:
+                    fragment = new CategoryFragment();
+                    //mTextMessage.setText(R.string.title_category);
+                    break;
+                case R.id.navigation_discussion:
+                    fragment = new DiscussionsFragment();
+                    //mTextMessage.setText(R.string.title_discussion);
+                    break;
                 case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_notifications);
-                    return true;
+                    fragment = new NotificationsFragment();
+                    //mTextMessage.setText(R.string.title_notifications);
+                    break;
+                case R.id.navigation_user:
+                    fragment = new UserFragment();
+                    //mTextMessage.setText(R.string.title_user);
+                    break;
             }
-            return false;
+            return loadFragment(fragment);
         }
     };
 
@@ -36,9 +61,35 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
+        //mTextMessage = (TextView) findViewById(R.id.message);
+        loadFragment(new HomeFragment());
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
+    /*
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu,menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        searchView.setOnQueryTextListener(
+                new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+
+                        return false;
+                    }
+                }
+        );
+    }
+    */
 }

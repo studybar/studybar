@@ -3,4 +3,9 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title_user">Me</string>
+    <string name="title_category">Category</string>
+    <string name="title_discussion">Discussion</string>
+    <string name="action_search">Search</string>
+    <string name="search_hint">Search books and topics</string>
 </resources>
