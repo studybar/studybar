@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:minHeight="@dimen/horizontal_item_height_min"
+    android:minWidth="@dimen/horizontal_item_width_min">
+    <ImageView
+        android:id="@+id/book_cover"
+        android:layout_width="@dimen/list_book_show_width"
+        android:layout_height="@dimen/list_book_show_height"
+        android:src="@drawable/test"
+        android:scaleType="center"/>
+
+    <TextView
+        android:id="@+id/book_name"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/list_book_name_height"
+        android:text="习近平谈治国理政"
+        android:textStyle="bold"
+        android:gravity="bottom"
+        android:textAppearance="?android:textAppearanceSmall"/>
+
+    <TextView
+        android:id="@+id/book_author"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/list_book_author_height"
+        android:text="习近平"
+        android:gravity="bottom"
+        android:textAppearance="?android:textAppearanceSmall"/>
+</LinearLayout>

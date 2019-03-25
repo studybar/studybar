@@ -3,8 +3,46 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/title_home"/>
+    <!--
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:padding="8dp"
+                    android:id="@+id/books_suggestion"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="5"
+                    android:text="@string/personal_suggestion"
+                    android:textStyle="bold"
+                    android:textAppearance="?android:textAppearanceLarge" />
+
+                <ImageButton
+                    android:id="@+id/expand_button"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_expand"
+                    android:contentDescription="@string/expand"
+                    android:layout_gravity="right"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+    -->
 </LinearLayout>

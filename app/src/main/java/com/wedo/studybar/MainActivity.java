@@ -40,10 +40,6 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new HomeFragment();
                     //mTextMessage.setText(R.string.title_home);
                     break;
-                case R.id.navigation_category:
-                    fragment = new CategoryFragment();
-                    //mTextMessage.setText(R.string.title_category);
-                    break;
                 case R.id.navigation_discussion:
                     fragment = new DiscussionsFragment();
                     //mTextMessage.setText(R.string.title_discussion);

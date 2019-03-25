@@ -8,11 +8,6 @@
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/navigation_category"
-        android:icon="@drawable/ic_category_black"
-        android:title="@string/title_category" />
-
-    <item
         android:id="@+id/navigation_discussion"
         android:icon="@drawable/ic_discussion_black"
         android:title="@string/title_discussion" />
