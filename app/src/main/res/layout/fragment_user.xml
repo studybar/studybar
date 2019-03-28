@@ -11,20 +11,24 @@
         android:orientation="vertical"
         android:layout_margin="16dp">
 
+        <!-- the android:src attribute only for test -->
+        <!-- pls use tools:text instead in development -->
         <ImageView
             android:id="@+id/user_avatar"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_gravity="center_horizontal"
-            tools:src="@drawable/avatar_example"/>
+            android:src="@drawable/avatar_example"/>
 
+        <!-- the android:text attribute only for test -->
+        <!-- pls use tools:text instead in development -->
         <TextView
             android:id="@+id/user_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            tools:text="I am you father."
+            android:text="I am you father."
             android:textStyle="bold"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:gravity="center"/>
