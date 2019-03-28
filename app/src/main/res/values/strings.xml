@@ -12,4 +12,5 @@
     <string name="personal_suggestion">Based on your interest</string>
     <string name="expand">expand</string>
     <string name="notification_avatar">The avatar of this notification.</string>
+    <string name="num_of_discussions">Discussions:</string>
 </resources>
