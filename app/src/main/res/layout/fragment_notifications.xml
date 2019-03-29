@@ -4,46 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--only for test-->
-    <LinearLayout
-        android:orientation="horizontal"
+    <ListView
+        android:id="@+id/notification_list"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:padding="8dp">
-
-        <ImageView
-            android:id="@+id/notification_avatar"
-            android:layout_width="48dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/avatar_example"
-            android:contentDescription="@string/notification_avatar"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp">
-
-            <TextView
-                android:id="@+id/notification_title"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:textStyle="bold"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                android:text="You have a new message." />
-
-            <TextView
-                android:id="@+id/notification_detail"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="Go fuck yourself."
-                android:maxLines="1"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

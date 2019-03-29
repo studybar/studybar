@@ -36,17 +36,19 @@
                 tools:text="Here is the content of this discussion. Here is the content of this discussion. Here is the content of this discussion. Here is the content of this discussion."
                 android:maxLines="2"/>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="3"
-                android:orientation="horizontal">
+                android:layout_weight="3">
 
                 <ImageButton
                     android:id="@+id/button_like"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_action_up"/>
+                    android:src="@drawable/ic_action_upvote"
+                    android:hapticFeedbackEnabled="true"
+                    android:layout_alignParentStart="true"
+                    android:background="?android:attr/selectableItemBackground" />
 
                 <TextView
                     android:id="@+id/num_likes"
@@ -54,23 +56,36 @@
                     android:layout_height="match_parent"
                     tools:text="64"
                     android:layout_marginStart="8dp"
-                    android:gravity="center"/>
+                    android:gravity="center"
+                    android:layout_toEndOf="@+id/button_like"/>
 
                 <ImageButton
                     android:id="@+id/button_comment"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_action_comment"
-                    android:layout_marginStart="64dp"/>
+                    android:background="?android:attr/selectableItemBackground"
+                    android:hapticFeedbackEnabled="true"
+                    android:layout_centerHorizontal="true"/>
 
                 <TextView
                     android:id="@+id/num_comments"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    tools:text="64"
-                    android:gravity="center"/>
+                    android:layout_toEndOf="@+id/button_comment"
+                    android:layout_marginStart="8dp"
+                    android:gravity="center"
+                    tools:text="64" />
 
-            </LinearLayout>
+                <ImageButton
+                    android:id="@+id/button_star"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/ic_action_star"
+                    android:layout_alignParentEnd="true" />
+
+            </RelativeLayout>
 
         </LinearLayout>
 

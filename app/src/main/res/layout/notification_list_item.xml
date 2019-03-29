@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="64dp"
-    android:padding="8dp">
+    android:layout_height="80dp"
+    android:padding="16dp">
 
     <ImageView
         android:id="@+id/notification_avatar"
