@@ -1,4 +1,4 @@
-package com.wedo.studybar;
+package com.wedo.studybar.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,9 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.wedo.studybar.Adapter.NotificationAdapter;
+import com.wedo.studybar.util.Notification;
+import com.wedo.studybar.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class NotificationsFragment extends Fragment {
     @Nullable

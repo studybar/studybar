@@ -1,48 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--
-    <ScrollView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/categories_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/category_list_item"
+        tools:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        tools:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    </android.support.v7.widget.RecyclerView>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:padding="8dp"
-                    android:id="@+id/books_suggestion"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="5"
-                    android:text="@string/personal_suggestion"
-                    android:textStyle="bold"
-                    android:textAppearance="?android:textAppearanceLarge" />
-
-                <ImageButton
-                    android:id="@+id/expand_button"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_action_expand"
-                    android:contentDescription="@string/expand"
-                    android:layout_gravity="right"
-                    />
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </ScrollView>
-    -->
 </LinearLayout>

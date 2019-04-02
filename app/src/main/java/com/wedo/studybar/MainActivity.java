@@ -8,13 +8,17 @@ import android.provider.SearchRecentSuggestions;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import com.wedo.studybar.Fragments.DiscussionsFragment;
+import com.wedo.studybar.Fragments.HomeFragment;
+import com.wedo.studybar.Fragments.NotificationsFragment;
+import com.wedo.studybar.Fragments.UserFragment;
 
 public class MainActivity extends AppCompatActivity {
 

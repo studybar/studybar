@@ -1,4 +1,4 @@
-package com.wedo.studybar;
+package com.wedo.studybar.util;
 
 public class Notification {
     private String mTitle;

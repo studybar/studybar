@@ -1,4 +1,4 @@
-package com.wedo.studybar;
+package com.wedo.studybar.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.wedo.studybar.R;
 
 public class DiscussionsFragment extends Fragment {
     @Nullable

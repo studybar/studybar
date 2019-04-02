@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.wedo.studybar.Notification;
+import com.wedo.studybar.util.Notification;
 import com.wedo.studybar.R;
 
 import java.util.ArrayList;

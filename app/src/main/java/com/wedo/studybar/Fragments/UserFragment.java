@@ -1,4 +1,4 @@
-package com.wedo.studybar;
+package com.wedo.studybar.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.wedo.studybar.R;
+import com.wedo.studybar.SettingsActivity;
+
 public class UserFragment extends Fragment {
     @Nullable
     @Override
@@ -20,7 +23,7 @@ public class UserFragment extends Fragment {
         settingsButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent settingsIntent = new Intent(getActivity(),SettingsActivity.class);
+                Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
 
                 startActivity(settingsIntent);
             }
