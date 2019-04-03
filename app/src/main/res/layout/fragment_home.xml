@@ -15,4 +15,25 @@
 
     </android.support.v7.widget.RecyclerView>
 
+    <TextView
+        android:id="@+id/top_level_books"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:paddingStart="8dp"
+        android:text="@string/top_level"
+        android:textStyle="bold"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/top_books_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        tools:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        tools:listitem="@layout/horizontal_list_book"
+        tools:orientation="horizontal">
+
+    </android.support.v7.widget.RecyclerView>
+
 </LinearLayout>

@@ -2,10 +2,17 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/horizontal_item_width_min"
     android:layout_height="@dimen/horizontal_item_height_min"
+    android:layout_margin="8dp"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:Card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    Card_view:cardCornerRadius="8dp"
+    Card_view:cardBackgroundColor="#E6E6E6"
+    Card_view:cardElevation="8dp"
     Card_view:contentPadding="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:selectableItemBackground"
     android:minHeight="@dimen/horizontal_item_height_min"
     android:minWidth="@dimen/horizontal_item_width_min">
 
@@ -18,12 +25,13 @@
             android:layout_width="@dimen/list_book_show_width"
             android:layout_height="@dimen/list_book_show_height"
             tools:src="@drawable/test"
-            android:scaleType="center"/>
+            android:scaleType="centerInside"/>
 
         <TextView
             android:id="@+id/book_name"
             android:layout_width="match_parent"
             android:layout_height="@dimen/list_book_name_height"
+            android:layout_marginTop="8dp"
             tools:text="习近平谈治国理政"
             android:textStyle="bold"
             android:gravity="bottom"

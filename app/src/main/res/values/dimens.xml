@@ -7,6 +7,6 @@
     <dimen name="list_book_name_height">40dp</dimen>
     <dimen name="list_book_author_height">20dp</dimen>
     <dimen name="list_book_name_width">96dp</dimen>
-    <dimen name="horizontal_item_height_min">220dp</dimen>
+    <dimen name="horizontal_item_height_min">228dp</dimen>
     <dimen name="horizontal_item_width_min">112dp</dimen>
 </resources>
