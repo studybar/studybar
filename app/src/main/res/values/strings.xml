@@ -14,4 +14,20 @@
     <string name="notification_avatar">The avatar of this notification.</string>
     <string name="num_of_discussions">Discussions:</string>
     <string name="top_level">Top</string>
+
+    <!--学科名-->
+    <string name="Philosophy">Philosophy</string>
+    <string name="Economics">Economics</string>
+    <string name="Jurisprudence">Jurisprudence</string>
+    <string name="Pedagogy">Pedagogy</string>
+    <string name="Literature">Literature</string>
+    <string name="History">History</string>
+    <string name="formalScience">Formal science</string>
+    <string name="Engineering">Engineering</string>
+    <string name="Agronomy">Agronomy</string>
+    <string name="Medicine">Medicine</string>
+    <string name="militaryScience">Military science</string>
+    <string name="Management">Management</string>
+    <string name="artTheory">Art Theory</string>
+
 </resources>

@@ -32,20 +32,20 @@ public class HomeFragment extends Fragment {
          * to show category
          * */
         //data to populate the category RecyclerView with
-        ArrayList<String> categoryNames = new ArrayList<>();
-        categoryNames.add("Philosophy");
-        categoryNames.add("Economics");
-        categoryNames.add("Jurisprudence");
-        categoryNames.add("Pedagogy");
-        categoryNames.add("Literature");
-        categoryNames.add("History");
-        categoryNames.add("Formal science");
-        categoryNames.add("Engineering");
-        categoryNames.add("Agronomy");
-        categoryNames.add("Medicine");
-        categoryNames.add("Military science");
-        categoryNames.add("Management");
-        categoryNames.add("Art Theory");
+        ArrayList<Integer> categoryNames = new ArrayList<>();
+        categoryNames.add(R.string.Philosophy);
+        categoryNames.add(R.string.Economics);
+        categoryNames.add(R.string.Jurisprudence);
+        categoryNames.add(R.string.Pedagogy);
+        categoryNames.add(R.string.Literature);
+        categoryNames.add(R.string.History);
+        categoryNames.add(R.string.formalScience);
+        categoryNames.add(R.string.Engineering);
+        categoryNames.add(R.string.Agronomy);
+        categoryNames.add(R.string.Medicine);
+        categoryNames.add(R.string.militaryScience);
+        categoryNames.add(R.string.Management);
+        categoryNames.add(R.string.artTheory);
 
         RecyclerView categoryRecyclerView = (RecyclerView) rootView.findViewById(R.id.categories_recycler_view);
         LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
