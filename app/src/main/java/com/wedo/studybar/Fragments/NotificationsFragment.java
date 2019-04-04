@@ -23,21 +23,21 @@ public class NotificationsFragment extends Fragment {
 
         final ArrayList<Notification> notifications = new ArrayList<Notification>();
 
-        notifications.add(new Notification("You have a new message","Go fuck yourself.",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Go fuck yourself.",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Go fuck yourself.",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Go fuck yourself.",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Go fuck yourself.",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Go fuck yourself.",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Go fuck yourself.",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Go fuck yourself.",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Go fuck yourself.",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Go fuck yourself.",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Go fuck yourself.",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Go fuck yourself.",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Go fuck yourself.",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Go fuck yourself.",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Go fuck yourself.",R.drawable.avatar_example));
+        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
+        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
+        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
+        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
+        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
+        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
+        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
+        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
+        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
+        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
+        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
+        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
+        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
+        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
+        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
 
         NotificationAdapter itemsAdapter = new NotificationAdapter(getActivity(),notifications);
         ListView listView = (ListView)rootView.findViewById(R.id.notification_list);

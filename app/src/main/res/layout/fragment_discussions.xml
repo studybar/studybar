@@ -1,99 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
-    <!-- This CardView is only for test -->
-    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/discussion_books_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        card_view:contentPadding="16dp">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        tools:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        tools:listitem="@layout/horizontal_list_book"
+        tools:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <ListView
+            android:id="@+id/my_discussion_list"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_marginTop="8dp"
+            tools:listitem="@layout/discussion_list_item">
 
-            <TextView
-                android:id="@+id/initiator_name"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:text="u/nobody"/>
-
-            <TextView
-                android:id="@+id/discussion_title"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="6"
-                android:text="Here is the title of this discussion.Here is the title of this disscussicon."
-                android:textStyle="bold"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                android:maxLines="2"/>
-
-            <TextView
-                android:id="@+id/discussion_content"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="5"
-                android:text="Here is the content of this discussion. Here is the content of this discussion. Here is the content of this discussion. Here is the content of this discussion."
-                android:maxLines="2"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="3">
-
-                <ImageButton
-                    android:id="@+id/button_like"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_action_upvote"
-                    android:hapticFeedbackEnabled="true"
-                    android:layout_alignParentStart="true"
-                    android:background="?android:attr/selectableItemBackground" />
-
-                <TextView
-                    android:id="@+id/num_likes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="64"
-                    android:layout_marginStart="8dp"
-                    android:gravity="center"
-                    android:layout_toEndOf="@+id/button_like"/>
-
-                <ImageButton
-                    android:id="@+id/button_comment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_action_comment"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:hapticFeedbackEnabled="true"
-                    android:layout_centerHorizontal="true"/>
-
-                <TextView
-                    android:id="@+id/num_comments"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_toEndOf="@+id/button_comment"
-                    android:layout_marginStart="8dp"
-                    android:gravity="center"
-                    android:text="64" />
-
-                <ImageButton
-                    android:id="@+id/button_star"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:src="@drawable/ic_action_star"
-                    android:layout_alignParentEnd="true" />
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-    </android.support.v7.widget.CardView>
+        </ListView>
+    </LinearLayout>
 </LinearLayout>

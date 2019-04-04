@@ -28,7 +28,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:text="I am you father."
+            android:text="Vader"
             android:textStyle="bold"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:gravity="center"/>

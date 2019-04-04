@@ -29,5 +29,6 @@
     <string name="militaryScience">Military science</string>
     <string name="Management">Management</string>
     <string name="artTheory">Art Theory</string>
+    <string name="discussion_author_pre">u/</string>
 
 </resources>
