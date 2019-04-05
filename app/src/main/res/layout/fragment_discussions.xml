@@ -5,6 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
+    <!--
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/discussion_books_recycler_view"
         android:layout_width="match_parent"
@@ -16,17 +18,24 @@
 
     </android.support.v7.widget.RecyclerView>
 
+    -->
+
+    <!--
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1">-->
         <ListView
             android:id="@+id/my_discussion_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
-            tools:listitem="@layout/discussion_list_item">
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            tools:listitem="@layout/discussion_list_item"
+            tools:listheader="@layout/discussion_list_header"
+            android:headerDividersEnabled="false">
 
         </ListView>
-    </LinearLayout>
+    <!--
+    </LinearLayout>-->
 </LinearLayout>

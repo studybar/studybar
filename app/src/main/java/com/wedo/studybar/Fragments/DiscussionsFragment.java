@@ -28,46 +28,7 @@ public class DiscussionsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_discussions,container,false);
 
-        /**
-         * to show my books
-         * */
-        ArrayList<Integer> horizontalBookCovers = new ArrayList<>();
-        horizontalBookCovers.add(R.drawable.test);
-        horizontalBookCovers.add(R.drawable.test);
-        horizontalBookCovers.add(R.drawable.test);
-        horizontalBookCovers.add(R.drawable.test);
-        horizontalBookCovers.add(R.drawable.test);
-        horizontalBookCovers.add(R.drawable.test);
 
-        ArrayList<String> horizontalBookNames = new ArrayList<>();
-        horizontalBookNames.add("习近平谈治国理政");
-        horizontalBookNames.add("习近平谈治国理政");
-        horizontalBookNames.add("习近平谈治国理政");
-        horizontalBookNames.add("习近平谈治国理政");
-        horizontalBookNames.add("习近平谈治国理政");
-        horizontalBookNames.add("习近平谈治国理政");
-
-        ArrayList<String> horizontalBookAuthors = new ArrayList<>();
-        horizontalBookAuthors.add("习近平");
-        horizontalBookAuthors.add("习近平");
-        horizontalBookAuthors.add("习近平");
-        horizontalBookAuthors.add("习近平");
-        horizontalBookAuthors.add("习近平");
-        horizontalBookAuthors.add("习近平");
-
-        RecyclerView horizontalBookRecyclerView = rootView.findViewById(R.id.discussion_books_recycler_view);
-        LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
-        horizontalBookRecyclerView.setLayoutManager(horizontalLayoutManager);
-        mHorizontalBookAdapter = new HorizontalBookAdapter(getActivity(),horizontalBookCovers,horizontalBookNames,horizontalBookAuthors);
-        mHorizontalBookAdapter.setClickListener(
-                new HorizontalBookAdapter.ItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        Toast.makeText(getActivity(),mHorizontalBookAdapter.getItem(position),Toast.LENGTH_SHORT).show();
-                    }
-                }
-        );
-        horizontalBookRecyclerView.setAdapter(mHorizontalBookAdapter);
 
         /**
          * to show list of discussions
@@ -89,14 +50,53 @@ public class DiscussionsFragment extends Fragment {
         DiscussionAdapter itemsAdapter = new DiscussionAdapter(getActivity(),discussions);
         ListView listView = (ListView)rootView.findViewById(R.id.my_discussion_list);
 
-        //LayoutInflater mInflater = getLayoutInflater();
-        //ViewGroup bookHeader = (ViewGroup)mInflater.inflate(R.layout.discussion_books_recycler_view,listView,false);
-        //listView.addHeaderView(horizontalBookRecyclerView);
+        LayoutInflater mInflater = getLayoutInflater();
+        ViewGroup bookHeader = (ViewGroup)mInflater.inflate(R.layout.discussion_list_header,listView,false);
+        listView.addHeaderView(bookHeader);
 
         listView.setAdapter(itemsAdapter);
 
 
+        /**
+         * to show my books
+         * */
+        ArrayList<Integer> horizontalBookCovers = new ArrayList<>();
+        horizontalBookCovers.add(R.drawable.test);
+        horizontalBookCovers.add(R.drawable.test);
+        horizontalBookCovers.add(R.drawable.test);
+        horizontalBookCovers.add(R.drawable.test);
+        horizontalBookCovers.add(R.drawable.test);
+        horizontalBookCovers.add(R.drawable.test);
 
+        ArrayList<String> horizontalBookNames = new ArrayList<>();
+        horizontalBookNames.add("习近平谈治国理");
+        horizontalBookNames.add("习近平谈治国理政");
+        horizontalBookNames.add("习近平谈治国理政");
+        horizontalBookNames.add("习近平谈治国理政");
+        horizontalBookNames.add("习近平谈治国理政");
+        horizontalBookNames.add("习近平谈治国理政");
+
+        ArrayList<String> horizontalBookAuthors = new ArrayList<>();
+        horizontalBookAuthors.add("习近");
+        horizontalBookAuthors.add("习近平");
+        horizontalBookAuthors.add("习近平");
+        horizontalBookAuthors.add("习近平");
+        horizontalBookAuthors.add("习近平");
+        horizontalBookAuthors.add("习近平");
+
+        RecyclerView horizontalBookRecyclerView = rootView.findViewById(R.id.discussion_books_recycler_view);
+        LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
+        horizontalBookRecyclerView.setLayoutManager(horizontalLayoutManager);
+        mHorizontalBookAdapter = new HorizontalBookAdapter(getActivity(),horizontalBookCovers,horizontalBookNames,horizontalBookAuthors);
+        mHorizontalBookAdapter.setClickListener(
+                new HorizontalBookAdapter.ItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Toast.makeText(getActivity(),mHorizontalBookAdapter.getItem(position),Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+        horizontalBookRecyclerView.setAdapter(mHorizontalBookAdapter);
 
 
         return rootView;
