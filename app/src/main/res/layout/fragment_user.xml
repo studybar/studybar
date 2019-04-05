@@ -5,19 +5,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
     
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/user_info_compact"
         android:layout_width="match_parent"
-        android:layout_height="96dp"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_margin="16dp">
 
         <!-- the android:src attribute only for test -->
         <!-- pls use tools:text instead in development -->
         <ImageView
             android:id="@+id/user_avatar"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_gravity="center_horizontal"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center"
             android:src="@drawable/avatar_example"/>
 
         <!-- the android:text attribute only for test -->
@@ -25,15 +28,53 @@
         <TextView
             android:id="@+id/user_name"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="48dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:text="Vader"
             android:textStyle="bold"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:gravity="center"/>
+            android:textAlignment="gravity"
+            android:gravity="center_vertical|start"
+            android:layout_toEndOf="@id/user_avatar"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/user_bio"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="I see through the lies of the Jedi."
+            android:textAlignment="gravity"
+            android:gravity="center_vertical|start"
+            android:layout_toEndOf="@id/user_avatar"
+            android:layout_below="@id/user_name" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/my_books"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:drawableStart="@drawable/ic_book"
+        android:text="@string/my_books"
+        android:drawablePadding="16dp"
+        android:textAlignment="viewStart"
+        android:drawableEnd="@drawable/ic_settings_arrow"/>
+
+    <Button
+        android:id="@+id/my_discussions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:drawableStart="@drawable/ic_discussion_black"
+        android:text="@string/my_discussions"
+        android:drawablePadding="16dp"
+        android:textAlignment="viewStart"
+        android:drawableEnd="@drawable/ic_settings_arrow"/>
 
     <Button
         android:id="@+id/settings_button"

@@ -29,6 +29,10 @@
     <string name="militaryScience">Military science</string>
     <string name="Management">Management</string>
     <string name="artTheory">Art Theory</string>
+
     <string name="discussion_author_pre">u/</string>
+    <string name="my_books">My Books</string>
+    <string name="my_discussions">My Discussions</string>
+    <string name="for_user_more_info">more user info.</string>
 
 </resources>
