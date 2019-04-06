@@ -40,41 +40,58 @@
             android:layout_weight="1"
             tools:text="习近平"/>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
-            <TextView
+            <LinearLayout
+                android:id="@+id/num_likes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/num_of_likes"/>
+
+                <TextView
+                    android:id="@+id/search_num_of_likes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    tools:text="64"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/num_comments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@id/num_likes">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/num_of_discussions"/>
+
+                <TextView
+                    android:id="@+id/search_num_of_discuss"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    tools:text="64"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/book_follow_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/num_of_likes"/>
-
-            <TextView
-                android:id="@+id/search_num_of_likes"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                tools:text="64"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/num_of_discussions"/>
-
-            <TextView
-                android:id="@+id/search_num_of_discuss"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                tools:text="64"/>
-        </LinearLayout>
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/button_follow_background"
+                android:text="@string/follow"
+                android:textAppearance="?android:textAppearanceSmall"/>
+        </RelativeLayout>
 
     </LinearLayout>
 
