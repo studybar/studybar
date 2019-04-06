@@ -5,19 +5,17 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.wedo.studybar.Adapter.CategoryAdapter;
 import com.wedo.studybar.Adapter.HorizontalBookAdapter;
 import com.wedo.studybar.R;
 import com.wedo.studybar.activities.BookDetailActivity;
+import com.wedo.studybar.activities.CategoryDetailActivity;
 
 import java.util.ArrayList;
 
@@ -34,6 +32,21 @@ public class HomeFragment extends Fragment {
         /**
          * to show category
          * */
+        ArrayList<String> categroyIds = new ArrayList<>();
+        categroyIds.add("2203467901");
+        categroyIds.add("2203467902");
+        categroyIds.add("2203467903");
+        categroyIds.add("2203467904");
+        categroyIds.add("2203467905");
+        categroyIds.add("2203467906");
+        categroyIds.add("2203467907");
+        categroyIds.add("2203467908");
+        categroyIds.add("2203467909");
+        categroyIds.add("2203467910");
+        categroyIds.add("2203467911");
+        categroyIds.add("2203467912");
+        categroyIds.add("2203467913");
+
         //data to populate the category RecyclerView with
         ArrayList<Integer> categoryNames = new ArrayList<>();
         categoryNames.add(R.string.Philosophy);
@@ -53,11 +66,14 @@ public class HomeFragment extends Fragment {
         RecyclerView categoryRecyclerView = (RecyclerView) rootView.findViewById(R.id.categories_recycler_view);
         LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
         categoryRecyclerView.setLayoutManager(horizontalLayoutManager);
-        mCategoryAdapter = new CategoryAdapter(getActivity(),categoryNames);
+        mCategoryAdapter = new CategoryAdapter(getActivity(),categroyIds,categoryNames);
         mCategoryAdapter.setClickListener(new CategoryAdapter.ItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(getActivity(),mCategoryAdapter.getItem(position),Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), CategoryDetailActivity.class);
+                intent.putExtra("CATEGORY_ID",mCategoryAdapter.getCategoryId(position));
+                intent.putExtra("CATEGORY_NAME",mCategoryAdapter.getCategoryName(position));
+                startActivity(intent);
             }
         });
         categoryRecyclerView.setAdapter(mCategoryAdapter);

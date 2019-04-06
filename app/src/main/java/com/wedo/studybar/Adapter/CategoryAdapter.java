@@ -14,12 +14,14 @@ import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
 
+    private List<String> mCategoryIds;
     private List<Integer> mCategoryNames;
     private ItemClickListener mClickListener;
     private LayoutInflater mInflater;
 
-    public CategoryAdapter(Context context, List<Integer> categoryNames){
+    public CategoryAdapter(Context context,List<String> categoryId,List<Integer> categoryNames){
         this.mInflater = LayoutInflater.from(context);
+        this.mCategoryIds = categoryId;
         this.mCategoryNames = categoryNames;
     }
 
@@ -59,8 +61,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         }
     }
 
-    public Integer getItem(int id){
+    public Integer getCategoryName(int id){
         return mCategoryNames.get(id);
+    }
+
+    public String getCategoryId(int id){
+        return mCategoryIds.get(id);
     }
 
     public void setClickListener(ItemClickListener itemClickListener){

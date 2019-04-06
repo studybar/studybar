@@ -35,5 +35,6 @@
     <string name="my_discussions">My Discussions</string>
     <string name="for_user_more_info">more user info.</string>
     <string name="num_of_likes">Likes: </string>
+    <string name="blank" />
 
 </resources>
