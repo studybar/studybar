@@ -1,10 +1,10 @@
-package com.wedo.studybar;
+package com.wedo.studybar.Activities;
 
 import android.content.SearchRecentSuggestionsProvider;
 
 public class SuggestionProvider extends SearchRecentSuggestionsProvider {
 
-    public final static String AUTHORITY ="com.wedo.studybar.SuggestionProvider";
+    public final static String AUTHORITY ="com.wedo.studybar.Activities.SuggestionProvider";
     public final static int MODE = DATABASE_MODE_QUERIES;
 
     public SuggestionProvider(){

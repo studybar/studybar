@@ -1,4 +1,4 @@
-package com.wedo.studybar;
+package com.wedo.studybar.Activities;
 
 import android.app.Activity;
 import android.app.SearchManager;

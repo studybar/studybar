@@ -1,4 +1,4 @@
-package com.wedo.studybar;
+package com.wedo.studybar.Activities;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -19,6 +19,7 @@ import com.wedo.studybar.Fragments.DiscussionsFragment;
 import com.wedo.studybar.Fragments.HomeFragment;
 import com.wedo.studybar.Fragments.NotificationsFragment;
 import com.wedo.studybar.Fragments.UserFragment;
+import com.wedo.studybar.R;
 
 public class MainActivity extends AppCompatActivity {
 
