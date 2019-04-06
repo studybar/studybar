@@ -37,5 +37,6 @@
     <string name="num_of_likes">Likes: </string>
     <string name="blank" />
     <string name="follow">Follow</string>
+    <string name="action_add">Add</string>
 
 </resources>

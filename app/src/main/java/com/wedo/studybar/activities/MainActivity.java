@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -65,8 +66,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //loadFragment(new HomeFragment());
-
         viewPager = (ViewPager)findViewById(R.id.view_pager);
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragment(new HomeFragment());
@@ -74,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
         viewPagerAdapter.addFragment(new NotificationsFragment());
         viewPagerAdapter.addFragment(new UserFragment());
         viewPager.setAdapter(viewPagerAdapter);
+
+        final FloatingActionButton fab = (FloatingActionButton)findViewById(R.id.action_search);
 
         final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -86,6 +87,21 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
+
+                switch (position){
+                    case 0:
+                        fab.show();
+                        break;
+                    case 1:
+                        fab.hide();
+                        break;
+                    case 2:
+                        fab.hide();
+                        break;
+                    case 3:
+                        fab.hide();
+                        break;
+                }
                     navigation.getMenu().getItem(position).setChecked(true);
             }
 
@@ -112,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
 
+        /*
         // Associate searchable configuration with the SearchView
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -121,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
                 searchManager.getSearchableInfo(getComponentName()));
 
         searchView.setQueryHint(getResources().getString(R.string.search_hint));
+        */
 
         return true;
     }
