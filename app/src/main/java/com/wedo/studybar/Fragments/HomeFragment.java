@@ -1,5 +1,6 @@
 package com.wedo.studybar.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.wedo.studybar.Adapter.CategoryAdapter;
 import com.wedo.studybar.Adapter.HorizontalBookAdapter;
 import com.wedo.studybar.R;
+import com.wedo.studybar.activities.BookDetailActivity;
 
 import java.util.ArrayList;
 
@@ -63,6 +65,14 @@ public class HomeFragment extends Fragment {
         /**
          * to show books
          * */
+        ArrayList<String> horizontalBookIds = new ArrayList<>();
+        horizontalBookIds.add("8378001");
+        horizontalBookIds.add("8378002");
+        horizontalBookIds.add("8378003");
+        horizontalBookIds.add("8378004");
+        horizontalBookIds.add("8378005");
+        horizontalBookIds.add("8378006");
+
         ArrayList<Integer> horizontalBookCovers = new ArrayList<>();
         horizontalBookCovers.add(R.drawable.test);
         horizontalBookCovers.add(R.drawable.test);
@@ -90,11 +100,13 @@ public class HomeFragment extends Fragment {
         RecyclerView horizontalBooksRecyclerView = rootView.findViewById(R.id.top_books_recycler_view);
         LinearLayoutManager horizontalLayoutManager_forTop = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
         horizontalBooksRecyclerView.setLayoutManager(horizontalLayoutManager_forTop);
-        mHorizontalBookAdapter = new HorizontalBookAdapter(getActivity(),horizontalBookCovers,horizontalBookNames,horizontalBookAuthors);
+        mHorizontalBookAdapter = new HorizontalBookAdapter(getActivity(),horizontalBookIds,horizontalBookCovers,horizontalBookNames,horizontalBookAuthors);
         mHorizontalBookAdapter.setClickListener(new HorizontalBookAdapter.ItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
+                Intent intent = new Intent(getActivity(), BookDetailActivity.class);
+                intent.putExtra("bookId",mHorizontalBookAdapter.getItem(position));
+                startActivity(intent);
             }
         });
         horizontalBooksRecyclerView.setAdapter(mHorizontalBookAdapter);

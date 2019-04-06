@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.wedo.studybar.R;
-import com.wedo.studybar.Activities.SettingsActivity;
+import com.wedo.studybar.activities.SettingsActivity;
 
 public class UserFragment extends Fragment {
     @Nullable

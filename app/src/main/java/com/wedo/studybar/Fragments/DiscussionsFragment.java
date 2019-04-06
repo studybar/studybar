@@ -60,6 +60,14 @@ public class DiscussionsFragment extends Fragment {
         /**
          * to show my books
          * */
+        ArrayList<String> horizontalBookIds = new ArrayList<>();
+        horizontalBookIds.add("8378001");
+        horizontalBookIds.add("8378002");
+        horizontalBookIds.add("8378003");
+        horizontalBookIds.add("8378004");
+        horizontalBookIds.add("8378005");
+        horizontalBookIds.add("8378006");
+
         ArrayList<Integer> horizontalBookCovers = new ArrayList<>();
         horizontalBookCovers.add(R.drawable.test);
         horizontalBookCovers.add(R.drawable.test);
@@ -87,7 +95,7 @@ public class DiscussionsFragment extends Fragment {
         RecyclerView horizontalBookRecyclerView = rootView.findViewById(R.id.discussion_books_recycler_view);
         LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
         horizontalBookRecyclerView.setLayoutManager(horizontalLayoutManager);
-        mHorizontalBookAdapter = new HorizontalBookAdapter(getActivity(),horizontalBookCovers,horizontalBookNames,horizontalBookAuthors);
+        mHorizontalBookAdapter = new HorizontalBookAdapter(getActivity(),horizontalBookIds,horizontalBookCovers,horizontalBookNames,horizontalBookAuthors);
         mHorizontalBookAdapter.setClickListener(
                 new HorizontalBookAdapter.ItemClickListener() {
                     @Override

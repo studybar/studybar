@@ -1,6 +1,7 @@
 package com.wedo.studybar.util;
 
 public class Book {
+    private String mBookId;
     private String mBookName;
     private String mBookAuthor;
     private int mBookCoverId;
@@ -8,18 +9,24 @@ public class Book {
     private String mNumOfLikes;
     private String mNumOfComments;
 
-    public Book(String bookName,String bookAuthor,int bookCoverId){
+    public Book(String bookId,String bookName,String bookAuthor,int bookCoverId){
+        mBookId = bookId;
         mBookName = bookName;
         mBookAuthor = bookAuthor;
         mBookCoverId = bookCoverId;
     }
 
-    public Book(String bookName,String bookAuthor,int bookCoverId,String bookPress,String numOfLikes,String numOfComments){
+    public Book(String bookId,String bookName,String bookAuthor,int bookCoverId,String bookPress,String numOfLikes,String numOfComments){
+        mBookId = bookId;
         mBookName = bookName;
         mBookAuthor = bookAuthor;
         mBookCoverId = bookCoverId;
         mNumOfLikes = numOfLikes;
         mNumOfComments = numOfComments;
+    }
+
+    public String getBookId(){
+        return mBookId;
     }
 
     public String getBookName(){

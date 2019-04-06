@@ -15,14 +15,16 @@ import java.util.List;
 
 public class HorizontalBookAdapter extends RecyclerView.Adapter<HorizontalBookAdapter.horizontalBookViewHolder> {
 
+    private List<String> mHorizontalBookIds;
     private List<String> mHorizontalBookNames;
     private List<String> mHorizontalBookAuthors;
     private List<Integer> mHorizontalBookCovers;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
-    public HorizontalBookAdapter(Context context,List<Integer> horizontalBookCovers, List<String> horizontalBookNames, List<String> horizontalBookAuthors){
+    public HorizontalBookAdapter(Context context,List<String> horizontalBookIds,List<Integer> horizontalBookCovers, List<String> horizontalBookNames, List<String> horizontalBookAuthors){
         this.mInflater = LayoutInflater.from(context);
+        this.mHorizontalBookIds = horizontalBookIds;
         this.mHorizontalBookCovers = horizontalBookCovers;
         this.mHorizontalBookNames = horizontalBookNames;
         this.mHorizontalBookAuthors = horizontalBookAuthors;
@@ -37,6 +39,7 @@ public class HorizontalBookAdapter extends RecyclerView.Adapter<HorizontalBookAd
 
     @Override
     public void onBindViewHolder(@NonNull HorizontalBookAdapter.horizontalBookViewHolder horizontalBookViewHolder, int position) {
+        String horizontalBookId = mHorizontalBookIds.get(position);
         int horizontalBookCover = mHorizontalBookCovers.get(position);
         String horizontalBookName = mHorizontalBookNames.get(position);
         String horizontalBookAuthor = mHorizontalBookAuthors.get(position);
@@ -71,7 +74,7 @@ public class HorizontalBookAdapter extends RecyclerView.Adapter<HorizontalBookAd
     }
 
     public String getItem(int id){
-        return mHorizontalBookNames.get(id);
+        return mHorizontalBookIds.get(id);
     }
 
     public void setClickListener(ItemClickListener itemClickListener){
