@@ -82,13 +82,13 @@
                     android:gravity="center"
                     tools:text="64" />
 
-                <ImageButton
+                <CheckBox
                     android:id="@+id/button_star"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:button="@drawable/star_button_custom"
                     android:background="?android:attr/selectableItemBackground"
-                    android:src="@drawable/ic_action_star"
                     android:layout_alignParentEnd="true" />
 
             </RelativeLayout>
