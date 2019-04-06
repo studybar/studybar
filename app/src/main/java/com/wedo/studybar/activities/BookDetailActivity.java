@@ -13,7 +13,7 @@ public class BookDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.book_deatil_activity);
 
-        String bookId = getIntent().getStringExtra("bookId");
+        String bookId = getIntent().getStringExtra("BOOK_ID");
         Toast.makeText(this,bookId,Toast.LENGTH_SHORT).show();
     }
 }

@@ -48,6 +48,10 @@ public class HorizontalBookAdapter extends RecyclerView.Adapter<HorizontalBookAd
         horizontalBookViewHolder.horizontalBookAuthorView.setText(horizontalBookAuthor);
     }
 
+    public String getBookName(int position) {
+        return mHorizontalBookNames.get(position);
+    }
+
     public class horizontalBookViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
         ImageView horizontalBookCoverView;
         TextView horizontalBookNameView;
@@ -73,7 +77,7 @@ public class HorizontalBookAdapter extends RecyclerView.Adapter<HorizontalBookAd
         return mHorizontalBookNames.size();
     }
 
-    public String getItem(int id){
+    public String getBookId(int id){
         return mHorizontalBookIds.get(id);
     }
 

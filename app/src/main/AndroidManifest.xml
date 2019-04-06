@@ -33,19 +33,10 @@
         </activity>
         <activity android:name=".activities.SettingsActivity"
             android:label="@string/settings">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity"/>
         </activity>
         <activity android:name=".activities.BookDetailActivity">
-                <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value=".activities.MainActivity"/>
         </activity>
         <activity android:name=".activities.CategoryDetailActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity"/>
         </activity>
         <provider
             android:authorities="com.wedo.studybar.activities.SuggestionProvider"

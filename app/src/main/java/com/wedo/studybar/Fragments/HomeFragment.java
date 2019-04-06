@@ -121,7 +121,9 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), BookDetailActivity.class);
-                intent.putExtra("bookId",mHorizontalBookAdapter.getItem(position));
+                intent.putExtra("BOOK_ID",mHorizontalBookAdapter.getBookId(position));
+                intent.putExtra("BOOK_NAME",mHorizontalBookAdapter.getBookName(position));
+
                 startActivity(intent);
             }
         });

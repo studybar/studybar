@@ -8,13 +8,14 @@ import android.provider.SearchRecentSuggestions;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
 
+import com.wedo.studybar.Adapter.ViewPagerAdapter;
 import com.wedo.studybar.Fragments.DiscussionsFragment;
 import com.wedo.studybar.Fragments.HomeFragment;
 import com.wedo.studybar.Fragments.NotificationsFragment;
@@ -23,7 +24,8 @@ import com.wedo.studybar.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView mTextMessage;
+    ViewPager viewPager;
+    ViewPagerAdapter viewPagerAdapter;
 
     private boolean loadFragment(Fragment fragment){
         //switching fragments
@@ -42,20 +44,16 @@ public class MainActivity extends AppCompatActivity {
             Fragment fragment = null;
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    fragment = new HomeFragment();
-                    //mTextMessage.setText(R.string.title_home);
+                    viewPager.setCurrentItem(0);
                     break;
                 case R.id.navigation_discussion:
-                    fragment = new DiscussionsFragment();
-                    //mTextMessage.setText(R.string.title_discussion);
+                    viewPager.setCurrentItem(1);
                     break;
                 case R.id.navigation_notifications:
-                    fragment = new NotificationsFragment();
-                    //mTextMessage.setText(R.string.title_notifications);
+                    viewPager.setCurrentItem(2);
                     break;
                 case R.id.navigation_user:
-                    fragment = new UserFragment();
-                    //mTextMessage.setText(R.string.title_user);
+                    viewPager.setCurrentItem(3);
                     break;
             }
             return loadFragment(fragment);
@@ -67,11 +65,35 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //mTextMessage = (TextView) findViewById(R.id.message);
-        loadFragment(new HomeFragment());
+        //loadFragment(new HomeFragment());
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        viewPager = (ViewPager)findViewById(R.id.view_pager);
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPagerAdapter.addFragment(new HomeFragment());
+        viewPagerAdapter.addFragment(new DiscussionsFragment());
+        viewPagerAdapter.addFragment(new NotificationsFragment());
+        viewPagerAdapter.addFragment(new UserFragment());
+        viewPager.setAdapter(viewPagerAdapter);
+
+        final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                    navigation.getMenu().getItem(position).setChecked(true);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
 
         //about search history
         Intent intent = getIntent();
