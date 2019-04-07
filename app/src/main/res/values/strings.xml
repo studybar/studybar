@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Study Bar</string>
+    <string name="app_name">STUDY BAR</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -38,5 +38,6 @@
     <string name="blank" />
     <string name="follow">Follow</string>
     <string name="action_add">Add</string>
+    <string name="add_book">Add A Book</string>
 
 </resources>

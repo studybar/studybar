@@ -40,6 +40,9 @@
         </activity>
         <activity android:name=".activities.CategoryDetailActivity">
         </activity>
+        <activity android:name=".activities.AddBookActivity"
+            android:label="@string/add_book">
+        </activity>
         <provider
             android:authorities="com.wedo.studybar.activities.SuggestionProvider"
             android:name=".activities.SuggestionProvider"/>
