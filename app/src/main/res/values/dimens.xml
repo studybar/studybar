@@ -9,4 +9,5 @@
     <dimen name="list_book_name_width">96dp</dimen>
     <dimen name="horizontal_item_height_min">228dp</dimen>
     <dimen name="horizontal_item_width_min">112dp</dimen>
+    <dimen name="item_list_horizontal_margin">8dp</dimen>
 </resources>

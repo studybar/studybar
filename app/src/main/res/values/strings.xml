@@ -7,7 +7,7 @@
     <string name="title_category">Category</string>
     <string name="title_discussion">Discussion</string>
     <string name="action_search">Search</string>
-    <string name="search_hint">Search books and topics</string>
+    <string name="search_hint">Search books</string>
     <string name="settings">Settings</string>
     <string name="personal_suggestion">Based on your interest</string>
     <string name="expand">expand</string>
