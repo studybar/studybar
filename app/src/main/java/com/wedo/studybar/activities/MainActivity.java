@@ -12,9 +12,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.wedo.studybar.Adapter.ViewPagerAdapter;
 import com.wedo.studybar.Fragments.DiscussionsFragment;
@@ -74,8 +76,6 @@ public class MainActivity extends AppCompatActivity {
         viewPagerAdapter.addFragment(new UserFragment());
         viewPager.setAdapter(viewPagerAdapter);
 
-        final FloatingActionButton fab = (FloatingActionButton)findViewById(R.id.action_search);
-
         final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -87,21 +87,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-
-                switch (position){
-                    case 0:
-                        fab.show();
-                        break;
-                    case 1:
-                        fab.hide();
-                        break;
-                    case 2:
-                        fab.hide();
-                        break;
-                    case 3:
-                        fab.hide();
-                        break;
-                }
                     navigation.getMenu().getItem(position).setChecked(true);
             }
 
@@ -109,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
             public void onPageScrollStateChanged(int i) {
 
             }
+
         });
 
         //about search history
