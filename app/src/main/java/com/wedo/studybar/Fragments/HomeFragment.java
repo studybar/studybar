@@ -23,6 +23,7 @@ public class HomeFragment extends Fragment {
 
     private CategoryAdapter mCategoryAdapter;
     private HorizontalBookAdapter mHorizontalBookAdapter;
+    private HorizontalBookAdapter mHorizontalBookAdapter_for_one;
 
     @Nullable
     @Override
@@ -129,6 +130,21 @@ public class HomeFragment extends Fragment {
         });
         horizontalBooksRecyclerView.setAdapter(mHorizontalBookAdapter);
 
+        RecyclerView bookRecommendationOne = rootView.findViewById(R.id.recommendation_one_recycler_view);
+        LinearLayoutManager horizontalLayoutManager_for_One = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
+        bookRecommendationOne.setLayoutManager(horizontalLayoutManager_for_One);
+        mHorizontalBookAdapter_for_one = new HorizontalBookAdapter(getActivity(),horizontalBookIds,horizontalBookCovers,horizontalBookNames,horizontalBookAuthors);
+        mHorizontalBookAdapter_for_one.setClickListener(new HorizontalBookAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(getActivity(), BookDetailActivity.class);
+                intent.putExtra("BOOK_ID",mHorizontalBookAdapter.getBookId(position));
+                intent.putExtra("BOOK_NAME",mHorizontalBookAdapter.getBookName(position));
+
+                startActivity(intent);
+            }
+        });
+        bookRecommendationOne.setAdapter(mHorizontalBookAdapter_for_one);
 
 
         return rootView;
