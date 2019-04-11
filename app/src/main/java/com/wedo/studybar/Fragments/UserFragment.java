@@ -9,15 +9,51 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.Switch;
 
 import com.wedo.studybar.R;
 import com.wedo.studybar.activities.SettingsActivity;
 
 public class UserFragment extends Fragment {
+
+    private Switch switchChangeLayout;
+    private LinearLayout loggedInUser;
+    private LinearLayout logInLayout;
+    private Boolean isChecked;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_user,container,false);
+
+        loggedInUser = (LinearLayout)rootView.findViewById(R.id.logged_in_user);
+        logInLayout = (LinearLayout)rootView.findViewById(R.id.login_user);
+        switchChangeLayout = (Switch) rootView.findViewById(R.id.switch_change_layout);
+        isChecked = switchChangeLayout.isChecked();
+        if(isChecked){
+            loggedInUser.setVisibility(View.VISIBLE);
+            logInLayout.setVisibility(View.GONE);
+        }
+        else{
+            loggedInUser.setVisibility(View.GONE);
+            logInLayout.setVisibility(View.VISIBLE);
+        }
+
+        switchChangeLayout.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    loggedInUser.setVisibility(View.VISIBLE);
+                    logInLayout.setVisibility(View.GONE);
+                }
+                else{
+                    loggedInUser.setVisibility(View.GONE);
+                    logInLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         Button settingsButton = (Button) rootView.findViewById(R.id.settings_button);
         settingsButton.setOnClickListener(new View.OnClickListener(){

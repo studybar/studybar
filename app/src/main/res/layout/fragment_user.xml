@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:paddingBottom="56dp">
-    
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="72dp">
+
+    <LinearLayout
+        android:id="@+id/logged_in_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
     <RelativeLayout
         android:id="@+id/user_info_compact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="16dp">
+        android:orientation="horizontal">
 
         <!-- the android:src attribute only for test -->
         <!-- pls use tools:text instead in development -->
@@ -30,9 +36,8 @@
             android:id="@+id/user_name"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             android:text="Vader"
+            android:layout_marginStart="16dp"
             android:textStyle="bold"
             android:textAlignment="gravity"
             android:gravity="center_vertical|start"
@@ -43,9 +48,8 @@
             android:id="@+id/user_bio"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             android:text="I see through the lies of the Jedi."
+            android:layout_marginStart="16dp"
             android:textAlignment="gravity"
             android:gravity="center_vertical|start"
             android:layout_toEndOf="@id/user_avatar"
@@ -57,11 +61,11 @@
         android:id="@+id/my_books"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:padding="8dp"
+        android:layout_below="@+id/user_info_compact"
         android:layout_marginBottom="8dp"
         android:drawableStart="@drawable/ic_book"
+        android:layout_marginTop="16dp"
         android:background="@drawable/setting_button_background"
         android:text="@string/my_books"
         android:drawablePadding="16dp"
@@ -72,10 +76,9 @@
         android:id="@+id/my_discussions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:padding="8dp"
         android:layout_marginBottom="8dp"
+        android:layout_below="@id/my_books"
         android:background="@drawable/setting_button_background"
         android:drawableStart="@drawable/ic_discussion_black"
         android:text="@string/my_discussions"
@@ -89,15 +92,95 @@
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:layout_marginBottom="8dp"
+        android:layout_below="@id/my_discussions"
         android:background="@drawable/setting_button_background"
         android:drawableStart="@drawable/ic_action_settings"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:text="@string/settings"
         android:drawablePadding="16dp"
         android:textAlignment="viewStart"
         android:drawableEnd="@drawable/ic_settings_arrow"/>
 
+    </LinearLayout>
 
 
-</LinearLayout>
+    <!-- Login progress -->
+    <ProgressBar
+        android:id="@+id/login_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/login_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:id="@+id/email_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_email"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/login_user_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_password"
+                android:imeActionId="6"
+                android:imeActionLabel="@string/action_sign_in_short"
+                android:imeOptions="actionUnspecified"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/sign_in_button"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/action_sign_in"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/sign_up_button"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/action_sign_up"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <!--only for test-->
+    <Switch
+        android:id="@+id/switch_change_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:checked="false"
+        android:text="login(only for test)"/>
+
+
+</RelativeLayout>
