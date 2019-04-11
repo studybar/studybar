@@ -48,5 +48,7 @@
     <string name="Cancel">CANCEL</string>
     <string name="select_book_category">Select Category</string>
     <string name="plz_input_full_info">Input info can\'t be null</string>
+    <string name="correct">Correct mistakes</string>
+    <string name="report">Report...</string>
 
 </resources>
