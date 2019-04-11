@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="56dp">
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/home_layout"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -23,7 +24,6 @@
             android:id="@+id/top_level_books"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/categories_recycler_view"
             android:layout_margin="16dp"
             android:paddingStart="8dp"
             android:text="@string/top_level"
@@ -34,7 +34,6 @@
             android:id="@+id/top_books_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/top_level_books"
             android:layout_marginStart="16dp"
             tools:layoutManager="android.support.v7.widget.LinearLayoutManager"
             tools:listitem="@layout/horizontal_list_book"
@@ -46,7 +45,6 @@
             android:id="@+id/book_recommendation_one"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/top_books_recycler_view"
             android:layout_margin="16dp"
             android:paddingStart="8dp"
             android:text="@string/Philosophy"
@@ -57,7 +55,6 @@
             android:id="@+id/recommendation_one_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/book_recommendation_one"
             android:layout_marginStart="16dp"
             tools:layoutManager="android.support.v7.widget.LinearLayoutManager"
             tools:listitem="@layout/horizontal_list_book"
@@ -65,6 +62,6 @@
 
         </android.support.v7.widget.RecyclerView>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </ScrollView>
