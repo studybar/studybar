@@ -39,5 +39,14 @@
     <string name="follow">Follow</string>
     <string name="action_add">Add</string>
     <string name="add_book">Add A Book</string>
+    <string name="plz_input_book_name">Please input book title here.</string>
+    <string name="plz_input_book_author">Please input the author of this book.</string>
+    <string name="input_book_name">Book Title</string>
+    <string name="input_book_author">Author of this book</string>
+    <string name="input_book_publisher">Publisher of this book</string>
+    <string name="Add">ADD</string>
+    <string name="Cancel">CANCEL</string>
+    <string name="select_book_category">Select Category</string>
+    <string name="plz_input_full_info">Input info can\'t be null</string>
 
 </resources>

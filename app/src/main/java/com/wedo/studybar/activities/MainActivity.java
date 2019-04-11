@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -16,11 +17,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.wedo.studybar.Adapter.ViewPagerAdapter;
+
 import com.wedo.studybar.Fragments.DiscussionsFragment;
 import com.wedo.studybar.Fragments.HomeFragment;
 import com.wedo.studybar.Fragments.NotificationsFragment;
 import com.wedo.studybar.Fragments.UserFragment;
 import com.wedo.studybar.R;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -109,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_add:
-                Intent intent = new Intent(this,AddBookActivity.class);
+                Intent intent = new Intent(this.getApplicationContext(),AddBookActivity.class);
                 startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
@@ -132,5 +135,4 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
     }
-
 }
