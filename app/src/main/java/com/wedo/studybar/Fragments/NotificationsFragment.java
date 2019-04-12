@@ -1,5 +1,6 @@
 package com.wedo.studybar.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -7,9 +8,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.wedo.studybar.Adapter.NotificationAdapter;
+import com.wedo.studybar.activities.DiscussionDetailActivity;
 import com.wedo.studybar.util.Notification;
 import com.wedo.studybar.R;
 
@@ -41,6 +44,14 @@ public class NotificationsFragment extends Fragment {
 
         NotificationAdapter itemsAdapter = new NotificationAdapter(getActivity(),notifications);
         ListView listView = (ListView)rootView.findViewById(R.id.notification_list);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //todo:passing values
+                Intent intent = new Intent(getActivity(), DiscussionDetailActivity.class);
+                startActivity(intent);
+            }
+        });
         listView.setAdapter(itemsAdapter);
         return rootView;
     }

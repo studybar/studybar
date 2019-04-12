@@ -10,12 +10,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.wedo.studybar.Adapter.DiscussionAdapter;
 import com.wedo.studybar.Adapter.HorizontalBookAdapter;
 import com.wedo.studybar.R;
 import com.wedo.studybar.activities.BookDetailActivity;
+import com.wedo.studybar.activities.DiscussionDetailActivity;
 import com.wedo.studybar.util.Discussion;
 
 import java.util.ArrayList;
@@ -54,6 +57,17 @@ public class DiscussionsFragment extends Fragment {
         LayoutInflater mInflater = getLayoutInflater();
         ViewGroup bookHeader = (ViewGroup)mInflater.inflate(R.layout.discussion_list_header,listView,false);
         listView.addHeaderView(bookHeader);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Discussion discussion = discussions.get(position);
+                //todo:如何与后台传值待写
+                Intent intent = new Intent(getActivity(), DiscussionDetailActivity.class);
+                Toast.makeText(getActivity(),"1321",Toast.LENGTH_SHORT).show();
+                intent.putExtra("DISCUSSION_TITLE",discussion.getDiscussionTitle());
+                startActivity(intent);
+            }
+        });
 
         listView.setAdapter(itemsAdapter);
 
