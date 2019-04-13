@@ -15,6 +15,13 @@ public class Discussion {
         mDiscussionNumberOfComments = discussionNumberOfComments;
     }
 
+    public Discussion(String discussionAuthor,String discussionContent,String discussionNumberOfLikes,String discussionNumberOfComments){
+        mDiscussionAuthor = discussionAuthor;
+        mDiscussionContent = discussionContent;
+        mDiscussionNumberOfLikes = discussionNumberOfLikes;
+        mDiscussionNumberOfComments = discussionNumberOfComments;
+    }
+
     public String getDiscussionAuthor(){
         return mDiscussionAuthor;
     }

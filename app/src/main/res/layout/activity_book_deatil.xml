@@ -11,7 +11,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            tools:listitem="@layout/discussion_list_item"
+            tools:listitem="@layout/discussion_fragment_list_item"
             tools:listheader="@layout/vertical_list_book_item">
 
         </ListView>

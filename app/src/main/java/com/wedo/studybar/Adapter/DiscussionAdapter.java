@@ -26,7 +26,7 @@ public class DiscussionAdapter extends ArrayAdapter<Discussion> {
         View discussionItemView = convertView;
         if(discussionItemView == null){
             discussionItemView = LayoutInflater.from((getContext())).inflate(
-                    R.layout.discussion_list_item,parent,false
+                    R.layout.discussion_fragment_list_item,parent,false
             );
         }
         Discussion currentAndroidAdapter = getItem(position);

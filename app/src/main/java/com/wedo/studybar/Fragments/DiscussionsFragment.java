@@ -55,7 +55,7 @@ public class DiscussionsFragment extends Fragment {
         ListView listView = (ListView)rootView.findViewById(R.id.my_discussion_list);
 
         LayoutInflater mInflater = getLayoutInflater();
-        ViewGroup bookHeader = (ViewGroup)mInflater.inflate(R.layout.discussion_list_header,listView,false);
+        ViewGroup bookHeader = (ViewGroup)mInflater.inflate(R.layout.discussion_fragment_header,listView,false);
         listView.addHeaderView(bookHeader);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
