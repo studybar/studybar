@@ -4,5 +4,11 @@
     android:id="@+id/list_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:listitem="@layout/vertical_list_book_item" />
+    android:focusable="true"
+    tools:listitem="@layout/vertical_list_book_item"
+    android:layout_marginTop="8dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:divider="@color/white"
+    android:dividerHeight="8dp"/>
 

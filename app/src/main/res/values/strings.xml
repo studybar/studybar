@@ -66,5 +66,7 @@
         completions."
     </string>
     <string name="action_sign_up">Sign up</string>
+    <string name="followed">Followed</string>
+    <string name="unfollowed">Unfollowed</string>
 
 </resources>

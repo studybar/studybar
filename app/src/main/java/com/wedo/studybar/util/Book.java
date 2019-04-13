@@ -21,6 +21,7 @@ public class Book {
         mBookName = bookName;
         mBookAuthor = bookAuthor;
         mBookCoverId = bookCoverId;
+        mBookPress = bookPress;
         mNumOfLikes = numOfLikes;
         mNumOfComments = numOfComments;
     }
