@@ -6,7 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.wedo.studybar.Adapter.VerticalBookAdapter;
@@ -16,6 +18,9 @@ import com.wedo.studybar.util.Book;
 import java.util.ArrayList;
 
 public class CategoryDetailActivity extends AppCompatActivity {
+
+    private Spinner spinner;
+
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +28,23 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
         Integer categoryName = getIntent().getIntExtra("CATEGORY_NAME",R.string.blank);
         this.setTitle(categoryName);
+
+        spinner = (Spinner)findViewById(R.id.order_option);
+        final ArrayAdapter<CharSequence> orderAdapter = ArrayAdapter.createFromResource(this,R.array.order_option_list,android.R.layout.simple_spinner_item);
+        orderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(orderAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //todo:改变排序
+                Toast.makeText(getApplicationContext(),"selected"+orderAdapter.getItem(position).toString(),Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         String categoryId = getIntent().getStringExtra("CATEGORY_ID");
         Toast.makeText(this,categoryId,Toast.LENGTH_SHORT).show();
