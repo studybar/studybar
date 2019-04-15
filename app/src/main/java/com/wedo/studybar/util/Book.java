@@ -1,13 +1,17 @@
 package com.wedo.studybar.util;
 
 public class Book {
-    private String mBookId;
-    private String mBookName;
-    private String mBookAuthor;
-    private int mBookCoverId;
-    private String mBookPress;
-    private String mNumOfLikes;
+    private String mBookId;         //book_id
+    private String mBookName;       //book_name
+    private String mBookAuthor;     //book_editor
+    private int mBookCoverId;       //book_image
+    private String mBookPress;      //book_press
+    private String mNumOfLikes;     //book_col_num
     private String mNumOfComments;
+    //book_user_id
+    //book_type_id
+    //book_comment
+    //book_comment_id
 
     public Book(String bookId,String bookName,String bookAuthor,int bookCoverId){
         mBookId = bookId;
