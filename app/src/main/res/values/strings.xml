@@ -75,6 +75,7 @@
     <string name="order_by">Order By</string>
     <string name="Confirm">Confirm</string>
     <string name="be_nice">Be Nice.</string>
+    <string name="plz_input_title">Discussion Topic</string>
 
     <string-array name="category_array">
         <item>@string/select_book_category</item>

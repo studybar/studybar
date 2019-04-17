@@ -1,11 +1,14 @@
 package com.wedo.studybar.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.wedo.studybar.R;
@@ -20,6 +23,15 @@ public class BookDetailActivity extends AppCompatActivity {
 
         String bookId = getIntent().getStringExtra("BOOK_ID");
         Toast.makeText(this,bookId,Toast.LENGTH_SHORT).show();
+
+        FloatingActionButton fab = findViewById(R.id.button_book_comment);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),BookCommentActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
