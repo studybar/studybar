@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.wedo.studybar.R;
 
 public class BookDetailActivity extends AppCompatActivity {
-    private int selectedMistakesItem;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,21 +43,8 @@ public class BookDetailActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.correct_mistakes:
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.pick_mistake_item)
-                        .setSingleChoiceItems(R.array.mistakes_list, 1,new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                selectedMistakesItem = which;
-                            }
-                        })
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
-                        .setNegativeButton(android.R.string.cancel,null)
-                        .show();
+                Intent intent = new Intent(this,CorrectDialogActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.report:
                 new AlertDialog.Builder(this)

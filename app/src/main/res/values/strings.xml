@@ -85,6 +85,7 @@
     <string name="mistake_book_publisher">Publisher</string>
     <string name="mistake_book_category">Category</string>
     <string name="mistakes_categories">Categories</string>
+    <string name="ok">OK</string>
 
     <string-array name="category_array">
         <item>@string/select_book_category</item>

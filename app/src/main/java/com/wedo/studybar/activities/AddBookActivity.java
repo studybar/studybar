@@ -37,9 +37,6 @@ public class AddBookActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_add_book);
 
-
-
-
         imageView = (ImageView)findViewById(R.id.add_book_cover);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
