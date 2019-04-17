@@ -11,8 +11,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wedo.studybar.Adapter.CommentAdapter;
 import com.wedo.studybar.R;
@@ -73,6 +77,23 @@ public class DiscussionDetailActivity extends AppCompatActivity {
         commentTopicContent.setText("Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.");
         commentTopicNumOfComments.setText("89");
         commentTopicNumOfLikes.setText("64");
+
+        Spinner spinner = findViewById(R.id.discussion_detail_order_option);
+        final ArrayAdapter<CharSequence> orderAdapter = ArrayAdapter.createFromResource(this,R.array.order_option_list,android.R.layout.simple_spinner_item);
+        orderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(orderAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //todo:改变排序
+                Toast.makeText(getApplicationContext(),"selected"+orderAdapter.getItem(position).toString(),Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         FloatingActionButton fab = findViewById(R.id.comment_floating_action_button);
         fab.setOnClickListener(new View.OnClickListener() {

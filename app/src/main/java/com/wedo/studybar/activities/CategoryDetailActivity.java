@@ -20,8 +20,6 @@ import java.util.ArrayList;
 
 public class CategoryDetailActivity extends AppCompatActivity {
 
-    private Spinner spinner;
-
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +30,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
         Integer categoryName = getIntent().getIntExtra("CATEGORY_NAME",R.string.blank);
         this.setTitle(categoryName);
 
-        spinner = (Spinner)findViewById(R.id.order_option);
+        Spinner spinner = (Spinner) findViewById(R.id.order_option);
         final ArrayAdapter<CharSequence> orderAdapter = ArrayAdapter.createFromResource(this,R.array.order_option_list,android.R.layout.simple_spinner_item);
         orderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(orderAdapter);
