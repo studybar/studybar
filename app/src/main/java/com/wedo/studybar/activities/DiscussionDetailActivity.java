@@ -2,14 +2,17 @@ package com.wedo.studybar.activities;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wedo.studybar.Adapter.CommentAdapter;
 import com.wedo.studybar.Adapter.DiscussionAdapter;
@@ -68,6 +71,14 @@ public class DiscussionDetailActivity extends AppCompatActivity {
         commentTopicContent.setText("Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.");
         commentTopicNumOfComments.setText("89");
         commentTopicNumOfLikes.setText("64");
+
+        FloatingActionButton fab = findViewById(R.id.comment_floating_action_button);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"test",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

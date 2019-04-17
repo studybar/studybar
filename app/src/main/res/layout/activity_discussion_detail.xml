@@ -10,8 +10,7 @@
         android:id="@+id/comments_of_discussion"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:dividerHeight="8dp"
-        android:divider="@color/white"
+        android:divider="@null"
         tools:listitem="@layout/comment_list_item"
         tools:listheader="@layout/comment_topic_header_view">
 
@@ -22,6 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="32dp"
+        app:rippleColor="@color/colorAccentDark"
         android:src="@drawable/ic_action_comment_large"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
