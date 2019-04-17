@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,6 +26,8 @@ public class CategoryDetailActivity extends AppCompatActivity {
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         Integer categoryName = getIntent().getIntExtra("CATEGORY_NAME",R.string.blank);
         this.setTitle(categoryName);
@@ -72,5 +75,16 @@ public class CategoryDetailActivity extends AppCompatActivity {
             }
         });
         listView.setAdapter(itemsAdapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

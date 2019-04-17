@@ -15,6 +15,8 @@ public class BookDetailActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_deatil);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         String bookId = getIntent().getStringExtra("BOOK_ID");
         Toast.makeText(this,bookId,Toast.LENGTH_SHORT).show();
@@ -22,7 +24,13 @@ public class BookDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

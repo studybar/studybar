@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/comment_edit_box"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="@string/be_nice"
+        android:background="@null"
+        android:textAlignment="gravity"
+        android:gravity="top"
+        android:layout_margin="8dp"/>
+
+</android.support.constraint.ConstraintLayout>

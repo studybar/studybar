@@ -1,5 +1,6 @@
 package com.wedo.studybar.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -12,10 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.wedo.studybar.Adapter.CommentAdapter;
-import com.wedo.studybar.Adapter.DiscussionAdapter;
 import com.wedo.studybar.R;
 import com.wedo.studybar.util.Discussion;
 
@@ -26,6 +25,9 @@ public class DiscussionDetailActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discussion_detail);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
         String discussionTitle = getIntent().getStringExtra("DISCUSSION_TITLE");
 
         final ArrayList<Discussion> comments = new ArrayList<Discussion>();
@@ -76,14 +78,21 @@ public class DiscussionDetailActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"test",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), DiscussionCommentActivity.class);
+                startActivity(intent);
             }
         });
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override

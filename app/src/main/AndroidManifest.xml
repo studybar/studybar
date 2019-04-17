@@ -48,6 +48,8 @@
         <activity android:name=".activities.BookDetailActivity"/>
         <activity android:name=".activities.CategoryDetailActivity"/>
         <activity android:name=".activities.DiscussionDetailActivity"/>
+        <activity android:name=".activities.DiscussionCommentActivity"
+            android:windowSoftInputMode="stateAlwaysVisible"/>
         <activity
             android:name=".activities.AddBookActivity"
             android:label="@string/add_book"

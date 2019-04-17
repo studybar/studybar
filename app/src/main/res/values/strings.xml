@@ -73,6 +73,8 @@
     <string name="order_new">NEW</string>
     <string name="order_rising">RISING</string>
     <string name="order_by">Order By</string>
+    <string name="Confirm">Confirm</string>
+    <string name="be_nice">Be Nice.</string>
 
     <string-array name="category_array">
         <item>@string/select_book_category</item>
