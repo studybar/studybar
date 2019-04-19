@@ -86,6 +86,12 @@
     <string name="mistake_book_category">Category</string>
     <string name="mistakes_categories">Categories</string>
     <string name="ok">OK</string>
+    <string name="plz_correct_cover">Please upload a corrent book cover.</string>
+    <string name="plz_correct_title">Please input correct title.</string>
+    <string name="plz_correct_author">Please input the correct author.</string>
+    <string name="plz_correct_publisher">Please input correct publisher.</string>
+    <string name="plz_correct_category">Please select correct category.</string>
+    <string name="correct_book_info">Correct Book Info</string>
 
     <string-array name="category_array">
         <item>@string/select_book_category</item>

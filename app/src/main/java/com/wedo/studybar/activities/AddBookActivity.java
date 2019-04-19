@@ -25,7 +25,7 @@ public class AddBookActivity extends AppCompatActivity {
     private Button buttonCancle;
     private EditText addBookTitle;
     private EditText addBookAuthor;
-    private EditText addBookPubshiler;
+    private EditText addBookPublisher;
     private Spinner spinner;
     private String bookTitle;
     private String bookAuthor;
@@ -38,61 +38,159 @@ public class AddBookActivity extends AppCompatActivity {
         setContentView(R.layout.dialog_add_book);
 
         imageView = (ImageView)findViewById(R.id.add_book_cover);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent openIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                openIntent.addCategory(Intent.CATEGORY_OPENABLE);
-                openIntent.setType("image/*");
-                startActivityForResult(openIntent, REQUEST_CODE_OPEN);
-            }
-        });
-
         spinner = (Spinner)findViewById(R.id.add_book_category);
-        ArrayAdapter<CharSequence> categoryAdapter = ArrayAdapter.createFromResource(this,
-                R.array.category_array, android.R.layout.simple_spinner_item);
-        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(categoryAdapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                bookCategory = id;
-                //Toast.makeText(getApplicationContext(),String.valueOf(bookCategory),Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
         addBookTitle=(EditText)findViewById(R.id.add_book_name);
         addBookAuthor=(EditText)findViewById(R.id.add_book_author);
-        addBookPubshiler=(EditText)findViewById(R.id.add_book_press);
-
+        addBookPublisher =(EditText)findViewById(R.id.add_book_press);
         buttonAdd = (Button)findViewById(R.id.button_add);
         buttonCancle = (Button)findViewById(R.id.button_cancel);
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bookTitle = addBookTitle.getText().toString();
-                bookAuthor = addBookAuthor.getText().toString();
-                bookPublisher = addBookPubshiler.getText().toString();
-                if(bookTitle.matches("")||bookAuthor.matches("")||bookPublisher.matches("")||bookCategory==0){
-                    Toast.makeText(getApplicationContext(),R.string.plz_input_full_info,Toast.LENGTH_SHORT).show();
+
+        ArrayAdapter<CharSequence> categoryAdapter;
+
+        String bookId;
+        String mistake_item = getIntent().getStringExtra("MISTAKE_ITEM");
+        /**
+         * 区分修改信息/添加信息
+         * */
+        if(mistake_item != null && mistake_item.length() != 0){
+            this.setTitle(R.string.correct_book_info);
+            buttonAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    bookTitle = addBookTitle.getText().toString();
+                    bookAuthor = addBookAuthor.getText().toString();
+                    bookPublisher = addBookPublisher.getText().toString();
+                    if(bookTitle.matches("")||bookAuthor.matches("")||bookPublisher.matches("")||bookCategory==0){
+                        Toast.makeText(getApplicationContext(),R.string.plz_input_full_info,Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        //todo: process the info
+                        finish();
+                    }
                 }
-                else{
-                    //todo: process the info
+            });
+            buttonCancle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     finish();
                 }
+            });
+            switch(mistake_item) {
+                case "COVER":
+                    bookId = getIntent().getStringExtra("BOOK_ID");
+                    Toast.makeText(this, String.valueOf(R.string.plz_correct_cover) + " " + bookId, Toast.LENGTH_SHORT).show();
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent openIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                            openIntent.addCategory(Intent.CATEGORY_OPENABLE);
+                            openIntent.setType("image/*");
+                            startActivityForResult(openIntent, REQUEST_CODE_OPEN);
+                        }
+                    });
+                    addBookTitle.setEnabled(false);
+                    addBookAuthor.setEnabled(false);
+                    addBookPublisher.setEnabled(false);
+                    //todo:put the right content in other element
+                    break;
+                case "TITLE":
+                    bookId = getIntent().getStringExtra("BOOK_ID");
+                    addBookAuthor.setEnabled(false);
+                    addBookPublisher.setEnabled(false);
+                    //todo:put the right content in other element
+                    Toast.makeText(this, String.valueOf(R.string.plz_correct_title) + " " + bookId, Toast.LENGTH_SHORT).show();
+                    break;
+                case "AUTHOR":
+                    bookId = getIntent().getStringExtra("BOOK_ID");
+                    addBookTitle.setEnabled(false);
+                    addBookPublisher.setEnabled(false);
+                    //todo:put the right content in other element
+                    Toast.makeText(this, String.valueOf(R.string.plz_correct_author) + " " + bookId, Toast.LENGTH_SHORT).show();
+                    break;
+                case "PUBLISHER":
+                    bookId = getIntent().getStringExtra("BOOK_ID");
+                    addBookTitle.setEnabled(false);
+                    addBookAuthor.setEnabled(false);
+                    //todo:put the right content in other element
+                    Toast.makeText(this, String.valueOf(R.string.plz_correct_publisher) + " " + bookId, Toast.LENGTH_SHORT).show();
+                    break;
+                case "CATEGORY":
+                    bookId = getIntent().getStringExtra("BOOK_ID");
+                    addBookTitle.setEnabled(false);
+                    addBookAuthor.setEnabled(false);
+                    addBookPublisher.setEnabled(false);
+                    //todo:put the right content in other element
+                    Toast.makeText(this, String.valueOf(R.string.plz_correct_category) + " " + bookId, Toast.LENGTH_SHORT).show();
+                    categoryAdapter = ArrayAdapter.createFromResource(this,
+                            R.array.category_array, android.R.layout.simple_spinner_item);
+                    categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setAdapter(categoryAdapter);
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            bookCategory = id;
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                    break;
             }
-        });
-        buttonCancle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        }
+        else{
+                    /**
+                     * default state is add book
+                     * */
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent openIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                            openIntent.addCategory(Intent.CATEGORY_OPENABLE);
+                            openIntent.setType("image/*");
+                            startActivityForResult(openIntent, REQUEST_CODE_OPEN);
+                        }
+                    });
+
+                    categoryAdapter = ArrayAdapter.createFromResource(this,
+                            R.array.category_array, android.R.layout.simple_spinner_item);
+                    categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setAdapter(categoryAdapter);
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            bookCategory = id;
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+
+                    buttonAdd.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            bookTitle = addBookTitle.getText().toString();
+                            bookAuthor = addBookAuthor.getText().toString();
+                            bookPublisher = addBookPublisher.getText().toString();
+                            if(bookTitle.matches("")||bookAuthor.matches("")||bookPublisher.matches("")||bookCategory==0){
+                                Toast.makeText(getApplicationContext(),R.string.plz_input_full_info,Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                //todo: process the info
+                                finish();
+                            }
+                        }
+                    });
+                    buttonCancle.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            finish();
+                        }
+                    });
+        }
     }
 
     @Override

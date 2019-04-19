@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.wedo.studybar.R;
 
 public class BookDetailActivity extends AppCompatActivity {
+
+    private String bookId;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +25,7 @@ public class BookDetailActivity extends AppCompatActivity {
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        String bookId = getIntent().getStringExtra("BOOK_ID");
+        bookId = getIntent().getStringExtra("BOOK_ID");
         Toast.makeText(this,bookId,Toast.LENGTH_SHORT).show();
 
         FloatingActionButton fab = findViewById(R.id.button_book_comment);
@@ -43,8 +45,39 @@ public class BookDetailActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.correct_mistakes:
-                Intent intent = new Intent(this,CorrectDialogActivity.class);
-                startActivity(intent);
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.pick_mistake_item)
+                        .setItems(R.array.mistakes_list, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(getApplicationContext(),AddBookActivity.class);
+                                intent.putExtra("BOOK_ID",bookId);
+                                //todo:pass book item
+
+                                switch (which){
+                                    case 0:
+                                        intent.putExtra("MISTAKE_ITEM","COVER");
+                                        startActivity(intent);
+                                        break;
+                                    case 1:
+                                        intent.putExtra("MISTAKE_ITEM","TITLE");
+                                        startActivity(intent);
+                                        break;
+                                    case 2:
+                                        intent.putExtra("MISTAKE_ITEM","AUTHOR");
+                                        startActivity(intent);
+                                        break;
+                                    case 3:
+                                        intent.putExtra("MISTAKE_ITEM","PUBLISHER");
+                                        startActivity(intent);
+                                        break;
+                                    case 4:
+                                        intent.putExtra("MISTAKE_ITEM","CATEGORY");
+                                        startActivity(intent);
+                                        break;                                }
+                            }
+                        })
+                        .show();
                 return true;
             case R.id.report:
                 new AlertDialog.Builder(this)

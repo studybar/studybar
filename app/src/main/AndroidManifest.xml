@@ -52,9 +52,6 @@
             android:windowSoftInputMode="stateAlwaysVisible"/>
         <activity android:name=".activities.BookCommentActivity"
             android:windowSoftInputMode="stateAlwaysVisible"/>
-        <activity android:name=".activities.CorrectDialogActivity"
-            android:label="@string/pick_mistake_item"
-            android:theme="@style/Theme.AppCompat.Light.Dialog"/>
         <activity
             android:name=".activities.AddBookActivity"
             android:label="@string/add_book"
