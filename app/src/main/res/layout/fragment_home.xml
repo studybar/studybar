@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="56dp">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <LinearLayout
         android:id="@+id/home_layout"
         android:orientation="vertical"
@@ -65,3 +70,4 @@
     </LinearLayout>
 
 </ScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>

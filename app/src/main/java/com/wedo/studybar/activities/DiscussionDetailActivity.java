@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -27,12 +28,27 @@ import com.wedo.studybar.util.Discussion;
 import java.util.ArrayList;
 
 public class DiscussionDetailActivity extends AppCompatActivity {
+
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discussion_detail);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        swipeRefreshLayout = findViewById(R.id.discussion_detail_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if(!swipeRefreshLayout.isRefreshing()){
+                    swipeRefreshLayout.setRefreshing(true);
+                }
+
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         String discussionTitle = getIntent().getStringExtra("DISCUSSION_TITLE");
 

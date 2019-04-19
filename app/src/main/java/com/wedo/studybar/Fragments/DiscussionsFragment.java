@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,13 +27,14 @@ import java.util.ArrayList;
 public class DiscussionsFragment extends Fragment {
 
     private HorizontalBookAdapter mHorizontalBookAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_discussions,container,false);
 
-
+        swipeRefreshLayout = rootView.findViewById(R.id.discussion_refresh_layout);
 
         /**
          * to show list of discussions
@@ -126,6 +128,22 @@ public class DiscussionsFragment extends Fragment {
 
 
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if(!swipeRefreshLayout.isRefreshing()){
+                    swipeRefreshLayout.setRefreshing(true);
+                }
+
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     public DiscussionsFragment(){

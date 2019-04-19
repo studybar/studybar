@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -30,12 +31,14 @@ public class HomeFragment extends Fragment {
     private CategoryAdapter mCategoryAdapter;
     private HorizontalBookAdapter mHorizontalBookAdapter;
     private HorizontalBookAdapter mHorizontalBookAdapter_for_one;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home,container,false);
 
+        swipeRefreshLayout = rootView.findViewById(R.id.home_refresh_layout);
         /**
          * to show category
          * */
@@ -196,6 +199,22 @@ public class HomeFragment extends Fragment {
         homeLayout.addView(bookRecommendationEconomics_RecyclerView);
 
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if(!swipeRefreshLayout.isRefreshing()){
+                    swipeRefreshLayout.setRefreshing(true);
+                }
+
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     @Override

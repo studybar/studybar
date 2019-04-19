@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -17,6 +18,8 @@ import com.wedo.studybar.R;
 
 public class BookDetailActivity extends AppCompatActivity {
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     private String bookId;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,7 +27,17 @@ public class BookDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_book_deatil);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        swipeRefreshLayout = findViewById(R.id.discussion_books_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if(!swipeRefreshLayout.isRefreshing()){
+                    swipeRefreshLayout.setRefreshing(true);
+                }
 
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
         bookId = getIntent().getStringExtra("BOOK_ID");
         Toast.makeText(this,bookId,Toast.LENGTH_SHORT).show();
 

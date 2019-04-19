@@ -24,14 +24,19 @@
             android:layout_marginStart="8dp" />
         </LinearLayout>
 
-    <ListView
-        android:id="@+id/list_view"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/category_detail_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:focusable="true"
-        tools:listitem="@layout/vertical_list_book_item"
-        android:layout_marginTop="8dp"
-        android:divider="@color/white"
-        android:dividerHeight="8dp"/>
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            tools:listitem="@layout/vertical_list_book_item"
+            android:layout_marginTop="8dp"
+            android:divider="@color/white"
+            android:dividerHeight="8dp"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>
 

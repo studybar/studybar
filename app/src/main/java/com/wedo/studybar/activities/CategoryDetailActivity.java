@@ -3,6 +3,7 @@ package com.wedo.studybar.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +21,8 @@ import java.util.ArrayList;
 
 public class CategoryDetailActivity extends AppCompatActivity {
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +32,18 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
         Integer categoryName = getIntent().getIntExtra("CATEGORY_NAME",R.string.blank);
         this.setTitle(categoryName);
+
+        swipeRefreshLayout = findViewById(R.id.category_detail_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if(!swipeRefreshLayout.isRefreshing()){
+                    swipeRefreshLayout.setRefreshing(true);
+                }
+
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         Spinner spinner = (Spinner) findViewById(R.id.order_option);
         final ArrayAdapter<CharSequence> orderAdapter = ArrayAdapter.createFromResource(this,R.array.order_option_list,android.R.layout.simple_spinner_item);

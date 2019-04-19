@@ -6,17 +6,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/comments_of_discussion"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/discussion_detail_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@null"
-        android:headerDividersEnabled="false"
-        android:dividerHeight="0dp"
-        tools:listitem="@layout/comment_list_item"
-        tools:listheader="@layout/comment_topic_header_view">
+        android:layout_height="match_parent">
 
-    </ListView>
+        <ListView
+            android:id="@+id/comments_of_discussion"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:headerDividersEnabled="false"
+            android:dividerHeight="0dp"
+            tools:listitem="@layout/comment_list_item"
+            tools:listheader="@layout/comment_topic_header_view">
+        </ListView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/comment_floating_action_button"
