@@ -1,18 +1,25 @@
 package com.wedo.studybar.Fragments;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.wedo.studybar.Adapter.DiscussionAdapter;
@@ -22,12 +29,39 @@ import com.wedo.studybar.activities.BookDetailActivity;
 import com.wedo.studybar.activities.DiscussionDetailActivity;
 import com.wedo.studybar.util.Discussion;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 public class DiscussionsFragment extends Fragment {
 
     private HorizontalBookAdapter mHorizontalBookAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+
+    private DiscussionAdapter itemsAdapter;
+    private Boolean flag_loading = false;
+    private DiscussionAsyncTaskWait asyncTaskWait;
+    private ProgressBar listFooterView;
+    private ListView listView;
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            listViewLoadMore();
+        }
+    };
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        IntentFilter intentFilter = new IntentFilter("DISCUSSION_LOAD_MORE");
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver, intentFilter);
+    }
+
+    @Override
+    public void onPause(){
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastReceiver);
+        super.onPause();
+    }
 
     @Nullable
     @Override
@@ -53,8 +87,8 @@ public class DiscussionsFragment extends Fragment {
         discussions.add(new Discussion("34728774660010",getString(R.string.discussion_author_pre)+"nobody","Here is the title of this discussion.Here is the title of this discussion.","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","64"));
         discussions.add(new Discussion("34728774660011",getString(R.string.discussion_author_pre)+"nobody","Here is the title of this discussion.Here is the title of this discussion.","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","64"));
 
-        DiscussionAdapter itemsAdapter = new DiscussionAdapter(getActivity(),discussions);
-        ListView listView = (ListView)rootView.findViewById(R.id.my_discussion_list);
+        itemsAdapter = new DiscussionAdapter(getActivity(),discussions);
+        listView = (ListView)rootView.findViewById(R.id.my_discussion_list);
 
         LayoutInflater mInflater = getLayoutInflater();
         ViewGroup bookHeader = (ViewGroup)mInflater.inflate(R.layout.discussion_fragment_header,listView,false);
@@ -72,6 +106,29 @@ public class DiscussionsFragment extends Fragment {
         });
 
         listView.setAdapter(itemsAdapter);
+        setListViewFooter();
+        listView.setFooterDividersEnabled(false);
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if(scrollState == SCROLL_STATE_IDLE){
+                    if(listView.getLastVisiblePosition() >= listView.getCount() - 1){
+                        if(!flag_loading){
+                            flag_loading = true;
+                            listFooterView.setVisibility(View.VISIBLE);
+                            //todo:add items
+                            asyncTaskWait = new DiscussionAsyncTaskWait(new WeakReference<Context>(getContext()));
+                            asyncTaskWait.execute();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        });
 
 
         /**
@@ -148,5 +205,57 @@ public class DiscussionsFragment extends Fragment {
 
     public DiscussionsFragment(){
 
+    }
+
+    /*
+    *  itemsAdapter.add(new Discussion("34728774660012",getString(R.string.discussion_author_pre)+"nobody","Hello There!","General Kenobi!","89","64"));
+                        itemsAdapter.add(new Discussion("34728774660012",getString(R.string.discussion_author_pre)+"nobody","Hello There!","General Kenobi!","89","64"));
+                        itemsAdapter.add(new Discussion("34728774660012",getString(R.string.discussion_author_pre)+"nobody","Hello There!","General Kenobi!","89","64"));
+                        itemsAdapter.add(new Discussion("34728774660012",getString(R.string.discussion_author_pre)+"nobody","Hello There!","General Kenobi!","89","64"));
+                        itemsAdapter.add(new Discussion("34728774660012",getString(R.string.discussion_author_pre)+"nobody","Hello There!","General Kenobi!","89","64"));
+                        flag_loading = false;
+    * */
+
+    private void listViewLoadMore(){
+        itemsAdapter.add(new Discussion("34728774660012",getString(R.string.discussion_author_pre)+"nobody","Hello There!","General Kenobi!","89","64"));
+        itemsAdapter.add(new Discussion("34728774660012",getString(R.string.discussion_author_pre)+"nobody","Hello There!","General Kenobi!","89","64"));
+        itemsAdapter.add(new Discussion("34728774660012",getString(R.string.discussion_author_pre)+"nobody","Hello There!","General Kenobi!","89","64"));
+        itemsAdapter.add(new Discussion("34728774660012",getString(R.string.discussion_author_pre)+"nobody","Hello There!","General Kenobi!","89","64"));
+        itemsAdapter.add(new Discussion("34728774660012",getString(R.string.discussion_author_pre)+"nobody","Hello There!","General Kenobi!","89","64"));
+        itemsAdapter.notifyDataSetChanged();
+        flag_loading = false;
+        listFooterView.setVisibility(View.GONE);
+    }
+
+    private void setListViewFooter(){
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.footer_view_load_animation,null);
+        listFooterView = view.findViewById(R.id.footer_view_progressbar);
+        listView.addFooterView(listFooterView);
+    }
+
+    public static class DiscussionAsyncTaskWait extends AsyncTask<Void, Void, Void>{
+
+        private WeakReference<Context> context;
+
+        private DiscussionAsyncTaskWait(WeakReference<Context> context){
+            this.context = context;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void nothing){
+            Intent intent = new Intent("DISCUSSION_LOAD_MORE");
+            LocalBroadcastManager.getInstance(context.get().getApplicationContext()).sendBroadcast
+                    (intent);
+        }
     }
 }
