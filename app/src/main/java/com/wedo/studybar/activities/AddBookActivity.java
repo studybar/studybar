@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 import com.wedo.studybar.R;
 
 public class AddBookActivity extends AppCompatActivity {
@@ -82,10 +84,18 @@ public class AddBookActivity extends AppCompatActivity {
                     imageView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            /*
                             Intent openIntent = new Intent(Intent.ACTION_GET_CONTENT);
                             openIntent.addCategory(Intent.CATEGORY_OPENABLE);
                             openIntent.setType("image/*");
                             startActivityForResult(openIntent, REQUEST_CODE_OPEN);
+                            */
+                            CropImage.activity()
+                                    .setGuidelines(CropImageView.Guidelines.ON)
+                                    .setAllowFlipping(false)
+                                    .setAllowRotation(false)
+                                    .setAspectRatio(1,1)
+                                    .start(AddBookActivity.this);
                         }
                     });
                     addBookTitle.setEnabled(false);
@@ -146,10 +156,18 @@ public class AddBookActivity extends AppCompatActivity {
                     imageView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            /*
                             Intent openIntent = new Intent(Intent.ACTION_GET_CONTENT);
                             openIntent.addCategory(Intent.CATEGORY_OPENABLE);
                             openIntent.setType("image/*");
                             startActivityForResult(openIntent, REQUEST_CODE_OPEN);
+                            */
+                            CropImage.activity()
+                                    .setGuidelines(CropImageView.Guidelines.ON)
+                                    .setAllowFlipping(false)
+                                    .setAllowRotation(false)
+                                    .setAspectRatio(1,1)
+                                    .start(AddBookActivity.this);
                         }
                     });
 
@@ -195,10 +213,21 @@ public class AddBookActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        /*
         if(requestCode == REQUEST_CODE_OPEN && resultCode == RESULT_OK ){
             if(data != null){
                 imageUri = data.getData();
                 imageView.setImageURI(imageUri);
+            }
+        }
+        */
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                imageUri = result.getUri();
+                imageView.setImageURI(imageUri);
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
             }
         }
     }

@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 import com.wedo.studybar.R;
 
 import java.util.ArrayList;
@@ -37,16 +39,19 @@ public class SignUpActivity extends AppCompatActivity {
         imageViewAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                /*
                 Intent pickAvatarIntent = new Intent(Intent.ACTION_PICK);
                 pickAvatarIntent.setType("image/*");
                 startActivityForResult(Intent.createChooser(pickAvatarIntent,""),TAKE_AVATAR_CAMERA_REQUEST);
+                   */
 
-                /*
                 CropImage.activity()
                         .setGuidelines(CropImageView.Guidelines.ON)
+                        .setAllowFlipping(false)
+                        .setAllowRotation(false)
+                        .setAspectRatio(1,1)
                         .start(SignUpActivity.this);
-            */
+
             }
         });
 
@@ -87,15 +92,15 @@ public class SignUpActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-
+/*
         if(requestCode == TAKE_AVATAR_CAMERA_REQUEST && resultCode == RESULT_OK){
             if(data != null){
                 imageUri = data.getData();
                 imageViewAvatar.setImageURI(imageUri);
             }
         }
+*/
 
-        /*
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
@@ -105,7 +110,7 @@ public class SignUpActivity extends AppCompatActivity {
                 Exception error = result.getError();
             }
         }
-        */
+
     }
 
     @Override
