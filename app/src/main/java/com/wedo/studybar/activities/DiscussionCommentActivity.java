@@ -41,7 +41,7 @@ public class DiscussionCommentActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.comment_menu,menu);
+        menuInflater.inflate(R.menu.menu_confirm,menu);
         return super.onCreateOptionsMenu(menu);
     }
 }

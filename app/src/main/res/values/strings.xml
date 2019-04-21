@@ -92,6 +92,15 @@
     <string name="plz_correct_publisher">Please input correct publisher.</string>
     <string name="plz_correct_category">Please select correct category.</string>
     <string name="correct_book_info">Correct Book Info</string>
+    <string name="sign_up_phone_number">Phone Number</string>
+    <string name="sign_up_nickname">Nickname</string>
+    <string name="action_sign_up_short">Sign Up</string>
+    <string name="verification_code">Verification code</string>
+    <string name="get">Get</string>
+    <string name="your_interest">Your Interest</string>
+    <string name="i_have_read">I have read the </string>
+    <string name="agreement">Agreement</string>
+    <string name="sign_up_select_avatar">Select your avatar</string>
 
     <string-array name="category_array">
         <item>@string/select_book_category</item>

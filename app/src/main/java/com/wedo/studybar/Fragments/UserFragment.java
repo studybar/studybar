@@ -15,6 +15,7 @@ import android.widget.Switch;
 
 import com.wedo.studybar.R;
 import com.wedo.studybar.activities.SettingsActivity;
+import com.wedo.studybar.activities.SignUpActivity;
 
 public class UserFragment extends Fragment {
 
@@ -31,6 +32,9 @@ public class UserFragment extends Fragment {
         loggedInUser = (LinearLayout)rootView.findViewById(R.id.logged_in_user);
         logInLayout = (LinearLayout)rootView.findViewById(R.id.login_user);
         switchChangeLayout = (Switch) rootView.findViewById(R.id.switch_change_layout);
+        /*
+        * 初次显示时不会出现重叠
+        * */
         isChecked = switchChangeLayout.isChecked();
         if(isChecked){
             loggedInUser.setVisibility(View.VISIBLE);
@@ -40,6 +44,7 @@ public class UserFragment extends Fragment {
             loggedInUser.setVisibility(View.GONE);
             logInLayout.setVisibility(View.VISIBLE);
         }
+
 
         switchChangeLayout.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -65,6 +70,14 @@ public class UserFragment extends Fragment {
             }
         });
 
+        Button buttonSignUp = rootView.findViewById(R.id.sign_up_button);
+        buttonSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent signupIntent = new Intent(getActivity(), SignUpActivity.class);
+                startActivity(signupIntent);
+            }
+        });
 
         return rootView;
     }
