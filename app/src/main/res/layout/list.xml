@@ -24,7 +24,7 @@
             android:layout_marginStart="8dp" />
         </LinearLayout>
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/category_detail_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -37,6 +37,6 @@
             android:layout_marginTop="8dp"
             android:divider="@color/white"
             android:dividerHeight="8dp"/>
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>
 
