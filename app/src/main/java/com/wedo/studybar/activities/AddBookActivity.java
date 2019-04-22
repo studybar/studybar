@@ -2,9 +2,13 @@ package com.wedo.studybar.activities;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,6 +21,15 @@ import android.widget.Toast;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 import com.wedo.studybar.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.DataOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class AddBookActivity extends AppCompatActivity {
 
@@ -46,6 +59,28 @@ public class AddBookActivity extends AppCompatActivity {
         addBookPublisher =(EditText)findViewById(R.id.add_book_press);
         buttonAdd = (Button)findViewById(R.id.button_add);
         buttonCancle = (Button)findViewById(R.id.button_cancel);
+
+        InputFilter inputFilter = new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                for(int i = start;i < end; i++){
+                    if(Character.isWhitespace((source.charAt(i)))){
+                        return "";
+                    }
+                }
+                return null;
+            }
+        };
+
+        addBookTitle.setFilters(new InputFilter[]{
+                inputFilter
+        });
+        addBookAuthor.setFilters(new InputFilter[]{
+                inputFilter
+        });
+        addBookPublisher.setFilters(new InputFilter[]{
+                inputFilter
+        });
 
         ArrayAdapter<CharSequence> categoryAdapter;
 
@@ -156,12 +191,6 @@ public class AddBookActivity extends AppCompatActivity {
                     imageView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            /*
-                            Intent openIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                            openIntent.addCategory(Intent.CATEGORY_OPENABLE);
-                            openIntent.setType("image/*");
-                            startActivityForResult(openIntent, REQUEST_CODE_OPEN);
-                            */
                             CropImage.activity()
                                     .setGuidelines(CropImageView.Guidelines.ON)
                                     .setAllowFlipping(false)
@@ -197,7 +226,18 @@ public class AddBookActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(),R.string.plz_input_full_info,Toast.LENGTH_SHORT).show();
                             }
                             else{
-                                //todo: process the info
+                                JSONObject newBook = new JSONObject();
+                                try{
+                                    newBook.put("name",bookTitle+" "+bookAuthor+" "+bookPublisher);
+                                    newBook.put("types_category_id",String.valueOf(bookCategory));
+                                    //todo:添加创建者 id
+                                    newBook.put("user_id","5");
+
+                                    //new SendBookInfo().execute("",newBook.toString());
+                                    //todo:send the json object
+                                }catch (JSONException e){
+                                    e.printStackTrace();
+                                }
                                 finish();
                             }
                         }
@@ -213,14 +253,6 @@ public class AddBookActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        /*
-        if(requestCode == REQUEST_CODE_OPEN && resultCode == RESULT_OK ){
-            if(data != null){
-                imageUri = data.getData();
-                imageView.setImageURI(imageUri);
-            }
-        }
-        */
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
@@ -229,6 +261,45 @@ public class AddBookActivity extends AppCompatActivity {
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
             }
+        }
+    }
+
+    private class SendBookInfo extends AsyncTask<String,Void,String>{
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+
+            HttpURLConnection httpURLConnection = null;
+            try{
+                httpURLConnection = (HttpURLConnection)new URL(params[0]).openConnection();
+                httpURLConnection.setRequestMethod("POST");
+
+                httpURLConnection.setDoOutput(true);
+
+                DataOutputStream dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
+                dataOutputStream.writeBytes("PostData=" + params[1]);
+                dataOutputStream.flush();
+                dataOutputStream.close();
+
+                InputStream inputStream = httpURLConnection.getInputStream();
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+
+                int inputStreamData = inputStreamReader.read();
+                while (inputStreamData != -1){
+                    char current = (char) inputStreamData;
+                    inputStreamData = inputStreamReader.read();
+                    data += current;
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }finally {
+                if(httpURLConnection != null){
+                    httpURLConnection.disconnect();
+                }
+            }
+            return data;
         }
     }
 }

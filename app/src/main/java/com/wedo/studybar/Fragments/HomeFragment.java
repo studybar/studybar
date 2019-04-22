@@ -42,19 +42,17 @@ public class HomeFragment extends Fragment {
          * to show category
          * */
         ArrayList<String> categoryIds = new ArrayList<>();
-        categoryIds.add("2203467901");
-        categoryIds.add("2203467902");
-        categoryIds.add("2203467903");
-        categoryIds.add("2203467904");
-        categoryIds.add("2203467905");
-        categoryIds.add("2203467906");
-        categoryIds.add("2203467907");
-        categoryIds.add("2203467908");
-        categoryIds.add("2203467909");
-        categoryIds.add("2203467910");
-        categoryIds.add("2203467911");
-        categoryIds.add("2203467912");
-        categoryIds.add("2203467913");
+        categoryIds.add("1");
+        categoryIds.add("2");
+        categoryIds.add("3");
+        categoryIds.add("4");
+        categoryIds.add("5");
+        categoryIds.add("6");
+        categoryIds.add("7");
+        categoryIds.add("8");
+        categoryIds.add("9");
+        categoryIds.add("10");
+
 
         //data to populate the category RecyclerView with
         ArrayList<Integer> categoryNames = new ArrayList<>();
@@ -66,11 +64,9 @@ public class HomeFragment extends Fragment {
         categoryNames.add(R.string.History);
         categoryNames.add(R.string.formalScience);
         categoryNames.add(R.string.Engineering);
-        categoryNames.add(R.string.Agronomy);
         categoryNames.add(R.string.Medicine);
-        categoryNames.add(R.string.militaryScience);
         categoryNames.add(R.string.Management);
-        categoryNames.add(R.string.artTheory);
+
 
         RecyclerView categoryRecyclerView = (RecyclerView) rootView.findViewById(R.id.categories_recycler_view);
         LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
