@@ -32,6 +32,7 @@ import com.wedo.studybar.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -183,10 +184,12 @@ public class SignUpActivity extends AppCompatActivity {
                 verificationCode = editTextVerificationCode.getText().toString();
                 profession = editTextProfession.getText().toString();
                 nickname = editTextNickname.getText().toString();
+                /*
                 if(email.matches("")||username.matches("")||password.matches("")||verificationCode.matches("")||!isAgreementChecked){
                     Toast.makeText(getApplicationContext(),R.string.sign_up_info_not_null,Toast.LENGTH_SHORT).show();
                 }
-                else {
+                else {*/
+                    /*
                     JSONObject newUser = new JSONObject();
                     try{
                         newUser.put("username",username);
@@ -199,12 +202,15 @@ public class SignUpActivity extends AppCompatActivity {
 
                         Log.e(LOG_TAG,newUser.toString());
 
-                        new SendUserInfo().execute("http://39.97.181.175:8080/study/user_Register.action",newUser.toString());
-                        Toast.makeText(this,"ok",Toast.LENGTH_SHORT).show();
+                        //new SendUserInfo().execute("http://39.97.181.175:8080/study/user_Register.action",newUser.toString());
+
                     }catch (JSONException e){
                         e.printStackTrace();
-                    }
-                }
+                    }*/
+                    sendPost();
+                    Toast.makeText(this,"ok",Toast.LENGTH_SHORT).show();
+
+                //}
                 //finish();
                 return true;
             default:
@@ -267,5 +273,57 @@ public class SignUpActivity extends AppCompatActivity {
             Log.e(LOG_TAG,data);
             return data;
         }
+    }
+
+    private void sendPost(){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    URL url = new URL("http://39.97.181.175:8080/study/user_Register.action");
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                    conn.setRequestProperty("Accept","application/json");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+
+                    JSONObject newUser = new JSONObject();
+                    newUser.put("username",username);
+                    newUser.put("password",password);
+                    newUser.put("nickname",nickname);
+                    newUser.put("sex",gender);
+                    newUser.put("email",email);
+                    newUser.put("profession",profession);
+                    //newUser.put("verification",verificationCode);
+
+                    DataOutputStream dataOutputStream = new DataOutputStream(conn.getOutputStream());
+                    dataOutputStream.writeBytes(newUser.toString());
+
+                    Log.e(LOG_TAG,newUser.toString());
+
+                    dataOutputStream.flush();
+                    dataOutputStream.close();
+
+                    BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    String decodedString;
+                    StringBuilder stringBuilder = new StringBuilder();
+                    while ((decodedString = in.readLine()) != null) {
+                        stringBuilder.append(decodedString);
+                    }
+                    in.close();
+                    /*YOUR RESPONSE */
+                    String response = stringBuilder.toString();
+
+                    Log.e("STATUS", String.valueOf(conn.getResponseCode()));
+                    Log.e("MSG" , conn.getResponseMessage());
+                    Log.e("RESPONSE",response);
+                    conn.disconnect();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
     }
 }
