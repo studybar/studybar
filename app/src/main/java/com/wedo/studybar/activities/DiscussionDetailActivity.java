@@ -54,7 +54,7 @@ public class DiscussionDetailActivity extends AppCompatActivity {
 
         final ArrayList<Discussion> comments = new ArrayList<Discussion>();
 
-        comments.add(new Discussion("26663680001",getString(R.string.discussion_author_pre)+"nobody","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","89"));
+        comments.add(new Discussion("26663680001",getString(R.string.discussion_author_pre)+"nobody","Here is the content of this discussion.$x=\\frac{1+y}{1+2z^2}$.$\\vec{F}=\\frac{d\\vec{p}}{dt}=m\\frac{d\\vec{v}}{dt}=m\\vec{a}$Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","89"));
         comments.add(new Discussion("26663680002",getString(R.string.discussion_author_pre)+"nobody","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","89"));
         comments.add(new Discussion("26663680003",getString(R.string.discussion_author_pre)+"nobody","Here is the content of this discussion.","64","89"));
         comments.add(new Discussion("26663680004",getString(R.string.discussion_author_pre)+"nobody","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","89"));
@@ -95,23 +95,6 @@ public class DiscussionDetailActivity extends AppCompatActivity {
         commentTopicContent.setText("Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.");
         commentTopicNumOfComments.setText("89");
         commentTopicNumOfLikes.setText("64");
-
-        Spinner spinner = findViewById(R.id.discussion_detail_order_option);
-        final ArrayAdapter<CharSequence> orderAdapter = ArrayAdapter.createFromResource(this,R.array.order_option_list,android.R.layout.simple_spinner_item);
-        orderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(orderAdapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //todo:改变排序
-                Toast.makeText(getApplicationContext(),"selected"+orderAdapter.getItem(position).toString(),Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         FloatingActionButton fab = findViewById(R.id.comment_floating_action_button);
         fab.setOnClickListener(new View.OnClickListener() {

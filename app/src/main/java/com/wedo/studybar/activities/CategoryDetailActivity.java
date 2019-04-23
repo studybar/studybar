@@ -45,23 +45,6 @@ public class CategoryDetailActivity extends AppCompatActivity {
             }
         });
 
-        Spinner spinner = (Spinner) findViewById(R.id.order_option);
-        final ArrayAdapter<CharSequence> orderAdapter = ArrayAdapter.createFromResource(this,R.array.order_option_list,android.R.layout.simple_spinner_item);
-        orderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(orderAdapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //todo:改变排序
-                Toast.makeText(getApplicationContext(),"selected"+orderAdapter.getItem(position).toString(),Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
         String categoryId = getIntent().getStringExtra("CATEGORY_ID");
         Toast.makeText(this,categoryId,Toast.LENGTH_SHORT).show();
 
