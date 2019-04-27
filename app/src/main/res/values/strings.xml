@@ -108,6 +108,7 @@
     <string name="sign_up_user_name">Name</string>
     <string name="sign_up_profession">Profession</string>
     <string name="sign_up_info_not_null">Email, Name, Password, Verification Code can not be null! Or you haven\'t agree the agreement.</string>
+    <string name="login_failed">Login failed, please check your password.</string>
 
     <string-array name="category_array">
         <item>@string/select_book_category</item>

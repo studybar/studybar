@@ -173,14 +173,4 @@
 
     </LinearLayout>
 
-    <!--only for test-->
-    <Switch
-        android:id="@+id/switch_change_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:checked="false"
-        android:text="login(only for test)"/>
-
-
 </RelativeLayout>
