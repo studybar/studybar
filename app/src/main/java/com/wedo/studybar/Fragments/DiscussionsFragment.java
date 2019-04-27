@@ -4,10 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -20,6 +22,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wedo.studybar.Adapter.DiscussionAdapter;
@@ -42,6 +45,8 @@ public class DiscussionsFragment extends Fragment {
     private DiscussionAsyncTaskWait asyncTaskWait;
     private ProgressBar listFooterView;
     private ListView listView;
+
+    private TextView reminder;
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -69,6 +74,16 @@ public class DiscussionsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_discussions,container,false);
 
         swipeRefreshLayout = rootView.findViewById(R.id.discussion_refresh_layout);
+        reminder = rootView.findViewById(R.id.login_reminder);
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+        if(sharedPreferences.getBoolean("LoginState",false)){
+            swipeRefreshLayout.setVisibility(View.VISIBLE);
+            reminder.setVisibility(View.GONE);
+        }else {
+            reminder.setVisibility(View.VISIBLE);
+            swipeRefreshLayout.setVisibility(View.GONE);
+        }
 
         /**
          * to show list of discussions

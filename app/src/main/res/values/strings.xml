@@ -113,6 +113,7 @@
     <string name="password_null">Please input password.</string>
     <string name="logout">Log out</string>
     <string name="summary_logout">Log out</string>
+    <string name="plz_login_first">Please login first.</string>
 
     <string-array name="category_array">
         <item>@string/select_book_category</item>
