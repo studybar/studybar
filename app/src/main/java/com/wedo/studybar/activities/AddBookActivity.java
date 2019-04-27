@@ -1,5 +1,6 @@
 package com.wedo.studybar.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,6 +27,7 @@ import com.wedo.studybar.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -46,6 +49,8 @@ public class AddBookActivity extends AppCompatActivity {
     private String bookAuthor;
     private String bookPublisher;
     private long bookCategory;
+
+    private static final String LOG_TAG = Context.class.getSimpleName();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -226,6 +231,7 @@ public class AddBookActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(),R.string.plz_input_full_info,Toast.LENGTH_SHORT).show();
                             }
                             else{
+                                /*
                                 JSONObject newBook = new JSONObject();
                                 try{
                                     newBook.put("name",bookTitle+" "+bookAuthor+" "+bookPublisher);
@@ -233,12 +239,15 @@ public class AddBookActivity extends AppCompatActivity {
                                     //todo:添加创建者 id
                                     newBook.put("user_id","5");
 
-                                    //new SendBookInfo().execute("",newBook.toString());
+                                    new SendBookInfo().execute("http://39.97.181.175:8080/study/type_addtype.action",newBook.toString());
                                     //todo:send the json object
                                 }catch (JSONException e){
                                     e.printStackTrace();
                                 }
-                                finish();
+                                */
+                                sendPost();
+                                Toast.makeText(getApplicationContext(),"ok",Toast.LENGTH_SHORT).show();
+                                //finish();
                             }
                         }
                     });
@@ -253,6 +262,7 @@ public class AddBookActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
@@ -264,7 +274,7 @@ public class AddBookActivity extends AppCompatActivity {
         }
     }
 
-    private class SendBookInfo extends AsyncTask<String,Void,String>{
+    private static class SendBookInfo extends AsyncTask<String,Void,String>{
 
         @Override
         protected String doInBackground(String... params) {
@@ -279,7 +289,7 @@ public class AddBookActivity extends AppCompatActivity {
                 httpURLConnection.setDoOutput(true);
 
                 DataOutputStream dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
-                dataOutputStream.writeBytes("PostData=" + params[1]);
+                dataOutputStream.writeBytes(params[1]);
                 dataOutputStream.flush();
                 dataOutputStream.close();
 
@@ -301,5 +311,58 @@ public class AddBookActivity extends AppCompatActivity {
             }
             return data;
         }
+    }
+
+    private void sendPost(){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    URL url = new URL("http://39.97.181.175:8080/study/type_addtype.action");
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                    conn.setRequestProperty("Accept","application/json");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+
+                    JSONObject newBook = new JSONObject();
+                    newBook.put("name",bookTitle/*+" "+bookAuthor+" "+bookPublisher*/);
+                    JSONObject bookCategory = new JSONObject();
+                    bookCategory.put("types_category_id",String.valueOf(bookCategory));
+                    //newBook.put("")
+                    //newBook.put("types_category_id",String.valueOf(bookCategory));
+                    //todo:添加创建者 id
+                    //newBook.put("user_id","5");
+
+                    DataOutputStream dataOutputStream = new DataOutputStream(conn.getOutputStream());
+                    dataOutputStream.writeBytes(newBook.toString());
+
+                    Log.e(LOG_TAG,newBook.toString());
+
+                    dataOutputStream.flush();
+                    dataOutputStream.close();
+
+                    /*
+                    BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    String decodedString;
+                    StringBuilder stringBuilder = new StringBuilder();
+                    while ((decodedString = in.readLine()) != null) {
+                        stringBuilder.append(decodedString);
+                    }
+                    in.close();
+                    YOUR RESPONSE
+                    String response = stringBuilder.toString();
+                    */
+                    Log.e("STATUS", String.valueOf(conn.getResponseCode()));
+                    Log.e("MSG" , conn.getResponseMessage());
+                    //Log.e("RESPONSE",response);
+                    conn.disconnect();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
     }
 }

@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 
 import com.wedo.studybar.R;
+import com.wedo.studybar.activities.MyBooksActivity;
+import com.wedo.studybar.activities.MyDiscussionsActivity;
 import com.wedo.studybar.activities.SettingsActivity;
 import com.wedo.studybar.activities.SignUpActivity;
 
@@ -57,6 +59,24 @@ public class UserFragment extends Fragment {
                     loggedInUser.setVisibility(View.GONE);
                     logInLayout.setVisibility(View.VISIBLE);
                 }
+            }
+        });
+
+        Button myBooksButton = rootView.findViewById(R.id.my_books);
+        myBooksButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MyBooksActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Button myDiscussionsButton = rootView.findViewById(R.id.my_discussions);
+        myDiscussionsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MyDiscussionsActivity.class);
+                startActivity(intent);
             }
         });
 
