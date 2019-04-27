@@ -55,19 +55,6 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/sign_up_username"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/sign_up_user_name"
-                    android:maxLines="1"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
                     android:id="@+id/sign_up_nickname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

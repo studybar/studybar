@@ -50,7 +50,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private ImageView imageViewAvatar;
     private EditText editTextEmail;
-    private EditText editTextUsername;
+    //private EditText editTextUsername;
     private EditText editTextNickname;
     private EditText editTextPassword;
     private EditText editTextProfession;
@@ -60,7 +60,7 @@ public class SignUpActivity extends AppCompatActivity {
     private Spinner spinnerGender;
     private String gender = "";
     private String email = "";
-    private String username = "";
+    //private String username = "";
     private String nickname = "";
     private String password = "";
     private String profession = "";
@@ -89,7 +89,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
         editTextEmail = findViewById(R.id.sign_up_email);
-        editTextUsername = findViewById(R.id.sign_up_username);
+        //editTextUsername = findViewById(R.id.sign_up_username);
         editTextNickname = findViewById(R.id.sign_up_nickname);
         editTextPassword = findViewById(R.id.sign_up_password);
         editTextProfession = findViewById(R.id.sign_up_profession);
@@ -118,7 +118,7 @@ public class SignUpActivity extends AppCompatActivity {
         };
 
         editTextEmail.setFilters(new InputFilter[]{inputFilter});
-        editTextUsername.setFilters(new InputFilter[]{inputFilter});
+        //editTextUsername.setFilters(new InputFilter[]{inputFilter});
         editTextNickname.setFilters(new InputFilter[]{inputFilter});
         editTextPassword.setFilters(new InputFilter[]{inputFilter});
         editTextProfession.setFilters(new InputFilter[]{inputFilter});
@@ -180,7 +180,7 @@ public class SignUpActivity extends AppCompatActivity {
                 return true;
             case R.id.menu_confirm_button:
                 email = editTextEmail.getText().toString();
-                username = editTextUsername.getText().toString();
+                //username = editTextUsername.getText().toString();
                 password = editTextPassword.getText().toString();
                 verificationCode = editTextVerificationCode.getText().toString();
                 profession = editTextProfession.getText().toString();
@@ -223,57 +223,7 @@ public class SignUpActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_confirm,menu);
-        return super.onCreateOptionsMenu(menu);    }
-
-    private class SendUserInfo extends AsyncTask<String, Void, String>{
-
-        @Override
-        protected String doInBackground(String... params) {
-            String data = "";
-
-            HttpURLConnection httpURLConnection = null;
-            try{
-                httpURLConnection = (HttpURLConnection)new URL(params[0]).openConnection();
-                httpURLConnection.setRequestMethod("POST");
-
-                //httpURLConnection.setDoOutput(true);
-
-                //httpURLConnection.setDoInput(true);
-                httpURLConnection.setChunkedStreamingMode(0);
-                httpURLConnection.addRequestProperty("Accept", "application/json");
-                httpURLConnection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
-                //httpURLConnection.setRequestProperty("Content-Length", "" + Integer.toString(params[1].getBytes().length)); // Get the json string length
-
-                DataOutputStream dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
-                //dataOutputStream.writeBytes(params[1]);
-                Log.e(LOG_TAG,params[1]);
-                dataOutputStream.writeUTF(params[1]);
-                dataOutputStream.flush();
-                dataOutputStream.close();
-
-                int statusCode = httpURLConnection.getResponseCode();
-                Log.e(LOG_TAG,String.valueOf(statusCode));
-
-                InputStream inputStream = httpURLConnection.getInputStream();
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-
-                int inputStreamData = inputStreamReader.read();
-                while (inputStreamData != -1){
-                    char current = (char) inputStreamData;
-                    inputStreamData = inputStreamReader.read();
-                    data += current;
-                }
-                Toast.makeText(getApplicationContext(),"executeOk",Toast.LENGTH_SHORT).show();
-            }catch (Exception e){
-                e.printStackTrace();
-            }finally {
-                if(httpURLConnection != null){
-                    httpURLConnection.disconnect();
-                }
-            }
-            Log.e(LOG_TAG,data);
-            return data;
-        }
+        return super.onCreateOptionsMenu(menu);
     }
 
     private void sendPost(){
@@ -290,7 +240,7 @@ public class SignUpActivity extends AppCompatActivity {
                     conn.setDoInput(true);
 
                     JSONObject newUser = new JSONObject();
-                    newUser.put("username",username);
+                    newUser.put("username",email);
                     newUser.put("password",password);
                     newUser.put("nickname",nickname);
                     newUser.put("sex",gender);
