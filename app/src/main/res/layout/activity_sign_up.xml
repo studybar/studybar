@@ -149,6 +149,11 @@
 
             </LinearLayout>
 
+            <ImageView
+                android:id="@+id/decode_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
         </LinearLayout>
 
     </ScrollView>

@@ -114,6 +114,8 @@
     <string name="logout">Log out</string>
     <string name="summary_logout">Log out</string>
     <string name="plz_login_first">Please login first.</string>
+    <string name="click_get_code">Please get Verification code first!</string>
+    <string name="plz_input_email">Please input email address first!</string>
 
     <string-array name="category_array">
         <item>@string/select_book_category</item>

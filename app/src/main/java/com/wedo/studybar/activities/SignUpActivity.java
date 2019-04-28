@@ -2,14 +2,18 @@ package com.wedo.studybar.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.provider.MediaStore;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,6 +37,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -50,7 +55,6 @@ public class SignUpActivity extends AppCompatActivity {
 
     private ImageView imageViewAvatar;
     private EditText editTextEmail;
-    //private EditText editTextUsername;
     private EditText editTextNickname;
     private EditText editTextPassword;
     private EditText editTextProfession;
@@ -66,6 +70,9 @@ public class SignUpActivity extends AppCompatActivity {
     private String profession = "";
     private String verificationCode = "";
     private Boolean isAgreementChecked = false;
+    private Bitmap bitmap;
+
+    private ImageView imageView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,7 +96,6 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
         editTextEmail = findViewById(R.id.sign_up_email);
-        //editTextUsername = findViewById(R.id.sign_up_username);
         editTextNickname = findViewById(R.id.sign_up_nickname);
         editTextPassword = findViewById(R.id.sign_up_password);
         editTextProfession = findViewById(R.id.sign_up_profession);
@@ -97,6 +103,9 @@ public class SignUpActivity extends AppCompatActivity {
         buttonGetVerificationCode = findViewById(R.id.sign_up_button_get_verification_code);
         checkBox = findViewById(R.id.sign_up_agreement);
         spinnerGender = findViewById(R.id.sign_up_gender);
+
+        //only for test
+        imageView = findViewById(R.id.decode_test);
 
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -118,11 +127,37 @@ public class SignUpActivity extends AppCompatActivity {
         };
 
         editTextEmail.setFilters(new InputFilter[]{inputFilter});
-        //editTextUsername.setFilters(new InputFilter[]{inputFilter});
         editTextNickname.setFilters(new InputFilter[]{inputFilter});
         editTextPassword.setFilters(new InputFilter[]{inputFilter});
         editTextProfession.setFilters(new InputFilter[]{inputFilter});
         editTextVerificationCode.setFilters(new InputFilter[]{inputFilter});
+
+        /**
+         * make editTextVerificationCode editable only after clicked the button
+         * */
+        editTextVerificationCode.setFocusable(false);
+        editTextVerificationCode.setClickable(true);
+        editTextVerificationCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),R.string.click_get_code,Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        buttonGetVerificationCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                email = editTextEmail.getText().toString();
+                if(email.matches("")){
+                    Toast.makeText(getApplicationContext(),R.string.plz_input_email,Toast.LENGTH_SHORT).show();
+                }else {
+                    //todo:tell server to send verification
+                    editTextVerificationCode.setFocusableInTouchMode(true);
+                    editTextVerificationCode.setClickable(false);
+                }
+            }
+        });
+
 
         final ArrayAdapter<CharSequence> genderAdapter;
         genderAdapter = ArrayAdapter.createFromResource(this,R.array.gender_identity,android.R.layout.simple_spinner_item);
@@ -163,8 +198,22 @@ public class SignUpActivity extends AppCompatActivity {
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
-                imageUri = result.getUri();
-                imageViewAvatar.setImageURI(imageUri);
+                try {
+                    imageUri = result.getUri();
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                    imageViewAvatar.setImageURI(imageUri);
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
+                    byte[] b = byteArrayOutputStream.toByteArray();
+
+                    //only for test
+                    String encodedImage = Base64.encodeToString(b,Base64.DEFAULT);
+                    byte[] decodedString = Base64.decode(encodedImage,Base64.DEFAULT);
+                    Bitmap decodeByte = BitmapFactory.decodeByteArray(decodedString,0,decodedString.length);
+                    imageView.setImageBitmap(decodeByte);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
             }
@@ -240,13 +289,30 @@ public class SignUpActivity extends AppCompatActivity {
                     conn.setDoInput(true);
 
                     JSONObject newUser = new JSONObject();
-                    newUser.put("username",email);
-                    newUser.put("password",password);
-                    newUser.put("nickname",nickname);
-                    newUser.put("sex",gender);
-                    newUser.put("email",email);
-                    newUser.put("profession",profession);
-                    //newUser.put("verification",verificationCode);
+                //    newUser.put("username",email);
+                //    newUser.put("password",password);
+                //    newUser.put("nickname",nickname);
+                //    newUser.put("sex",gender);
+                //    newUser.put("email",email);
+                //    newUser.put("profession",profession);
+                //    newUser.put("verification",verificationCode);
+
+                    //imageViewAvatar.buildDrawingCache();
+                    //Bitmap bitmap = imageViewAvatar.getDrawingCache();
+
+
+                    /*
+
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
+                    byte[] b = byteArrayOutputStream.toByteArray();
+
+                    String encodedImage = Base64.encodeToString(b,Base64.DEFAULT);
+
+                    Log.e("base64",encodedImage);
+
+*/
+                //    newUser.put("picture",encodedImage);
 
                     DataOutputStream dataOutputStream = new DataOutputStream(conn.getOutputStream());
                     dataOutputStream.writeBytes(newUser.toString());
