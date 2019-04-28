@@ -2,8 +2,15 @@ package com.wedo.studybar.activities;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ListView;
 
+import com.wedo.studybar.Adapter.DiscussionAdapter;
 import com.wedo.studybar.R;
+import com.wedo.studybar.util.Discussion;
+import com.wedo.studybar.util.QueryUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +21,16 @@ public class MyDiscussionsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_discussions);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ListView listView = findViewById(R.id.my_discussion_list);
+
+        String json = getIntent().getStringExtra("DISCUSS");
+
+        ArrayList<Discussion> discussions = (ArrayList<Discussion>) QueryUtils.extractTopicsFromJson(json);
+
+        DiscussionAdapter discussionAdapter = new DiscussionAdapter(this,discussions);
+
+        listView.setAdapter(discussionAdapter);
     }
 
     @Override

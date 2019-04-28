@@ -96,7 +96,7 @@ public class UserFragment extends Fragment {
             editTextPassword.setText(share.getString("Password",""));
 
             try {
-                JSONObject user = new JSONObject();
+                user = new JSONObject();
                 user.put("username",share.getString("Email",""));
                 user.put("password",share.getString("Password",""));
                 new verifyAsyncTask().execute(user.toString());
@@ -125,7 +125,7 @@ public class UserFragment extends Fragment {
                     logInLayout.setVisibility(View.GONE);
                     progressBar.setVisibility(View.VISIBLE);
                     try {
-                        JSONObject user = new JSONObject();
+                        user = new JSONObject();
                         user.put("username",email);
                         user.put("password",password);
                         new verifyAsyncTask().execute(user.toString());
@@ -161,8 +161,15 @@ public class UserFragment extends Fragment {
         myDiscussionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MyDiscussionsActivity.class);
-                startActivity(intent);
+                try {
+
+                    Intent intent = new Intent(getActivity(), MyDiscussionsActivity.class);
+                    intent.putExtra("DISCUSS",base.getJSONObject("user").getJSONArray("userTopics").toString());
+                    startActivity(intent);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
             }
         });
 

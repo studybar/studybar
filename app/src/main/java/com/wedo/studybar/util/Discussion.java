@@ -1,12 +1,12 @@
 package com.wedo.studybar.util;
 
 public class Discussion {
-    private String mDiscussionId;               //com_id        or //com_multi_id
+    private String mDiscussionId;               //com_id        or //com_multi_id       //id
     private String mDiscussionAuthor;           //com_user_id   or //com_multi_user_id
-    private String mDiscussionTitle;
-    private String mDiscussionContent;          //com_content   or //com_multi_content
+    private String mDiscussionTitle;                                                    //title
+    private String mDiscussionContent;          //com_content   or //com_multi_content  //content
     private String mDiscussionNumberOfLikes;
-    private String mDiscussionNumberOfComments;
+    private String mDiscussionNumberOfComments;                                         //countComment
 
     /**
      * Usr for the topic of discussion

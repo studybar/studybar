@@ -211,9 +211,9 @@ public class SignUpActivity extends AppCompatActivity {
                     imageUri = result.getUri();
                     bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
                     imageViewAvatar.setImageURI(imageUri);
-                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
-                    byte[] b = byteArrayOutputStream.toByteArray();
+                    //ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    //bitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
+                    //byte[] b = byteArrayOutputStream.toByteArray();
 
                     //only for test
                     /*
@@ -309,12 +309,6 @@ public class SignUpActivity extends AppCompatActivity {
                 //    newUser.put("profession",profession);
                 //    newUser.put("verification",verificationCode);
 
-                    //imageViewAvatar.buildDrawingCache();
-                    //Bitmap bitmap = imageViewAvatar.getDrawingCache();
-
-
-                    /*
-
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
                     byte[] b = byteArrayOutputStream.toByteArray();
@@ -323,8 +317,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                     Log.e("base64",encodedImage);
 
-*/
-                //    newUser.put("picture",encodedImage);
+               newUser.put("picture",encodedImage);
 
                     DataOutputStream dataOutputStream = new DataOutputStream(conn.getOutputStream());
                     dataOutputStream.writeBytes(newUser.toString());
@@ -382,7 +375,7 @@ public class SignUpActivity extends AppCompatActivity {
                     newUser.put("profession",profession);
                     //newUser.put("verification",verificationCode);
 
-                /*
+
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
                     byte[] b = byteArrayOutputStream.toByteArray();
@@ -393,7 +386,6 @@ public class SignUpActivity extends AppCompatActivity {
 
                 newUser.put("picture",encodedImage);
 
-*/
                 DataOutputStream dataOutputStream = new DataOutputStream(conn.getOutputStream());
                 dataOutputStream.writeBytes(newUser.toString());
 

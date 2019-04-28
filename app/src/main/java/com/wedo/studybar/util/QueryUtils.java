@@ -1,7 +1,13 @@
 package com.wedo.studybar.util;
 
 import android.content.Context;
+import android.text.TextUtils;
+import android.util.JsonReader;
 import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,6 +17,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 public class QueryUtils {
 
@@ -89,8 +97,30 @@ public class QueryUtils {
         }
         return output.toString();
     }
-    /*
-    private static List<> extractFeatureFromJson(String ){
 
-    }*/
+    public static List<Discussion> extractTopicsFromJson(String json){
+        List<Discussion> discussions = new ArrayList<Discussion>();
+
+        if(TextUtils.isEmpty(json)){
+            return null;
+        }
+        try{
+            //JSONObject userInfo = new JSONObject(json);
+            JSONArray discussionsArray = new JSONArray(json);
+
+            for(int i=0;i<discussionsArray.length();i++){
+                JSONObject discussion = discussionsArray.getJSONObject(i);
+
+                String id = discussion.getString("id");
+                String content = discussion.getString("content");
+                String countComment = discussion.getString("countComment");
+                String title = discussion.getString("title");
+
+                discussions.add(new Discussion(id,"",title,content,"",countComment));
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return discussions;
+    }
 }
