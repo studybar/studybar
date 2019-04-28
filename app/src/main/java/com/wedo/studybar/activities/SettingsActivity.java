@@ -37,6 +37,9 @@ public class SettingsActivity extends AppCompatActivity {
                 public boolean onPreferenceClick(Preference preference) {
                     sharedPreferences = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("Password","");
+                    editor.putString("Username","");
+                    editor.putString("Bio","");
                     editor.putBoolean("LoginState", false);
                     editor.apply();
                     Intent outIntent = new Intent(getActivity(),
