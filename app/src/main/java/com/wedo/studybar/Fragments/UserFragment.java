@@ -29,6 +29,7 @@ import com.wedo.studybar.activities.MyBooksActivity;
 import com.wedo.studybar.activities.MyDiscussionsActivity;
 import com.wedo.studybar.activities.SettingsActivity;
 import com.wedo.studybar.activities.SignUpActivity;
+import com.wedo.studybar.util.loginAsyncTask;
 
 import org.json.JSONObject;
 
@@ -56,7 +57,7 @@ public class UserFragment extends Fragment {
     private String email = "";
     private String password = "";
     private String response = "";
-    private String check = "";
+    //private String check = "";
     private JSONObject base;
 
     private SharedPreferences sharedPreferences;
@@ -162,7 +163,6 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 try {
-
                     Intent intent = new Intent(getActivity(), MyDiscussionsActivity.class);
                     intent.putExtra("DISCUSS",base.getJSONObject("user").getJSONArray("userTopics").toString());
                     startActivity(intent);
@@ -189,7 +189,7 @@ public class UserFragment extends Fragment {
     public UserFragment(){
 
     }
-
+    /*
     private class verifyAsyncTask extends AsyncTask<String,Void,String>{
 
 
@@ -247,6 +247,50 @@ public class UserFragment extends Fragment {
             }
             else{
                 Toast.makeText(getActivity(),"ok",Toast.LENGTH_SHORT).show();
+                loggedInUser.setVisibility(View.VISIBLE);
+
+                try {
+                    JSONObject userInfo = base.getJSONObject("user");
+                    String nickname = userInfo.getString("nickname");
+                    String introduction = userInfo.getString("introduction");
+                    //todo:set avatar
+                    username.setText(nickname);
+                    bio.setText(introduction);
+
+                    sharedPreferences = getActivity().getSharedPreferences("Login",Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("Email",userInfo.getString("username"));
+                    editor.putString("Password",userInfo.getString("password"));
+                    editor.putString("Username",nickname);
+                    editor.putString("Bio",introduction);
+                    editor.putBoolean("LoginState",true);
+                    editor.commit();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    */
+
+    private class verifyAsyncTask extends loginAsyncTask {
+        @Override
+        protected void onPostExecute(String response) {
+            String check = "";
+            try{
+                base = new JSONObject(response);
+                check = base.getString("result");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+            progressBar.setVisibility(View.GONE);
+            if(check.equals("fail")){
+                logInLayout.setVisibility(View.VISIBLE);
+                loggedInUser.setVisibility(View.GONE);
+                Toast.makeText(getActivity(),R.string.login_failed,Toast.LENGTH_SHORT).show();
+            }
+            else{
                 loggedInUser.setVisibility(View.VISIBLE);
 
                 try {

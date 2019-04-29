@@ -15,6 +15,8 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,8 +33,12 @@ import com.wedo.studybar.R;
 import com.wedo.studybar.activities.BookDetailActivity;
 import com.wedo.studybar.activities.DiscussionDetailActivity;
 import com.wedo.studybar.util.Discussion;
+import com.wedo.studybar.util.QueryUtils;
+import com.wedo.studybar.util.loginAsyncTask;
 
-import java.lang.ref.WeakReference;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class DiscussionsFragment extends Fragment {
@@ -42,12 +48,13 @@ public class DiscussionsFragment extends Fragment {
 
     private DiscussionAdapter itemsAdapter;
     private Boolean flag_loading = false;
-    private DiscussionAsyncTaskWait asyncTaskWait;
-    private ProgressBar listFooterView;
+//    private DiscussionAsyncTaskWait asyncTaskWait;
+//    private ProgressBar listFooterView;
     private ListView listView;
-
+    private ProgressBar progressBar;
     private TextView reminder;
 
+    /*
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -67,6 +74,7 @@ public class DiscussionsFragment extends Fragment {
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastReceiver);
         super.onPause();
     }
+    */
 
     @Nullable
     @Override
@@ -75,39 +83,36 @@ public class DiscussionsFragment extends Fragment {
 
         swipeRefreshLayout = rootView.findViewById(R.id.discussion_refresh_layout);
         reminder = rootView.findViewById(R.id.login_reminder);
+        progressBar = rootView.findViewById(R.id.discussion_load_progress);
+        listView = (ListView)rootView.findViewById(R.id.my_discussion_list);
+
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
         if(sharedPreferences.getBoolean("LoginState",false)){
-            swipeRefreshLayout.setVisibility(View.VISIBLE);
+            //swipeRefreshLayout.setVisibility(View.VISIBLE);
+            swipeRefreshLayout.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
             reminder.setVisibility(View.GONE);
+
+            try {
+                JSONObject user = new JSONObject();
+                user.put("username",sharedPreferences.getString("Email",""));
+                user.put("password",sharedPreferences.getString("Password",""));
+                new loadDiscussionAsyncTask().execute(user.toString());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }else {
             reminder.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
             swipeRefreshLayout.setVisibility(View.GONE);
         }
 
         /**
          * to show list of discussions
          * */
-        final ArrayList<Discussion> discussions = new ArrayList<Discussion>();
+        /*
 
-        discussions.add(new Discussion("34728774660001",getString(R.string.discussion_author_pre)+"nobody","Here is the title of this discussion.Here is the title of this discussion.","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","64"));
-        discussions.add(new Discussion("34728774660002",getString(R.string.discussion_author_pre)+"nobody","Here is the title of this discussion.Here is the title of this discussion.","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","64"));
-        discussions.add(new Discussion("34728774660003",getString(R.string.discussion_author_pre)+"nobody","Here is the title of this discussion.Here is the title of this discussion.","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","64"));
-        discussions.add(new Discussion("34728774660004",getString(R.string.discussion_author_pre)+"nobody","Here is the title of this discussion.Here is the title of this discussion.","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","64"));
-        discussions.add(new Discussion("34728774660005",getString(R.string.discussion_author_pre)+"nobody","Here is the title of this discussion.Here is the title of this discussion.","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","64"));
-        discussions.add(new Discussion("34728774660006",getString(R.string.discussion_author_pre)+"nobody","Here is the title of this discussion.Here is the title of this discussion.","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","64"));
-        discussions.add(new Discussion("34728774660007",getString(R.string.discussion_author_pre)+"nobody","Here is the title of this discussion.Here is the title of this discussion.","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","64"));
-        discussions.add(new Discussion("34728774660008",getString(R.string.discussion_author_pre)+"nobody","Here is the title of this discussion.Here is the title of this discussion.","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","64"));
-        discussions.add(new Discussion("34728774660009",getString(R.string.discussion_author_pre)+"nobody","Here is the title of this discussion.Here is the title of this discussion.","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","64"));
-        discussions.add(new Discussion("34728774660010",getString(R.string.discussion_author_pre)+"nobody","Here is the title of this discussion.Here is the title of this discussion.","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","64"));
-        discussions.add(new Discussion("34728774660011",getString(R.string.discussion_author_pre)+"nobody","Here is the title of this discussion.Here is the title of this discussion.","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","64"));
-
-        itemsAdapter = new DiscussionAdapter(getActivity(),discussions);
-        listView = (ListView)rootView.findViewById(R.id.my_discussion_list);
-
-        LayoutInflater mInflater = getLayoutInflater();
-        ViewGroup bookHeader = (ViewGroup)mInflater.inflate(R.layout.discussion_fragment_header,listView,false);
-        listView.addHeaderView(bookHeader);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -120,7 +125,9 @@ public class DiscussionsFragment extends Fragment {
             }
         });
 
-        listView.setAdapter(itemsAdapter);
+        */
+
+       /*
         setListViewFooter();
         listView.setFooterDividersEnabled(false);
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -144,11 +151,16 @@ public class DiscussionsFragment extends Fragment {
 
             }
         });
+        */
 
 
         /**
          * to show my books
          * */
+        LayoutInflater mInflater = getLayoutInflater();
+        ViewGroup bookHeader = (ViewGroup)mInflater.inflate(R.layout.discussion_fragment_header,listView,false);
+        listView.addHeaderView(bookHeader);
+
         ArrayList<String> horizontalBookIds = new ArrayList<>();
         horizontalBookIds.add("8378001");
         horizontalBookIds.add("8378002");
@@ -198,7 +210,6 @@ public class DiscussionsFragment extends Fragment {
         );
         horizontalBookRecyclerView.setAdapter(mHorizontalBookAdapter);
 
-
         return rootView;
     }
 
@@ -222,15 +233,57 @@ public class DiscussionsFragment extends Fragment {
 
     }
 
-    /*
-    *  itemsAdapter.add(new Discussion("34728774660012",getString(R.string.discussion_author_pre)+"nobody","Hello There!","General Kenobi!","89","64"));
-                        itemsAdapter.add(new Discussion("34728774660012",getString(R.string.discussion_author_pre)+"nobody","Hello There!","General Kenobi!","89","64"));
-                        itemsAdapter.add(new Discussion("34728774660012",getString(R.string.discussion_author_pre)+"nobody","Hello There!","General Kenobi!","89","64"));
-                        itemsAdapter.add(new Discussion("34728774660012",getString(R.string.discussion_author_pre)+"nobody","Hello There!","General Kenobi!","89","64"));
-                        itemsAdapter.add(new Discussion("34728774660012",getString(R.string.discussion_author_pre)+"nobody","Hello There!","General Kenobi!","89","64"));
-                        flag_loading = false;
-    * */
+    private class loadDiscussionAsyncTask extends loginAsyncTask {
+        @Override
+        protected void onPostExecute(String response) {
+            try{
+                JSONObject base = new JSONObject(response);
+                String check = base.getString("result");
+                if(check.matches("fail")){
+                    progressBar.setVisibility(View.GONE);
+                    swipeRefreshLayout.setVisibility(View.GONE);
+                    reminder.setVisibility(View.VISIBLE);
+                }else{
+                    final JSONArray discussionsJSONArray = base.getJSONObject("user").getJSONArray("userTopics");
+                    String discussions = discussionsJSONArray.toString();
+                    final ArrayList<Discussion> discussionsArrayList = (ArrayList<Discussion>) QueryUtils.extractTopicsFromJson(discussions);
+                    DiscussionAdapter discussionAdapter = new DiscussionAdapter(getActivity(),discussionsArrayList);
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            try{
+                                Discussion discussion = discussionsArrayList.get(position);
+                                JSONObject onGoingDiscussion = discussionsJSONArray.getJSONObject(position);
+                                //todo:如何与后台传值待写
+                                Intent intent = new Intent(getActivity(), DiscussionDetailActivity.class);
+                                intent.putExtra("DISCUSSION_ID",discussion.getmDiscussionId());
+                                intent.putExtra("DISCUSSION_AUTHOR",discussion.getDiscussionAuthor());
+                                intent.putExtra("DISCUSSION_TITLE",discussion.getDiscussionTitle());
+                                intent.putExtra("DISCUSSION_CONTENT",discussion.getDiscussionContent());
+                                intent.putExtra("DISCUSSION_LIKES_NUM",discussion.getNumOfLikes());
+                                intent.putExtra("DISCUSSION_COMMENTS_NUM",discussion.getNumOfComments());
+                                intent.putExtra("COMMENT_JSON",onGoingDiscussion.getJSONArray("topicComments").toString());
 
+                                Log.e("TEST","here");
+
+                                startActivity(intent);
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    listView.setAdapter(discussionAdapter);
+                    progressBar.setVisibility(View.GONE);
+                    swipeRefreshLayout.setVisibility(View.VISIBLE);
+                    reminder.setVisibility(View.GONE);
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /*
     private void listViewLoadMore(){
         itemsAdapter.add(new Discussion("34728774660012",getString(R.string.discussion_author_pre)+"nobody","Hello There!","General Kenobi!","89","64"));
         itemsAdapter.add(new Discussion("34728774660012",getString(R.string.discussion_author_pre)+"nobody","Hello There!","General Kenobi!","89","64"));
@@ -241,6 +294,7 @@ public class DiscussionsFragment extends Fragment {
         flag_loading = false;
         listFooterView.setVisibility(View.GONE);
     }
+
 
     private void setListViewFooter(){
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.footer_view_load_animation,null);
@@ -273,4 +327,5 @@ public class DiscussionsFragment extends Fragment {
                     (intent);
         }
     }
+    */
 }

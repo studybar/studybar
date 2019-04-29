@@ -1,13 +1,19 @@
 package com.wedo.studybar.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.wedo.studybar.Adapter.DiscussionAdapter;
 import com.wedo.studybar.R;
 import com.wedo.studybar.util.Discussion;
 import com.wedo.studybar.util.QueryUtils;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +32,7 @@ public class MyDiscussionsActivity extends AppCompatActivity {
 
         String json = getIntent().getStringExtra("DISCUSS");
 
-        ArrayList<Discussion> discussions = (ArrayList<Discussion>) QueryUtils.extractTopicsFromJson(json);
+        final ArrayList<Discussion> discussions = (ArrayList<Discussion>) QueryUtils.extractTopicsFromJson(json);
 
         DiscussionAdapter discussionAdapter = new DiscussionAdapter(this,discussions);
 

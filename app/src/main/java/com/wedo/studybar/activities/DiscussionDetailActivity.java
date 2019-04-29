@@ -25,6 +25,9 @@ import com.wedo.studybar.Adapter.CommentAdapter;
 import com.wedo.studybar.R;
 import com.wedo.studybar.util.Discussion;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class DiscussionDetailActivity extends AppCompatActivity {
@@ -45,13 +48,29 @@ public class DiscussionDetailActivity extends AppCompatActivity {
                 if(!swipeRefreshLayout.isRefreshing()){
                     swipeRefreshLayout.setRefreshing(true);
                 }
-
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
 
-        String discussionTitle = getIntent().getStringExtra("DISCUSSION_TITLE");
+        ListView listView = (ListView)findViewById(R.id.comments_of_discussion);
 
+        String discussionId = getIntent().getStringExtra("DISCUSSION_ID");
+        String discussionAuthor = getIntent().getStringExtra("DISCUSSION_AUTHOR");
+        String discussionTitle = getIntent().getStringExtra("DISCUSSION_TITLE");
+        String discussionContent = getIntent().getStringExtra("DISCUSSION_CONTENT");
+        String discussionLikesNum = getIntent().getStringExtra("DISCUSSION_LIKES_NUM");
+        String discussionCommentsNum = getIntent().getStringExtra("DISCUSSION_COMMENTS_NUM");
+
+        String commentJson = getIntent().getStringExtra("COMMENT_JSON");
+
+        try {
+            JSONArray commentsArray = new JSONArray(commentJson);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        /*
         final ArrayList<Discussion> comments = new ArrayList<Discussion>();
 
         comments.add(new Discussion("26663680001",getString(R.string.discussion_author_pre)+"nobody","Here is the content of this discussion.$x=\\frac{1+y}{1+2z^2}$.$\\vec{F}=\\frac{d\\vec{p}}{dt}=m\\frac{d\\vec{v}}{dt}=m\\vec{a}$Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","89"));
@@ -75,13 +94,14 @@ public class DiscussionDetailActivity extends AppCompatActivity {
         comments.add(new Discussion("26663680019",getString(R.string.discussion_author_pre)+"nobody","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","89"));
 
         CommentAdapter itemsAdapter = new CommentAdapter(this,comments);
-        ListView listView = (ListView)findViewById(R.id.comments_of_discussion);
+        */
+
 
         LayoutInflater mInflater = getLayoutInflater();
         ViewGroup bookHeader = (ViewGroup)mInflater.inflate(R.layout.comment_topic_header_view,listView,false);
         listView.addHeaderView(bookHeader);
 
-        listView.setAdapter(itemsAdapter);
+        //listView.setAdapter(itemsAdapter);
 
         //Discussion topic = new Discussion(getString(R.string.discussion_author_pre)+"nobody","Here is the title of this discussion.Here is the title of this discussion.","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","64");
         TextView commentTopicAuthor = (TextView)findViewById(R.id.comment_topic_author);
@@ -90,11 +110,12 @@ public class DiscussionDetailActivity extends AppCompatActivity {
         TextView commentTopicNumOfLikes = (TextView)findViewById(R.id.comment_topic_num_of_likes);
         TextView commentTopicNumOfComments = (TextView)findViewById(R.id.comment_topic_num_of_comments);
 
-        commentTopicAuthor.setText(getString(R.string.discussion_author_pre)+"nobody");
-        commentTopicTitle.setText("Here is the title of this discussion.Here is the title of this discussion.");
-        commentTopicContent.setText("Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.");
-        commentTopicNumOfComments.setText("89");
-        commentTopicNumOfLikes.setText("64");
+        commentTopicAuthor.setText(getString(R.string.discussion_author_pre)+discussionAuthor);
+        commentTopicTitle.setText(discussionContent);
+        commentTopicContent.setText(discussionContent);
+        commentTopicNumOfComments.setText(discussionCommentsNum);
+        //commentTopicNumOfLikes.setText();
+
 
         FloatingActionButton fab = findViewById(R.id.comment_floating_action_button);
         fab.setOnClickListener(new View.OnClickListener() {

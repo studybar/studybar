@@ -33,6 +33,10 @@ public class Discussion {
         mDiscussionNumberOfComments = discussionNumberOfComments;
     }
 
+    public String getmDiscussionId(){
+        return mDiscussionId;
+    }
+
     public String getDiscussionAuthor(){
         return mDiscussionAuthor;
     }

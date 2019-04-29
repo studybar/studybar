@@ -123,4 +123,24 @@ public class QueryUtils {
         }
         return discussions;
     }
+
+    public static List<Discussion> extractCommentsFromJson(String json){
+        List<Discussion> comments = new ArrayList<Discussion>();
+
+        if(TextUtils.isEmpty(json)){
+            return null;
+        }
+        try{
+            JSONArray commentsArray = new JSONArray(json);
+
+            for(int i = 0;i < commentsArray.length(); i++){
+                JSONObject comment = commentsArray.getJSONObject(i);
+
+                //String id = comment.getString("")
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return comments;
+    }
 }
