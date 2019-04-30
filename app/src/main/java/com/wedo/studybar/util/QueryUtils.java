@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import android.util.JsonReader;
 import android.util.Log;
 
+import com.wedo.studybar.R;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -143,4 +145,43 @@ public class QueryUtils {
         }
         return comments;
     }
+
+    /**
+     * 读取各个分类下图书数据
+     * */
+    public static List<Book> extractBooks(String category){
+        String booksByCategory = "http://39.97.181.175:8080/study/cate_getCatetype.action";
+
+        URL url = createUrl(booksByCategory);
+        String booksJSON = null;
+        List<Book> books = new ArrayList<Book>();
+
+        try{
+            booksJSON = makeHttpRequest(url);
+            if(TextUtils.isEmpty(booksJSON)){
+                return null;
+            }
+            JSONObject base = new JSONObject(booksJSON);
+            JSONArray booksArray = base.getJSONArray(category);
+
+            for (int i =0; i < booksArray.length(); i++){
+                JSONObject book = booksArray.getJSONObject(i);
+
+                String bookId = book.getString("id");
+                String bookName = book.getString("name");
+                String bookAuthor = "";
+                String bookCover = book.getString("typespicture");
+                String bookPublisher = "";
+                String bookLikesNum = "";
+                String bookCommentsNum = book.getString("countComments");
+
+                books.add(new Book(bookId,bookName,bookAuthor, R.drawable.test,bookPublisher,bookLikesNum,bookCommentsNum));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return books;
+    }
+
+
 }
