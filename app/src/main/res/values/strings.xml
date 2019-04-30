@@ -116,6 +116,8 @@
     <string name="plz_login_first">Please login first.</string>
     <string name="click_get_code">Please get Verification code first!</string>
     <string name="plz_input_email">Please input email address first!</string>
+    <string name="no_internet">No Internet Connection.</string>
+    <string name="no_books">No Books Found.</string>
 
     <string-array name="category_array">
         <item>@string/select_book_category</item>
