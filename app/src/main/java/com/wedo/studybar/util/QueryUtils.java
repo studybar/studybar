@@ -204,7 +204,7 @@ public class QueryUtils {
             urlConnection.setReadTimeout(10000 /* milliseconds */);
             urlConnection.setConnectTimeout(15000 /* milliseconds */);
             urlConnection.connect();
-                /*
+
                 if(urlConnection.getResponseCode() == 200){
                     inputStream = urlConnection.getInputStream();
                     topicsJSON = readFromStream(inputStream);
@@ -212,9 +212,6 @@ public class QueryUtils {
                 else{
                     Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
                 }
-                */
-            inputStream = urlConnection.getInputStream();
-            topicsJSON = readFromStream(inputStream);
 
             if(urlConnection != null){
                 urlConnection.disconnect();
@@ -228,10 +225,10 @@ public class QueryUtils {
             }
             JSONObject base = new JSONObject(topicsJSON);
             if (base.getString("result").matches("success")){
-                JSONArray discussiconsArray = base.getJSONArray("usertopic");
+                JSONArray discussionsArray = base.getJSONArray("usertopic");
 
-                for (int i=0; i<discussiconsArray.length(); i++){
-                    JSONObject discussion = discussiconsArray.getJSONObject(i);
+                for (int i=0; i<discussionsArray.length(); i++){
+                    JSONObject discussion = discussionsArray.getJSONObject(i);
 
                     String discussionId = discussion.getString("id");
                     String discussionTitle = discussion.getString("title");
@@ -248,6 +245,75 @@ public class QueryUtils {
             e.printStackTrace();
         }
         return discussions;
+    }
+
+    /**
+     * 读取用户所参与的话题
+     * */
+    public static List<Discussion> extractDiscussions(Context context){
+        String discussionsUrl = "http://39.97.181.175:8080/study/user_GetComments.action";
+
+        URL url = createUrl(discussionsUrl);
+        String discussionsJSON = null;
+        List<Discussion> topics = new ArrayList<>();
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Login",Context.MODE_PRIVATE);
+
+        try{
+            HttpURLConnection urlConnection = null;
+            InputStream inputStream = null;
+            urlConnection = (HttpURLConnection)url.openConnection();
+            urlConnection.setRequestMethod("GET");
+            urlConnection.setRequestProperty("cookie",sharedPreferences.getString("SESSION_ID",""));
+
+            Log.e("SESSION",sharedPreferences.getString("SESSION_ID",""));
+
+            urlConnection.setReadTimeout(10000 /* milliseconds */);
+            urlConnection.setConnectTimeout(15000 /* milliseconds */);
+            urlConnection.connect();
+
+                if(urlConnection.getResponseCode() == 200){
+                    inputStream = urlConnection.getInputStream();
+                    discussionsJSON = readFromStream(inputStream);
+                }
+                else{
+                    Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
+                }
+
+            if(urlConnection != null){
+                urlConnection.disconnect();
+            }
+            if(inputStream != null){
+                inputStream.close();
+            }
+
+            if(TextUtils.isEmpty(discussionsJSON)){
+                return null;
+            }
+            JSONObject base = new JSONObject(discussionsJSON);
+            if (base.getString("result").matches("success")){
+                JSONArray commentsArray = base.getJSONArray("usercomment");
+
+                for (int i=0; i<commentsArray.length(); i++){
+                    JSONObject comment = commentsArray.getJSONObject(i);
+
+                    JSONObject topic = comment.getJSONObject("commentsTopic");
+
+                    String discussionId = topic.getString("id");
+                    String discussionTitle = topic.getString("title");
+                    String discussionContent = topic.getString("content");
+                    String discussionCommentsNum = topic.getString("countComment");
+
+                    JSONObject authorObject = topic.getJSONObject("topicsUser");
+                    String discussionAuthor = authorObject.getString("nickname");
+
+                    topics.add(new Discussion(discussionId,discussionAuthor,discussionTitle,discussionContent,discussionCommentsNum));
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return topics;
+
     }
 
 }

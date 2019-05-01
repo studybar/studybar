@@ -5,12 +5,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,6 +36,7 @@ import com.wedo.studybar.Adapter.HorizontalBookAdapter;
 import com.wedo.studybar.R;
 import com.wedo.studybar.activities.BookDetailActivity;
 import com.wedo.studybar.activities.DiscussionDetailActivity;
+import com.wedo.studybar.loader.discussionsLoader;
 import com.wedo.studybar.util.Discussion;
 import com.wedo.studybar.util.QueryUtils;
 import com.wedo.studybar.util.loginAsyncTask;
@@ -40,8 +45,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class DiscussionsFragment extends Fragment {
+public class DiscussionsFragment extends Fragment implements androidx.loader.app.LoaderManager.LoaderCallbacks<List<Discussion>>{
 
     private HorizontalBookAdapter mHorizontalBookAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -52,7 +58,7 @@ public class DiscussionsFragment extends Fragment {
 //    private ProgressBar listFooterView;
     private ListView listView;
     private ProgressBar progressBar;
-    private TextView reminder;
+    private TextView emptyStateTextView;
 
     /*
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -82,50 +88,41 @@ public class DiscussionsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_discussions,container,false);
 
         swipeRefreshLayout = rootView.findViewById(R.id.discussion_refresh_layout);
-        reminder = rootView.findViewById(R.id.login_reminder);
+        emptyStateTextView = rootView.findViewById(R.id.discussion_fragment_empty_view);
         progressBar = rootView.findViewById(R.id.discussion_load_progress);
         listView = (ListView)rootView.findViewById(R.id.my_discussion_list);
 
-
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
-        if(sharedPreferences.getBoolean("LoginState",false)){
-            //swipeRefreshLayout.setVisibility(View.VISIBLE);
-            swipeRefreshLayout.setVisibility(View.GONE);
-            progressBar.setVisibility(View.VISIBLE);
-            reminder.setVisibility(View.GONE);
-
-            try {
-                JSONObject user = new JSONObject();
-                user.put("username",sharedPreferences.getString("Email",""));
-                user.put("password",sharedPreferences.getString("Password",""));
-                new loadDiscussionAsyncTask().execute(user.toString());
-            }catch (Exception e){
-                e.printStackTrace();
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if(!swipeRefreshLayout.isRefreshing()){
+                    swipeRefreshLayout.setRefreshing(true);
+                    progressBar.setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.GONE);
+                    loadDiscussions();
+                }
+                swipeRefreshLayout.setRefreshing(false);
             }
-        }else {
-            reminder.setVisibility(View.VISIBLE);
-            progressBar.setVisibility(View.GONE);
-            swipeRefreshLayout.setVisibility(View.GONE);
-        }
+        });
 
         /**
          * to show list of discussions
          * */
-        /*
 
+        loadDiscussions();
+
+        final ArrayList<Discussion> discussions = new ArrayList<>();
+        itemsAdapter = new DiscussionAdapter(getActivity(),discussions);
+        listView.setEmptyView(emptyStateTextView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Discussion discussion = discussions.get(position);
                 //todo:如何与后台传值待写
                 Intent intent = new Intent(getActivity(), DiscussionDetailActivity.class);
-                Toast.makeText(getActivity(),"1321",Toast.LENGTH_SHORT).show();
-                intent.putExtra("DISCUSSION_TITLE",discussion.getDiscussionTitle());
                 startActivity(intent);
             }
         });
-
-        */
+        listView.setAdapter(itemsAdapter);
 
        /*
         setListViewFooter();
@@ -225,54 +222,62 @@ public class DiscussionsFragment extends Fragment {
 
     }
 
-    private class loadDiscussionAsyncTask extends loginAsyncTask {
-        @Override
-        protected void onPostExecute(String response) {
-            try{
-                JSONObject base = new JSONObject(response);
-                String check = base.getString("result");
-                if(check.matches("fail")){
-                    progressBar.setVisibility(View.GONE);
-                    swipeRefreshLayout.setVisibility(View.GONE);
-                    reminder.setVisibility(View.VISIBLE);
-                }else{
-                    final JSONArray discussionsJSONArray = base.getJSONObject("user").getJSONArray("usertopic");
-                    String discussions = discussionsJSONArray.toString();
-                    final ArrayList<Discussion> discussionsArrayList = (ArrayList<Discussion>) QueryUtils.extractTopicsFromJson(discussions);
-                    DiscussionAdapter discussionAdapter = new DiscussionAdapter(getActivity(),discussionsArrayList);
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            try{
-                                Discussion discussion = discussionsArrayList.get(position);
-                                JSONObject onGoingDiscussion = discussionsJSONArray.getJSONObject(position);
-                                //todo:如何与后台传值待写
-                                Intent intent = new Intent(getActivity(), DiscussionDetailActivity.class);
-                                intent.putExtra("DISCUSSION_ID",discussion.getmDiscussionId());
-                                intent.putExtra("DISCUSSION_AUTHOR",discussion.getDiscussionAuthor());
-                                intent.putExtra("DISCUSSION_TITLE",discussion.getDiscussionTitle());
-                                intent.putExtra("DISCUSSION_CONTENT",discussion.getDiscussionContent());
-                                //intent.putExtra("DISCUSSION_LIKES_NUM",discussion.getNumOfLikes());
-                                intent.putExtra("DISCUSSION_COMMENTS_NUM",discussion.getNumOfComments());
-                                intent.putExtra("COMMENT_JSON",onGoingDiscussion.getJSONArray("topicComments").toString());
+    private void loadDiscussions(){
 
-                                Log.e("TEST","here");
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+        if(sharedPreferences.getBoolean("LoginState",false)){
+            progressBar.setVisibility(View.VISIBLE);
+            emptyStateTextView.setVisibility(View.GONE);
 
-                                startActivity(intent);
-                            }catch (Exception e){
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-                    listView.setAdapter(discussionAdapter);
-                    progressBar.setVisibility(View.GONE);
-                    swipeRefreshLayout.setVisibility(View.VISIBLE);
-                    reminder.setVisibility(View.GONE);
-                }
-            }catch (Exception e){
-                e.printStackTrace();
+            // Get a reference to the ConnectivityManager to check state of network connectivity
+            ConnectivityManager connMgr = (ConnectivityManager)
+                    getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+            // Get details on the currently active default data network
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+            // If there is a network connection, fetch data
+            if (networkInfo != null && networkInfo.isConnected()) {
+                // 引用 LoaderManager，以便与 loader 进行交互。
+                LoaderManager loaderManager = getLoaderManager();
+
+                // 初始化 loader。传递上面定义的整数 ID 常量并为为捆绑
+                // 传递 null。为 LoaderCallbacks 参数（由于
+                // 此活动实现了 LoaderCallbacks 接口而有效）传递此活动。
+                loaderManager.initLoader(1, null, this);
             }
+            else{
+                progressBar.setVisibility(View.GONE);
+                emptyStateTextView.setText(R.string.no_internet);
+            }
+        }else {
+            emptyStateTextView.setText(R.string.plz_login_first);
+            emptyStateTextView.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
         }
+    }
+
+    @NonNull
+    @Override
+    public Loader<List<Discussion>> onCreateLoader(int id, @Nullable Bundle args) {
+        return new discussionsLoader(getContext());
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<List<Discussion>> loader, List<Discussion> discussions) {
+        progressBar.setVisibility(View.GONE);
+        emptyStateTextView.setText(R.string.no_discussion);
+        if(itemsAdapter!=null){
+            itemsAdapter.clear();
+        }
+        if(discussions != null && !discussions.isEmpty()){
+            itemsAdapter.addAll(discussions);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<List<Discussion>> loader) {
+        itemsAdapter.clear();
     }
 
     /*

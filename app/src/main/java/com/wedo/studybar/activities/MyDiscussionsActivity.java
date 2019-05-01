@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.wedo.studybar.Adapter.DiscussionAdapter;
 import com.wedo.studybar.R;
 import com.wedo.studybar.util.Discussion;
-import com.wedo.studybar.util.myDiscussionsLoader;
+import com.wedo.studybar.loader.myDiscussionsLoader;
 
 import java.util.ArrayList;
 import java.util.List;

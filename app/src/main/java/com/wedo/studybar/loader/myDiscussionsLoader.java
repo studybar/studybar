@@ -1,6 +1,9 @@
-package com.wedo.studybar.util;
+package com.wedo.studybar.loader;
 
 import android.content.Context;
+
+import com.wedo.studybar.util.Discussion;
+import com.wedo.studybar.util.QueryUtils;
 
 import java.util.List;
 
