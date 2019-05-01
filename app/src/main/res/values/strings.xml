@@ -133,18 +133,9 @@
         <item>@string/Management</item>
     </string-array>
 
-    <string-array name="order_option_list">
-        <item>@string/order_hot</item>
-        <item>@string/order_alphabet</item>
-        <item>@string/order_new</item>
-        <item>@string/order_rising</item>
-    </string-array>
-
     <string-array name="mistakes_list">
         <item>@string/mistake_book_cover</item>
         <item>@string/mistake_book_title</item>
-        <item>@string/mistake_book_author</item>
-        <item>@string/mistake_book_publisher</item>
         <item>@string/mistake_book_category</item>
     </string-array>
 

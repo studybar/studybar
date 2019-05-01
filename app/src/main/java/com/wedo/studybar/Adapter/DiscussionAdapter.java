@@ -40,8 +40,8 @@ public class DiscussionAdapter extends ArrayAdapter<Discussion> {
         TextView discussionContent = (TextView)discussionItemView.findViewById(R.id.discussion_content);
         discussionContent.setText(currentAndroidAdapter.getDiscussionContent());
 
-        TextView discussionNumOfLikes = (TextView)discussionItemView.findViewById(R.id.discussion_num_of_likes);
-        discussionNumOfLikes.setText(currentAndroidAdapter.getNumOfLikes());
+        //TextView discussionNumOfLikes = (TextView)discussionItemView.findViewById(R.id.discussion_num_of_likes);
+        //discussionNumOfLikes.setText(currentAndroidAdapter.getNumOfLikes());
 
         TextView discussionNumOfComments = (TextView)discussionItemView.findViewById(R.id.discussion_num_of_comments);
         discussionNumOfComments.setText(currentAndroidAdapter.getNumOfComments());

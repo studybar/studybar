@@ -3,6 +3,8 @@ package com.wedo.studybar.Fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -297,9 +299,12 @@ public class UserFragment extends Fragment {
                     JSONObject userInfo = base.getJSONObject("user");
                     String nickname = userInfo.getString("nickname");
                     String introduction = userInfo.getString("introduction");
+                    byte[] avatarBytesArray = userInfo.getString("picture").getBytes();
                     //todo:set avatar
                     username.setText(nickname);
                     bio.setText(introduction);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(avatarBytesArray,0,avatarBytesArray.length);
+                    avatar.setImageBitmap(bitmap);
 
                     sharedPreferences = getActivity().getSharedPreferences("Login",Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -308,6 +313,7 @@ public class UserFragment extends Fragment {
                     editor.putString("Username",nickname);
                     editor.putString("Bio",introduction);
                     editor.putBoolean("LoginState",true);
+                    //TODO: avatar
                     editor.commit();
                 }catch (Exception e){
                     e.printStackTrace();

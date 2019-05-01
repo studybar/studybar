@@ -13,12 +13,11 @@
         android:layout_marginStart="16dp"
         tools:src="@drawable/test"/>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:orientation="vertical">
+        android:layout_marginEnd="16dp">
 
         <TextView
             android:id="@+id/book_search_title"
@@ -27,82 +26,43 @@
             android:layout_marginEnd="16dp"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             tools:text="习近平谈治国理政" />
 
-        <TextView
-            android:id="@+id/book_press"
+        <LinearLayout
+            android:id="@+id/num_comments"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            tools:text="外文出版社"/>
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/book_search_title">
 
-        <TextView
-            android:id="@+id/book_search_author"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginEnd="16dp"
-            android:layout_weight="1"
-            tools:text="习近平"/>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom">
-
-            <LinearLayout
-                android:id="@+id/num_likes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@id/num_comments">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/num_of_likes"/>
-
-                <TextView
-                    android:id="@+id/search_num_of_likes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    tools:text="64"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/num_comments"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/num_of_discussions"/>
-
-                <TextView
-                    android:id="@+id/search_num_of_discuss"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    tools:text="64"/>
-            </LinearLayout>
-
-            <ToggleButton
-                android:id="@+id/book_follow_button"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_follow_background"
-                android:textOff="@string/follow"
-                android:textOn="@string/followed"
-                android:layout_margin="8dp"
-                android:focusable="false"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:textAppearance="?android:textAppearanceSmall"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:text="@string/num_of_discussions"/>
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/search_num_of_discuss"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                tools:text="64"/>
+        </LinearLayout>
+
+        <ToggleButton
+            android:id="@+id/book_follow_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_follow_background"
+            android:textOff="@string/follow"
+            android:textOn="@string/followed"
+            android:layout_margin="8dp"
+            android:focusable="false"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:textAppearance="?android:textAppearanceSmall"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

@@ -185,18 +185,10 @@ public class DiscussionsFragment extends Fragment {
         horizontalBookNames.add("习近平谈治国理政");
         horizontalBookNames.add("习近平谈治国理政");
 
-        ArrayList<String> horizontalBookAuthors = new ArrayList<>();
-        horizontalBookAuthors.add("习近");
-        horizontalBookAuthors.add("习近平");
-        horizontalBookAuthors.add("习近平");
-        horizontalBookAuthors.add("习近平");
-        horizontalBookAuthors.add("习近平");
-        horizontalBookAuthors.add("习近平");
-
         RecyclerView horizontalBookRecyclerView = rootView.findViewById(R.id.discussion_books_recycler_view);
         LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
         horizontalBookRecyclerView.setLayoutManager(horizontalLayoutManager);
-        mHorizontalBookAdapter = new HorizontalBookAdapter(getActivity(),horizontalBookIds,horizontalBookCovers,horizontalBookNames,horizontalBookAuthors);
+        mHorizontalBookAdapter = new HorizontalBookAdapter(getActivity(),horizontalBookIds,horizontalBookCovers,horizontalBookNames);
         mHorizontalBookAdapter.setClickListener(
                 new HorizontalBookAdapter.ItemClickListener() {
                     @Override
@@ -260,7 +252,7 @@ public class DiscussionsFragment extends Fragment {
                                 intent.putExtra("DISCUSSION_AUTHOR",discussion.getDiscussionAuthor());
                                 intent.putExtra("DISCUSSION_TITLE",discussion.getDiscussionTitle());
                                 intent.putExtra("DISCUSSION_CONTENT",discussion.getDiscussionContent());
-                                intent.putExtra("DISCUSSION_LIKES_NUM",discussion.getNumOfLikes());
+                                //intent.putExtra("DISCUSSION_LIKES_NUM",discussion.getNumOfLikes());
                                 intent.putExtra("DISCUSSION_COMMENTS_NUM",discussion.getNumOfComments());
                                 intent.putExtra("COMMENT_JSON",onGoingDiscussion.getJSONArray("topicComments").toString());
 

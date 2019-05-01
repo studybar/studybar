@@ -41,15 +41,6 @@ public class VerticalBookAdapter extends ArrayAdapter<Book> {
         TextView verticalBookTitle = (TextView)bookItemView.findViewById(R.id.book_search_title);
         verticalBookTitle.setText(currentAndroidAdapter.getBookName());
 
-        TextView verticalBookAuthor = (TextView)bookItemView.findViewById(R.id.book_search_author);
-        verticalBookAuthor.setText(currentAndroidAdapter.getBookAuthor());
-
-        TextView verticalBookPublisher = (TextView)bookItemView.findViewById(R.id.book_press);
-        verticalBookPublisher.setText(currentAndroidAdapter.getBookPress());
-
-        TextView verticalBookLikes = (TextView)bookItemView.findViewById(R.id.search_num_of_likes);
-        verticalBookLikes.setText(currentAndroidAdapter.getNumOfLikes());
-
         TextView verticalBookComments = (TextView)bookItemView.findViewById(R.id.search_num_of_discuss);
         verticalBookComments.setText(currentAndroidAdapter.getmNumOfComments());
 

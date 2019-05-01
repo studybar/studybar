@@ -118,7 +118,7 @@ public class QueryUtils {
                 String countComment = discussion.getString("countComment");
                 String title = discussion.getString("title");
 
-                discussions.add(new Discussion(id,"",title,content,"",countComment));
+                discussions.add(new Discussion(id,"",title,content,countComment));
             }
         }catch (JSONException e){
             e.printStackTrace();
@@ -169,13 +169,10 @@ public class QueryUtils {
 
                 String bookId = book.getString("id");
                 String bookName = book.getString("name");
-                String bookAuthor = "";
                 String bookCover = book.getString("typespicture");
-                String bookPublisher = "";
-                String bookLikesNum = "";
                 String bookCommentsNum = book.getString("countComments");
 
-                books.add(new Book(bookId,bookName,bookAuthor, R.drawable.test,bookPublisher,bookLikesNum,bookCommentsNum));
+                books.add(new Book(bookId,bookName,R.drawable.test,bookCommentsNum));
             }
         }catch (Exception e){
             e.printStackTrace();

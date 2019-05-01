@@ -42,12 +42,8 @@ public class AddBookActivity extends AppCompatActivity {
     private Button buttonAdd;
     private Button buttonCancle;
     private EditText addBookTitle;
-    private EditText addBookAuthor;
-    private EditText addBookPublisher;
     private Spinner spinner;
     private String bookTitle;
-    private String bookAuthor;
-    private String bookPublisher;
     private long bookCategory;
 
     private static final String LOG_TAG = Context.class.getSimpleName();
@@ -60,8 +56,6 @@ public class AddBookActivity extends AppCompatActivity {
         imageView = (ImageView)findViewById(R.id.add_book_cover);
         spinner = (Spinner)findViewById(R.id.add_book_category);
         addBookTitle=(EditText)findViewById(R.id.add_book_name);
-        addBookAuthor=(EditText)findViewById(R.id.add_book_author);
-        addBookPublisher =(EditText)findViewById(R.id.add_book_press);
         buttonAdd = (Button)findViewById(R.id.button_add);
         buttonCancle = (Button)findViewById(R.id.button_cancel);
 
@@ -80,12 +74,6 @@ public class AddBookActivity extends AppCompatActivity {
         addBookTitle.setFilters(new InputFilter[]{
                 inputFilter
         });
-        addBookAuthor.setFilters(new InputFilter[]{
-                inputFilter
-        });
-        addBookPublisher.setFilters(new InputFilter[]{
-                inputFilter
-        });
 
         ArrayAdapter<CharSequence> categoryAdapter;
 
@@ -100,9 +88,7 @@ public class AddBookActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     bookTitle = addBookTitle.getText().toString();
-                    bookAuthor = addBookAuthor.getText().toString();
-                    bookPublisher = addBookPublisher.getText().toString();
-                    if(bookTitle.matches("")||bookAuthor.matches("")||bookPublisher.matches("")||bookCategory==0){
+                    if(bookTitle.matches("")||bookCategory==0){
                         Toast.makeText(getApplicationContext(),R.string.plz_input_full_info,Toast.LENGTH_SHORT).show();
                     }
                     else{
@@ -124,12 +110,6 @@ public class AddBookActivity extends AppCompatActivity {
                     imageView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            /*
-                            Intent openIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                            openIntent.addCategory(Intent.CATEGORY_OPENABLE);
-                            openIntent.setType("image/*");
-                            startActivityForResult(openIntent, REQUEST_CODE_OPEN);
-                            */
                             CropImage.activity()
                                     .setGuidelines(CropImageView.Guidelines.ON)
                                     .setAllowFlipping(false)
@@ -139,36 +119,16 @@ public class AddBookActivity extends AppCompatActivity {
                         }
                     });
                     addBookTitle.setEnabled(false);
-                    addBookAuthor.setEnabled(false);
-                    addBookPublisher.setEnabled(false);
                     //todo:put the right content in other element
                     break;
                 case "TITLE":
                     bookId = getIntent().getStringExtra("BOOK_ID");
-                    addBookAuthor.setEnabled(false);
-                    addBookPublisher.setEnabled(false);
                     //todo:put the right content in other element
                     Toast.makeText(this, String.valueOf(R.string.plz_correct_title) + " " + bookId, Toast.LENGTH_SHORT).show();
-                    break;
-                case "AUTHOR":
-                    bookId = getIntent().getStringExtra("BOOK_ID");
-                    addBookTitle.setEnabled(false);
-                    addBookPublisher.setEnabled(false);
-                    //todo:put the right content in other element
-                    Toast.makeText(this, String.valueOf(R.string.plz_correct_author) + " " + bookId, Toast.LENGTH_SHORT).show();
-                    break;
-                case "PUBLISHER":
-                    bookId = getIntent().getStringExtra("BOOK_ID");
-                    addBookTitle.setEnabled(false);
-                    addBookAuthor.setEnabled(false);
-                    //todo:put the right content in other element
-                    Toast.makeText(this, String.valueOf(R.string.plz_correct_publisher) + " " + bookId, Toast.LENGTH_SHORT).show();
                     break;
                 case "CATEGORY":
                     bookId = getIntent().getStringExtra("BOOK_ID");
                     addBookTitle.setEnabled(false);
-                    addBookAuthor.setEnabled(false);
-                    addBookPublisher.setEnabled(false);
                     //todo:put the right content in other element
                     Toast.makeText(this, String.valueOf(R.string.plz_correct_category) + " " + bookId, Toast.LENGTH_SHORT).show();
                     categoryAdapter = ArrayAdapter.createFromResource(this,
@@ -225,9 +185,7 @@ public class AddBookActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             bookTitle = addBookTitle.getText().toString();
-                            bookAuthor = addBookAuthor.getText().toString();
-                            bookPublisher = addBookPublisher.getText().toString();
-                            if(bookTitle.matches("")||bookAuthor.matches("")||bookPublisher.matches("")||bookCategory==0){
+                            if(bookTitle.matches("")||bookCategory==0){
                                 Toast.makeText(getApplicationContext(),R.string.plz_input_full_info,Toast.LENGTH_SHORT).show();
                             }
                             else{

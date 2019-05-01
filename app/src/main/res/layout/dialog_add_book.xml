@@ -1,60 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="192dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="16dp">
+
+    <ImageView
+        android:id="@+id/add_book_cover"
+        android:layout_width="@dimen/list_book_show_width"
+        android:layout_height="@dimen/list_book_show_height"
+        android:src="@drawable/ic_action_add_large"
+        android:layout_gravity="center_horizontal"/>
+
+    <EditText
+        android:id="@+id/add_book_name"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="@string/input_book_name"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"/>
+
+    <Spinner
+        android:id="@+id/add_book_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="16dp">
+        android:layout_margin="8dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/add_book_cover"
-                android:layout_width="@dimen/list_book_show_width"
-                android:layout_height="@dimen/list_book_show_height"
-                android:src="@drawable/ic_action_add_large"
-                android:layout_alignParentStart="true"/>
-            
-            <EditText
-                android:id="@+id/add_book_name"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_toEndOf="@id/add_book_cover"
-                android:hint="@string/input_book_name"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"/>
-
-            <EditText
-                android:id="@+id/add_book_author"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_toEndOf="@id/add_book_cover"
-                android:layout_below="@id/add_book_name"
-                android:hint="@string/input_book_author"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"/>
-
-            <EditText
-                android:id="@+id/add_book_press"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_toEndOf="@id/add_book_cover"
-                android:layout_below="@id/add_book_author"
-                android:hint="@string/input_book_publisher"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"/>
-
-        </RelativeLayout>
-
-        <Spinner
-            android:id="@+id/add_book_category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp">
-
-        </Spinner>
+    </Spinner>
 
     <LinearLayout
         android:layout_width="match_parent"

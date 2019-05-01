@@ -77,14 +77,6 @@ public class BookDetailActivity extends AppCompatActivity {
                                         startActivity(intent);
                                         break;
                                     case 2:
-                                        intent.putExtra("MISTAKE_ITEM","AUTHOR");
-                                        startActivity(intent);
-                                        break;
-                                    case 3:
-                                        intent.putExtra("MISTAKE_ITEM","PUBLISHER");
-                                        startActivity(intent);
-                                        break;
-                                    case 4:
                                         intent.putExtra("MISTAKE_ITEM","CATEGORY");
                                         startActivity(intent);
                                         break;                                }

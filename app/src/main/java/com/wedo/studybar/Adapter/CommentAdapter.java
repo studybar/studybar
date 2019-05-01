@@ -39,8 +39,8 @@ public class CommentAdapter extends ArrayAdapter<Discussion> {
         discussionContent.setDisplayText(currentAndroidAdapter.getDiscussionContent());
         discussionContent.setTextSize(14);
 
-        TextView discussionNumOfLikes = (TextView)commentItemView.findViewById(R.id.comment_num_likes);
-        discussionNumOfLikes.setText(currentAndroidAdapter.getNumOfLikes());
+        //TextView discussionNumOfLikes = (TextView)commentItemView.findViewById(R.id.comment_num_likes);
+        //discussionNumOfLikes.setText(currentAndroidAdapter.getNumOfLikes());
 
         TextView discussionNumOfComments = (TextView)commentItemView.findViewById(R.id.comment_num_replies);
         discussionNumOfComments.setText(currentAndroidAdapter.getNumOfComments());

@@ -58,8 +58,8 @@ public class DiscussionDetailActivity extends AppCompatActivity {
         String discussionAuthor = getIntent().getStringExtra("DISCUSSION_AUTHOR");
         String discussionTitle = getIntent().getStringExtra("DISCUSSION_TITLE");
         String discussionContent = getIntent().getStringExtra("DISCUSSION_CONTENT");
-        String discussionLikesNum = getIntent().getStringExtra("DISCUSSION_LIKES_NUM");
-        String discussionCommentsNum = getIntent().getStringExtra("DISCUSSION_COMMENTS_NUM");
+        //String discussionLikesNum = getIntent().getStringExtra("DISCUSSION_LIKES_NUM");
+        //String discussionCommentsNum = getIntent().getStringExtra("DISCUSSION_COMMENTS_NUM");
 
         String commentJson = getIntent().getStringExtra("COMMENT_JSON");
 
@@ -107,13 +107,12 @@ public class DiscussionDetailActivity extends AppCompatActivity {
         TextView commentTopicAuthor = (TextView)findViewById(R.id.comment_topic_author);
         TextView commentTopicTitle = (TextView)findViewById(R.id.comment_topic_title);
         TextView commentTopicContent = (TextView)findViewById(R.id.comment_topic_content);
-        TextView commentTopicNumOfLikes = (TextView)findViewById(R.id.comment_topic_num_of_likes);
-        TextView commentTopicNumOfComments = (TextView)findViewById(R.id.comment_topic_num_of_comments);
+        //TextView commentTopicNumOfComments = (TextView)findViewById(R.id.comment_topic_num_of_comments);
 
         commentTopicAuthor.setText(getString(R.string.discussion_author_pre)+discussionAuthor);
         commentTopicTitle.setText(discussionContent);
         commentTopicContent.setText(discussionContent);
-        commentTopicNumOfComments.setText(discussionCommentsNum);
+        //commentTopicNumOfComments.setText(discussionCommentsNum);
         //commentTopicNumOfLikes.setText();
 
 

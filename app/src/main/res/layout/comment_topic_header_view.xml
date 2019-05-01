@@ -3,11 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:descendantFocusability="blocksDescendants"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp"
-    android:paddingTop="16dp">
+    android:padding="16dp">
 
         <TextView
             android:id="@+id/comment_topic_author"
@@ -29,58 +28,5 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             tools:text="Here is the content of this discussion. Here is the content of this discussion. Here is the content of this discussion. Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion." />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
-
-            <ImageButton
-                android:id="@+id/comment_topic_button_like"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/ic_action_upvote" />
-
-            <TextView
-                android:id="@+id/comment_topic_num_of_likes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="8dp"
-                android:layout_toEndOf="@+id/comment_topic_button_like"
-                tools:text="64" />
-
-            <ImageButton
-                android:id="@+id/comment_topic_button_reply"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/ic_action_comment" />
-
-            <TextView
-                android:id="@+id/comment_topic_num_of_comments"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="8dp"
-                android:layout_toEndOf="@+id/comment_topic_button_reply"
-                tools:text="64" />
-
-            <CheckBox
-                android:id="@+id/comment_topic_button_star"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:button="@drawable/star_button_custom" />
-
-        </RelativeLayout>
 
 </LinearLayout>

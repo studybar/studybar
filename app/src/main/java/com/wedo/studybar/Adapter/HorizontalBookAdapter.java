@@ -17,17 +17,15 @@ public class HorizontalBookAdapter extends RecyclerView.Adapter<HorizontalBookAd
 
     private List<String> mHorizontalBookIds;
     private List<String> mHorizontalBookNames;
-    private List<String> mHorizontalBookAuthors;
     private List<Integer> mHorizontalBookCovers;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
-    public HorizontalBookAdapter(Context context,List<String> horizontalBookIds,List<Integer> horizontalBookCovers, List<String> horizontalBookNames, List<String> horizontalBookAuthors){
+    public HorizontalBookAdapter(Context context,List<String> horizontalBookIds,List<Integer> horizontalBookCovers, List<String> horizontalBookNames){
         this.mInflater = LayoutInflater.from(context);
         this.mHorizontalBookIds = horizontalBookIds;
         this.mHorizontalBookCovers = horizontalBookCovers;
         this.mHorizontalBookNames = horizontalBookNames;
-        this.mHorizontalBookAuthors = horizontalBookAuthors;
     }
 
     @NonNull
@@ -42,10 +40,8 @@ public class HorizontalBookAdapter extends RecyclerView.Adapter<HorizontalBookAd
         String horizontalBookId = mHorizontalBookIds.get(position);
         int horizontalBookCover = mHorizontalBookCovers.get(position);
         String horizontalBookName = mHorizontalBookNames.get(position);
-        String horizontalBookAuthor = mHorizontalBookAuthors.get(position);
         horizontalBookViewHolder.horizontalBookCoverView.setImageResource(horizontalBookCover);
         horizontalBookViewHolder.horizontalBookNameView.setText(horizontalBookName);
-        horizontalBookViewHolder.horizontalBookAuthorView.setText(horizontalBookAuthor);
     }
 
     public String getBookName(int position) {
@@ -55,13 +51,11 @@ public class HorizontalBookAdapter extends RecyclerView.Adapter<HorizontalBookAd
     public class horizontalBookViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
         ImageView horizontalBookCoverView;
         TextView horizontalBookNameView;
-        TextView horizontalBookAuthorView;
 
         horizontalBookViewHolder(View itemView){
             super(itemView);
             horizontalBookCoverView = itemView.findViewById(R.id.book_cover);
             horizontalBookNameView = itemView.findViewById(R.id.book_name);
-            horizontalBookAuthorView = itemView.findViewById(R.id.book_author);
             itemView.setOnClickListener(this);
         }
 
