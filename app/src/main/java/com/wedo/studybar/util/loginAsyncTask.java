@@ -1,5 +1,7 @@
 package com.wedo.studybar.util;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.JsonReader;
 import android.util.Log;
@@ -9,6 +11,9 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -20,6 +25,7 @@ public abstract class loginAsyncTask extends AsyncTask<String,Void,String> {
         try{
             URL url = new URL("http://39.97.181.175:8080/study/user_Login.action");
             HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
             conn.setRequestProperty("Accept","application/json");
@@ -33,6 +39,16 @@ public abstract class loginAsyncTask extends AsyncTask<String,Void,String> {
 
             dataOutputStream.flush();
             dataOutputStream.close();
+
+            String cookieVal = conn.getHeaderField("set-cookie");
+            String sessionId = "";
+            if(cookieVal != null){
+                sessionId = cookieVal.substring(0,cookieVal.indexOf(";"));
+            }
+            //SharedPreferences sharedPreferences =Context.getSharedPreferences("Login", Context.MODE_PRIVATE);
+            //SharedPreferences.Editor editor = sharedPreferences.edit();
+            //editor.putString("SESSION_ID",sessionId);
+            //editor.apply();
 
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String decodedString;

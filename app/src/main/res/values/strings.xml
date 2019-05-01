@@ -118,6 +118,7 @@
     <string name="plz_input_email">Please input email address first!</string>
     <string name="no_internet">No Internet Connection.</string>
     <string name="no_books">No Books Found.</string>
+    <string name="avatar">Avatar</string>
 
     <string-array name="category_array">
         <item>@string/select_book_category</item>

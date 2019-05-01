@@ -58,12 +58,7 @@ public class UserFragment extends Fragment {
 
     private String email = "";
     private String password = "";
-    private String response = "";
-    //private String check = "";
-    private JSONObject base;
-
     private SharedPreferences sharedPreferences;
-
     private JSONObject user;
 
     @Nullable
@@ -71,8 +66,8 @@ public class UserFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_user,container,false);
 
-        loggedInUser = (LinearLayout)rootView.findViewById(R.id.logged_in_user);
-        logInLayout = (LinearLayout)rootView.findViewById(R.id.login_user);
+        loggedInUser = rootView.findViewById(R.id.logged_in_user);
+        logInLayout = rootView.findViewById(R.id.login_user);
         progressBar = rootView.findViewById(R.id.login_progress);
 
         editTextEmail = rootView.findViewById(R.id.email_address);
@@ -85,33 +80,24 @@ public class UserFragment extends Fragment {
 
         sharedPreferences = getActivity().getSharedPreferences("Login",Context.MODE_PRIVATE);
 
-        SharedPreferences share = getActivity().getSharedPreferences("Login",Context.MODE_PRIVATE);
-
-        if(share.getBoolean("LoginState",false)){
+        /**
+         * if LoginState is true
+         * then show the User Info directly
+         * else ask for logging in
+         * */
+        if(sharedPreferences.getBoolean("LoginState",false)){
             logInLayout.setVisibility(View.GONE);
-            loggedInUser.setVisibility(View.GONE);
-            progressBar.setVisibility(View.VISIBLE);
+            loggedInUser.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
             //todo:set avatar
-            //username.setText(share.getString("Username",""));
-            //bio.setText(share.getString("Bio",""));
-
-            editTextEmail.setText(share.getString("Email",""));
-            editTextPassword.setText(share.getString("Password",""));
-
-            try {
-                user = new JSONObject();
-                user.put("username",share.getString("Email",""));
-                user.put("password",share.getString("Password",""));
-                new verifyAsyncTask().execute(user.toString());
-            }catch (Exception e){
-                e.printStackTrace();
-            }
+            username.setText(sharedPreferences.getString("Username",""));
+            bio.setText(sharedPreferences.getString("Bio",""));
         }else {
             //第一次进入需要登陆
             loggedInUser.setVisibility(View.GONE);
             logInLayout.setVisibility(View.VISIBLE);
-            editTextEmail.setText(share.getString("Email",""));
-            editTextPassword.setText(share.getString("Password",""));
+            editTextEmail.setText(sharedPreferences.getString("Email",""));
+            editTextPassword.setText(sharedPreferences.getString("Password",""));
         }
 
         //sign in
@@ -166,12 +152,10 @@ public class UserFragment extends Fragment {
             public void onClick(View v) {
                 try {
                     Intent intent = new Intent(getActivity(), MyDiscussionsActivity.class);
-                    intent.putExtra("DISCUSS",base.getJSONObject("user").getJSONArray("userTopics").toString());
                     startActivity(intent);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-
             }
         });
 
@@ -180,7 +164,6 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
-
                 startActivity(settingsIntent);
             }
         });
@@ -191,30 +174,42 @@ public class UserFragment extends Fragment {
     public UserFragment(){
 
     }
-    /*
+
     private class verifyAsyncTask extends AsyncTask<String,Void,String>{
 
-
+        String response;
         @Override
-        protected String doInBackground(String... string) {
+        protected String doInBackground(String... strings) {
             try{
                 URL url = new URL("http://39.97.181.175:8080/study/user_Login.action");
                 HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
                 conn.setRequestProperty("Accept","application/json");
                 conn.setDoOutput(true);
                 conn.setDoInput(true);
 
-                user = new JSONObject(string[0]);
+                JSONObject user = new JSONObject(strings[0]);
 
                 DataOutputStream dataOutputStream = new DataOutputStream(conn.getOutputStream());
                 dataOutputStream.writeBytes(user.toString());
 
-                Log.e(LOG_TAG,user.toString());
-
                 dataOutputStream.flush();
                 dataOutputStream.close();
+
+                String cookieVal = conn.getHeaderField("set-cookie");
+                String sessionId = "";
+                if(cookieVal != null){
+                    sessionId = cookieVal.substring(0,cookieVal.indexOf(";"));
+                }
+                SharedPreferences sharedPreferences =getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("SESSION_ID",sessionId);
+                editor.apply();
+
+                Log.e("SESSION_ID",sessionId);
+
 
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 String decodedString;
@@ -226,98 +221,57 @@ public class UserFragment extends Fragment {
                 //YOUR RESPONSE
                 response = stringBuilder.toString();
 
-                base = new JSONObject(response);
-                check = base.getString("result");
+                //JSONObject base = new JSONObject(response);
+                //check = base.getString("result");
 
                 Log.e("STATUS", String.valueOf(conn.getResponseCode()));
                 Log.e("MSG" , conn.getResponseMessage());
-                Log.e("RESULT",check);
+                //Log.e("RESULT",check);
                 conn.disconnect();
+                //Log.e("RESPONSE",response);
             }catch (Exception e){
                 e.printStackTrace();
             }
-            return check;
+            return response;
         }
 
         @Override
         protected void onPostExecute(String response) {
-            progressBar.setVisibility(View.GONE);
-            if(response.equals("fail")){
-                logInLayout.setVisibility(View.VISIBLE);
-                loggedInUser.setVisibility(View.GONE);
-                Toast.makeText(getActivity(),R.string.login_failed,Toast.LENGTH_SHORT).show();
-            }
-            else{
-                Toast.makeText(getActivity(),"ok",Toast.LENGTH_SHORT).show();
-                loggedInUser.setVisibility(View.VISIBLE);
-
-                try {
-                    JSONObject userInfo = base.getJSONObject("user");
-                    String nickname = userInfo.getString("nickname");
-                    String introduction = userInfo.getString("introduction");
-                    //todo:set avatar
-                    username.setText(nickname);
-                    bio.setText(introduction);
-
-                    sharedPreferences = getActivity().getSharedPreferences("Login",Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("Email",userInfo.getString("username"));
-                    editor.putString("Password",userInfo.getString("password"));
-                    editor.putString("Username",nickname);
-                    editor.putString("Bio",introduction);
-                    editor.putBoolean("LoginState",true);
-                    editor.commit();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-    */
-
-    private class verifyAsyncTask extends loginAsyncTask {
-        @Override
-        protected void onPostExecute(String response) {
-            String check = "";
+            String result = "";
             try{
-                base = new JSONObject(response);
-                check = base.getString("result");
-            }catch (Exception e){
-                e.printStackTrace();
-            }
+                JSONObject base = new JSONObject(response);
+                result = base.getString("result");
 
             progressBar.setVisibility(View.GONE);
-            if(check.equals("fail")){
+            if(result.equals("fail")){
                 logInLayout.setVisibility(View.VISIBLE);
                 loggedInUser.setVisibility(View.GONE);
                 Toast.makeText(getActivity(),R.string.login_failed,Toast.LENGTH_SHORT).show();
             }
             else{
                 loggedInUser.setVisibility(View.VISIBLE);
+                JSONObject userInfo = base.getJSONObject("user");
+                String nickname = userInfo.getString("nickname");
+                String introduction = userInfo.getString("introduction");
+                //byte[] avatarBytesArray = userInfo.getString("picture").getBytes();
+                //todo:set avatar
+                username.setText(nickname);
+                bio.setText(introduction);
+                //Bitmap bitmap = BitmapFactory.decodeByteArray(avatarBytesArray,0,avatarBytesArray.length);
+                //avatar.setImageBitmap(bitmap);
 
-                try {
-                    JSONObject userInfo = base.getJSONObject("user");
-                    String nickname = userInfo.getString("nickname");
-                    String introduction = userInfo.getString("introduction");
-                    byte[] avatarBytesArray = userInfo.getString("picture").getBytes();
-                    //todo:set avatar
-                    username.setText(nickname);
-                    bio.setText(introduction);
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(avatarBytesArray,0,avatarBytesArray.length);
-                    avatar.setImageBitmap(bitmap);
-
-                    sharedPreferences = getActivity().getSharedPreferences("Login",Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("Email",userInfo.getString("username"));
-                    editor.putString("Password",userInfo.getString("password"));
-                    editor.putString("Username",nickname);
-                    editor.putString("Bio",introduction);
-                    editor.putBoolean("LoginState",true);
-                    //TODO: avatar
-                    editor.commit();
-                }catch (Exception e){
-                    e.printStackTrace();
+                sharedPreferences = getActivity().getSharedPreferences("Login",Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("Email",userInfo.getString("username"));
+                editor.putString("Password",userInfo.getString("password"));
+                editor.putString("Username",nickname);
+                editor.putString("Bio",introduction);
+                editor.putBoolean("LoginState",true);
+                //TODO: avatar
+                editor.apply();
                 }
+            }catch (Exception e){
+                e.printStackTrace();
             }
         }
     }
