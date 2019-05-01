@@ -1,6 +1,7 @@
 package com.wedo.studybar.util;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.JsonReader;
 import android.util.Log;
@@ -180,5 +181,73 @@ public class QueryUtils {
         return books;
     }
 
+    /**
+     * 读取用户发起的话题
+     * */
+    public static List<Discussion> extractDiscussionsByUser(Context context){
+        String discussionsByUser = "http://39.97.181.175:8080/study/user_GetTopics.action";
+
+        URL url = createUrl(discussionsByUser);
+        String topicsJSON = null;
+        List<Discussion> discussions = new ArrayList<>();
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Login",Context.MODE_PRIVATE);
+
+        try{
+            HttpURLConnection urlConnection = null;
+            InputStream inputStream = null;
+            urlConnection = (HttpURLConnection)url.openConnection();
+            urlConnection.setRequestMethod("GET");
+            urlConnection.setRequestProperty("cookie",sharedPreferences.getString("SESSION_ID",""));
+
+            Log.e("SESSION",sharedPreferences.getString("SESSION_ID",""));
+
+            urlConnection.setReadTimeout(10000 /* milliseconds */);
+            urlConnection.setConnectTimeout(15000 /* milliseconds */);
+            urlConnection.connect();
+                /*
+                if(urlConnection.getResponseCode() == 200){
+                    inputStream = urlConnection.getInputStream();
+                    topicsJSON = readFromStream(inputStream);
+                }
+                else{
+                    Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
+                }
+                */
+            inputStream = urlConnection.getInputStream();
+            topicsJSON = readFromStream(inputStream);
+
+            if(urlConnection != null){
+                urlConnection.disconnect();
+            }
+            if(inputStream != null){
+                inputStream.close();
+            }
+
+            if(TextUtils.isEmpty(topicsJSON)){
+                return null;
+            }
+            JSONObject base = new JSONObject(topicsJSON);
+            if (base.getString("result").matches("success")){
+                JSONArray discussiconsArray = base.getJSONArray("usertopic");
+
+                for (int i=0; i<discussiconsArray.length(); i++){
+                    JSONObject discussion = discussiconsArray.getJSONObject(i);
+
+                    String discussionId = discussion.getString("id");
+                    String discussionTitle = discussion.getString("title");
+                    String discussionContent = discussion.getString("content");
+                    String discussionCommentsNum = discussion.getString("countComment");
+
+                    JSONObject authorObject = discussion.getJSONObject("topicsUser");
+                    String discussionAuthor = authorObject.getString("nickname");
+
+                    discussions.add(new Discussion(discussionId,discussionAuthor,discussionTitle,discussionContent,discussionCommentsNum));
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return discussions;
+    }
 
 }

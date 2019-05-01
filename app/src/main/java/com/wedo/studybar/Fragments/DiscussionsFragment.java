@@ -236,7 +236,7 @@ public class DiscussionsFragment extends Fragment {
                     swipeRefreshLayout.setVisibility(View.GONE);
                     reminder.setVisibility(View.VISIBLE);
                 }else{
-                    final JSONArray discussionsJSONArray = base.getJSONObject("user").getJSONArray("userTopics");
+                    final JSONArray discussionsJSONArray = base.getJSONObject("user").getJSONArray("usertopic");
                     String discussions = discussionsJSONArray.toString();
                     final ArrayList<Discussion> discussionsArrayList = (ArrayList<Discussion>) QueryUtils.extractTopicsFromJson(discussions);
                     DiscussionAdapter discussionAdapter = new DiscussionAdapter(getActivity(),discussionsArrayList);

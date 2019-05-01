@@ -3,6 +3,8 @@ package com.wedo.studybar.Adapter;
 import android.app.Activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import katex.hourglass.in.mathlib.MathView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +39,9 @@ public class DiscussionAdapter extends ArrayAdapter<Discussion> {
         TextView discussionTitle = (TextView)discussionItemView.findViewById(R.id.discussion_title);
         discussionTitle.setText(currentAndroidAdapter.getDiscussionTitle());
 
-        TextView discussionContent = (TextView)discussionItemView.findViewById(R.id.discussion_content);
-        discussionContent.setText(currentAndroidAdapter.getDiscussionContent());
+        MathView discussionContent = discussionItemView.findViewById(R.id.discussion_content);
+        discussionContent.setDisplayText(currentAndroidAdapter.getDiscussionContent());
+        discussionContent.setTextSize(14);
 
         //TextView discussionNumOfLikes = (TextView)discussionItemView.findViewById(R.id.discussion_num_of_likes);
         //discussionNumOfLikes.setText(currentAndroidAdapter.getNumOfLikes());

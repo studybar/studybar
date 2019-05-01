@@ -119,6 +119,7 @@
     <string name="no_internet">No Internet Connection.</string>
     <string name="no_books">No Books Found.</string>
     <string name="avatar">Avatar</string>
+    <string name="no_discussion">No Discussions Found.</string>
 
     <string-array name="category_array">
         <item>@string/select_book_category</item>
