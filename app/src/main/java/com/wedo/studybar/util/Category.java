@@ -2,17 +2,17 @@ package com.wedo.studybar.util;
 
 public class Category {
     private String mCategoryId;
-    private String mCategoryName;
+    private Integer mCategoryName;
 
-    public Category(String categoryId,String categoryName){
+    public Category(String categoryId,Integer categoryName){
         mCategoryId = categoryId;
         mCategoryName = categoryName;
     }
 
-    public String getmCategoryId(){
+    public String getCategoryId(){
         return mCategoryId;
     }
-    public String getCategoryName(){
+    public Integer getCategoryName(){
         return mCategoryName;
     }
 }

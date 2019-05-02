@@ -1,6 +1,7 @@
 package com.wedo.studybar.loader;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.wedo.studybar.util.Book;
 import com.wedo.studybar.util.QueryUtils;
@@ -29,6 +30,7 @@ public class BooksLoader extends AsyncTaskLoader<List<Book>> {
     @Override
     public List<Book> loadInBackground() {
         List<Book> books = QueryUtils.extractBooks(categoryName);
+        Log.e("CATE_NAME_LOADER",categoryName);
         return books;
     }
 }

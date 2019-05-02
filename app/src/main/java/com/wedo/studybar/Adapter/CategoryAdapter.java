@@ -9,20 +9,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wedo.studybar.R;
+import com.wedo.studybar.util.Category;
 
 import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
 
-    private List<String> mCategoryIds;
-    private List<Integer> mCategoryNames;
     private ItemClickListener mClickListener;
     private LayoutInflater mInflater;
+    private List<Category> categories;
 
-    public CategoryAdapter(Context context,List<String> categoryId,List<Integer> categoryNames){
+    public CategoryAdapter(Context context, List<Category> categories){
         this.mInflater = LayoutInflater.from(context);
-        this.mCategoryIds = categoryId;
-        this.mCategoryNames = categoryNames;
+        this.categories = categories;
     }
 
     @NonNull
@@ -36,13 +35,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder categoryViewHolder, int position) {
-        Integer categoryNames = mCategoryNames.get(position);
-        categoryViewHolder.categoryNameTextView.setText(categoryNames);
+        Integer categoryName = categories.get(position).getCategoryName();
+        categoryViewHolder.categoryNameTextView.setText(categoryName);
     }
 
     @Override
     public int getItemCount() {
-        return mCategoryNames.size();
+        return categories.size();
     }
 
     public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -62,11 +61,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     }
 
     public Integer getCategoryName(int id){
-        return mCategoryNames.get(id);
+        return categories.get(id).getCategoryName();
     }
 
     public String getCategoryId(int id){
-        return mCategoryIds.get(id);
+        return categories.get(id).getCategoryId();
     }
 
     public void setClickListener(ItemClickListener itemClickListener){

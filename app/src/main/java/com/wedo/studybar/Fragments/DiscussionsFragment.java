@@ -30,6 +30,7 @@ import com.wedo.studybar.R;
 import com.wedo.studybar.activities.BookDetailActivity;
 import com.wedo.studybar.activities.DiscussionDetailActivity;
 import com.wedo.studybar.loader.discussionsLoader;
+import com.wedo.studybar.util.Book;
 import com.wedo.studybar.util.Discussion;
 
 import java.util.ArrayList;
@@ -151,34 +152,22 @@ public class DiscussionsFragment extends Fragment implements androidx.loader.app
         ViewGroup bookHeader = (ViewGroup)mInflater.inflate(R.layout.discussion_fragment_header,listView,false);
         listView.addHeaderView(bookHeader);
 
-        ArrayList<String> horizontalBookIds = new ArrayList<>();
-        horizontalBookIds.add("8378001");
-        horizontalBookIds.add("8378002");
-        horizontalBookIds.add("8378003");
-        horizontalBookIds.add("8378004");
-        horizontalBookIds.add("8378005");
-        horizontalBookIds.add("8378006");
-
-        ArrayList<Integer> horizontalBookCovers = new ArrayList<>();
-        horizontalBookCovers.add(R.drawable.test);
-        horizontalBookCovers.add(R.drawable.test);
-        horizontalBookCovers.add(R.drawable.test);
-        horizontalBookCovers.add(R.drawable.test);
-        horizontalBookCovers.add(R.drawable.test);
-        horizontalBookCovers.add(R.drawable.test);
-
-        ArrayList<String> horizontalBookNames = new ArrayList<>();
-        horizontalBookNames.add("习近平谈治国理");
-        horizontalBookNames.add("习近平谈治国理政");
-        horizontalBookNames.add("习近平谈治国理政");
-        horizontalBookNames.add("习近平谈治国理政");
-        horizontalBookNames.add("习近平谈治国理政");
-        horizontalBookNames.add("习近平谈治国理政");
+        ArrayList<Book> books = new ArrayList<>();
+        books.add(new Book("8378001","习近平谈治国理政",R.drawable.test));
+        books.add(new Book("8378001","习近平谈治国理政",R.drawable.test));
+        books.add(new Book("8378001","习近平谈治国理政",R.drawable.test));
+        books.add(new Book("8378001","习近平谈治国理政",R.drawable.test));
+        books.add(new Book("8378001","习近平谈治国理政",R.drawable.test));
+        books.add(new Book("8378001","习近平谈治国理政",R.drawable.test));
+        books.add(new Book("8378001","习近平谈治国理政",R.drawable.test));
+        books.add(new Book("8378001","习近平谈治国理政",R.drawable.test));
+        books.add(new Book("8378001","习近平谈治国理政",R.drawable.test));
+        books.add(new Book("8378001","习近平谈治国理政",R.drawable.test));
 
         RecyclerView horizontalBookRecyclerView = rootView.findViewById(R.id.discussion_books_recycler_view);
         LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
         horizontalBookRecyclerView.setLayoutManager(horizontalLayoutManager);
-        mHorizontalBookAdapter = new HorizontalBookAdapter(getActivity(),horizontalBookIds,horizontalBookCovers,horizontalBookNames);
+        mHorizontalBookAdapter = new HorizontalBookAdapter(getActivity(),books);
         mHorizontalBookAdapter.setClickListener(
                 new HorizontalBookAdapter.ItemClickListener() {
                     @Override
