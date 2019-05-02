@@ -23,15 +23,15 @@ public class Discussion {
      * @param discussionAuthor means the user who wrote this comment
      * @param discussionContent means the content of the comment
      * */
-    public Discussion(String discussionId,String discussionAuthor,String discussionContent,String discussionNumberOfComments){
+    public Discussion(String discussionId,String discussionAuthor,String discussionContent){
         mDiscussionId = discussionId;
         mDiscussionAuthor = discussionAuthor;
         mDiscussionContent = discussionContent;
         //mDiscussionNumberOfLikes = discussionNumberOfLikes;
-        mDiscussionNumberOfComments = discussionNumberOfComments;
+        //mDiscussionNumberOfComments = discussionNumberOfComments;
     }
 
-    public String getmDiscussionId(){
+    public String getDiscussionId(){
         return mDiscussionId;
     }
 

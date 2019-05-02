@@ -1,13 +1,23 @@
 package com.wedo.studybar.activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import katex.hourglass.in.mathlib.MathView;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,22 +27,31 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wedo.studybar.Adapter.CommentAdapter;
 import com.wedo.studybar.R;
+import com.wedo.studybar.loader.discussionDetailLoader;
 import com.wedo.studybar.util.Discussion;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class DiscussionDetailActivity extends AppCompatActivity {
+public class DiscussionDetailActivity extends AppCompatActivity implements androidx.loader.app.LoaderManager.LoaderCallbacks<List<Discussion>> {
 
     private SwipeRefreshLayout swipeRefreshLayout;
+    private ListView listView;
+    private FloatingActionButton floatingActionButton;
+    private TextView emptyStateTextView;
+    private ProgressBar progressBar;
+    private CommentAdapter commentAdapter;
+    private String discussionId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,82 +61,58 @@ public class DiscussionDetailActivity extends AppCompatActivity {
 
 
         swipeRefreshLayout = findViewById(R.id.discussion_detail_refresh_layout);
+        listView = findViewById(R.id.comments_of_discussion);
+        floatingActionButton = findViewById(R.id.comment_floating_action_button);
+        emptyStateTextView = findViewById(R.id.discussions_detail_empty_view);
+        progressBar = findViewById(R.id.discussions_detail_load_progress);
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 if(!swipeRefreshLayout.isRefreshing()){
                     swipeRefreshLayout.setRefreshing(true);
+                    progressBar.setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.GONE);
+                    floatingActionButton.setVisibility(View.GONE);
+                    loadDiscussionDetail();
                 }
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
 
-        ListView listView = (ListView)findViewById(R.id.comments_of_discussion);
-
-        String discussionId = getIntent().getStringExtra("DISCUSSION_ID");
+        discussionId = getIntent().getStringExtra("DISCUSSION_ID");
         String discussionAuthor = getIntent().getStringExtra("DISCUSSION_AUTHOR");
         String discussionTitle = getIntent().getStringExtra("DISCUSSION_TITLE");
         String discussionContent = getIntent().getStringExtra("DISCUSSION_CONTENT");
-        //String discussionLikesNum = getIntent().getStringExtra("DISCUSSION_LIKES_NUM");
-        //String discussionCommentsNum = getIntent().getStringExtra("DISCUSSION_COMMENTS_NUM");
 
-        String commentJson = getIntent().getStringExtra("COMMENT_JSON");
+        loadDiscussionDetail();
 
-        try {
-            JSONArray commentsArray = new JSONArray(commentJson);
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-        /*
-        final ArrayList<Discussion> comments = new ArrayList<Discussion>();
-
-        comments.add(new Discussion("26663680001",getString(R.string.discussion_author_pre)+"nobody","Here is the content of this discussion.$x=\\frac{1+y}{1+2z^2}$.$\\vec{F}=\\frac{d\\vec{p}}{dt}=m\\frac{d\\vec{v}}{dt}=m\\vec{a}$Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","89"));
-        comments.add(new Discussion("26663680002",getString(R.string.discussion_author_pre)+"nobody","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","89"));
-        comments.add(new Discussion("26663680003",getString(R.string.discussion_author_pre)+"nobody","Here is the content of this discussion.","64","89"));
-        comments.add(new Discussion("26663680004",getString(R.string.discussion_author_pre)+"nobody","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","89"));
-        comments.add(new Discussion("26663680005",getString(R.string.discussion_author_pre)+"nobody","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","89"));
-        comments.add(new Discussion("26663680006",getString(R.string.discussion_author_pre)+"nobody","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","89"));
-        comments.add(new Discussion("26663680007",getString(R.string.discussion_author_pre)+"nobody","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","89"));
-        comments.add(new Discussion("26663680008",getString(R.string.discussion_author_pre)+"nobody","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","89"));
-        comments.add(new Discussion("26663680009",getString(R.string.discussion_author_pre)+"nobody","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","89"));
-        comments.add(new Discussion("26663680010",getString(R.string.discussion_author_pre)+"nobody","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","89"));
-        comments.add(new Discussion("26663680011",getString(R.string.discussion_author_pre)+"nobody","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","89"));
-        comments.add(new Discussion("26663680012",getString(R.string.discussion_author_pre)+"nobody","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","89"));
-        comments.add(new Discussion("26663680013",getString(R.string.discussion_author_pre)+"nobody","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","89"));
-        comments.add(new Discussion("26663680014",getString(R.string.discussion_author_pre)+"nobody","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","89"));
-        comments.add(new Discussion("26663680015",getString(R.string.discussion_author_pre)+"nobody","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","89"));
-        comments.add(new Discussion("26663680016",getString(R.string.discussion_author_pre)+"nobody","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","89"));
-        comments.add(new Discussion("26663680017",getString(R.string.discussion_author_pre)+"nobody","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","89"));
-        comments.add(new Discussion("26663680018",getString(R.string.discussion_author_pre)+"nobody","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","89"));
-        comments.add(new Discussion("26663680019",getString(R.string.discussion_author_pre)+"nobody","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","89"));
-
-        CommentAdapter itemsAdapter = new CommentAdapter(this,comments);
-        */
-
+        final ArrayList<Discussion> comments = new ArrayList<>();
+        commentAdapter = new CommentAdapter(this,comments);
+        listView.setEmptyView(emptyStateTextView);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //todo:to comment detail
+            }
+        });
+        listView.setAdapter(commentAdapter);
 
         LayoutInflater mInflater = getLayoutInflater();
         ViewGroup bookHeader = (ViewGroup)mInflater.inflate(R.layout.comment_topic_header_view,listView,false);
         listView.addHeaderView(bookHeader);
+        listView.setHeaderDividersEnabled(true);;
 
-        //listView.setAdapter(itemsAdapter);
-
-        //Discussion topic = new Discussion(getString(R.string.discussion_author_pre)+"nobody","Here is the title of this discussion.Here is the title of this discussion.","Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.Here is the content of this discussion.","64","64");
         TextView commentTopicAuthor = (TextView)findViewById(R.id.comment_topic_author);
         TextView commentTopicTitle = (TextView)findViewById(R.id.comment_topic_title);
-        TextView commentTopicContent = (TextView)findViewById(R.id.comment_topic_content);
-        //TextView commentTopicNumOfComments = (TextView)findViewById(R.id.comment_topic_num_of_comments);
+        MathView commentTopicContent = findViewById(R.id.comment_topic_content);
 
-        commentTopicAuthor.setText(getString(R.string.discussion_author_pre)+discussionAuthor);
-        commentTopicTitle.setText(discussionContent);
-        commentTopicContent.setText(discussionContent);
-        //commentTopicNumOfComments.setText(discussionCommentsNum);
-        //commentTopicNumOfLikes.setText();
+        commentTopicAuthor.setText(discussionAuthor);
+        commentTopicTitle.setText(discussionTitle);
+        commentTopicContent.setDisplayText(discussionContent);
+        commentTopicContent.setTextSize(14);
 
-
-        FloatingActionButton fab = findViewById(R.id.comment_floating_action_button);
-        fab.setOnClickListener(new View.OnClickListener() {
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), DiscussionCommentActivity.class);
@@ -150,10 +145,57 @@ public class DiscussionDetailActivity extends AppCompatActivity {
         }
     }
 
+    private void loadDiscussionDetail(){
+        // Get a reference to the ConnectivityManager to check state of network connectivity
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // Get details on the currently active default data network
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        // If there is a network connection, fetch data
+        if (networkInfo != null && networkInfo.isConnected()) {
+            // 引用 LoaderManager，以便与 loader 进行交互。
+            LoaderManager loaderManager = getSupportLoaderManager();
+
+            // 初始化 loader。传递上面定义的整数 ID 常量并为为捆绑
+            // 传递 null。为 LoaderCallbacks 参数（由于
+            // 此活动实现了 LoaderCallbacks 接口而有效）传递此活动。
+            loaderManager.initLoader(1, null, this);
+        }
+        else{
+            progressBar.setVisibility(View.GONE);
+            emptyStateTextView.setText(R.string.no_internet);
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.discussion_menu,menu);
         return true;
+    }
+
+    @NonNull
+    @Override
+    public Loader<List<Discussion>> onCreateLoader(int id, @Nullable Bundle args) {
+        return new discussionDetailLoader(this,discussionId);
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<List<Discussion>> loader, List<Discussion> comments) {
+        progressBar.setVisibility(View.GONE);
+        emptyStateTextView.setText(R.string.no_discussion);
+        if(commentAdapter !=null){
+            commentAdapter.clear();
+        }
+        if(comments != null && !comments.isEmpty()){
+            commentAdapter.addAll(comments);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<List<Discussion>> loader) {
+        commentAdapter.clear();
     }
 }

@@ -1,21 +1,16 @@
 package com.wedo.studybar.Fragments;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,12 +19,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.wedo.studybar.Adapter.DiscussionAdapter;
 import com.wedo.studybar.Adapter.HorizontalBookAdapter;
@@ -38,11 +31,6 @@ import com.wedo.studybar.activities.BookDetailActivity;
 import com.wedo.studybar.activities.DiscussionDetailActivity;
 import com.wedo.studybar.loader.discussionsLoader;
 import com.wedo.studybar.util.Discussion;
-import com.wedo.studybar.util.QueryUtils;
-import com.wedo.studybar.util.loginAsyncTask;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,8 +105,13 @@ public class DiscussionsFragment extends Fragment implements androidx.loader.app
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //todo:如何与后台传值待写
+                position--;
+                Log.e("POSITION",String.valueOf(position));
                 Intent intent = new Intent(getActivity(), DiscussionDetailActivity.class);
+                intent.putExtra("DISCUSSION_ID",discussions.get(position).getDiscussionId());
+                intent.putExtra("DISCUSSION_AUTHOR",discussions.get(position).getDiscussionAuthor());
+                intent.putExtra("DISCUSSION_TITLE",discussions.get(position).getDiscussionTitle());
+                intent.putExtra("DISCUSSION_CONTENT",discussions.get(position).getDiscussionContent());
                 startActivity(intent);
             }
         });

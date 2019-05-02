@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -78,6 +79,107 @@ public class QueryUtils {
             if(inputStream != null){
                 inputStream.close();
             }
+        }
+        return jsonResponse;
+    }
+
+    private static String makeHttpRequest(Context context,URL url) throws IOException{
+        String jsonResponse = "";
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Login",Context.MODE_PRIVATE);
+
+        if(url == null){
+            return jsonResponse;
+        }
+        HttpURLConnection urlConnection = null;
+        InputStream inputStream = null;
+        try{
+            urlConnection = (HttpURLConnection)url.openConnection();
+            urlConnection.setRequestMethod("GET");
+            urlConnection.setRequestProperty("cookie",sharedPreferences.getString("SESSION_ID",""));
+            urlConnection.setReadTimeout(10000 /* milliseconds */);
+            urlConnection.setConnectTimeout(15000 /* milliseconds */);
+            urlConnection.connect();
+            if(urlConnection.getResponseCode() == 200){
+                inputStream = urlConnection.getInputStream();
+                jsonResponse = readFromStream(inputStream);
+            }
+            else{
+                Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
+            }
+        }catch (IOException e){
+            Log.e(LOG_TAG, "Problem retrieving the earthquake JSON results.", e);
+        }finally {
+            if(urlConnection != null){
+                urlConnection.disconnect();
+            }
+            if(inputStream != null){
+                inputStream.close();
+            }
+        }
+        return jsonResponse;
+    }
+
+    private static String makeHttpRequest(Context context,URL url,String id) throws IOException{
+        String jsonResponse = "";
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Login",Context.MODE_PRIVATE);
+
+        if(url == null){
+            return jsonResponse;
+        }
+        HttpURLConnection urlConnection = null;
+        InputStream inputStream = null;
+        try{
+            urlConnection = (HttpURLConnection)url.openConnection();
+
+            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+            urlConnection.setRequestProperty("Accept","application/json");
+            urlConnection.setRequestProperty("cookie",sharedPreferences.getString("SESSION_ID",""));
+            urlConnection.setDoOutput(true);
+            urlConnection.setDoInput(true);
+
+            JSONObject idJSON = new JSONObject();
+            idJSON.put("id",id);
+
+            DataOutputStream dataOutputStream = new DataOutputStream(urlConnection.getOutputStream());
+            dataOutputStream.writeBytes(idJSON.toString());
+
+            dataOutputStream.flush();
+            dataOutputStream.close();
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+            String decodedString;
+            StringBuilder stringBuilder = new StringBuilder();
+            while ((decodedString = in.readLine()) != null) {
+                stringBuilder.append(decodedString);
+            }
+            in.close();
+            //YOUR RESPONSE
+            jsonResponse = stringBuilder.toString();
+
+            /*
+            urlConnection.setRequestMethod("GET");
+            urlConnection.setReadTimeout(10000 );
+            urlConnection.setConnectTimeout(15000 );
+
+            //urlConnection.connect();
+            if(urlConnection.getResponseCode() == 200){
+                inputStream = urlConnection.getInputStream();
+                jsonResponse = readFromStream(inputStream);
+            }
+            else{
+                Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
+            }
+            */
+        }catch (Exception e){
+            Log.e(LOG_TAG, "Problem retrieving the JSON results.", e);
+        }finally {
+            if(urlConnection != null){
+                urlConnection.disconnect();
+            }
+            //if(inputStream != null){
+              //  inputStream.close();
+            //}
         }
         return jsonResponse;
     }
@@ -192,34 +294,8 @@ public class QueryUtils {
         List<Discussion> discussions = new ArrayList<>();
         SharedPreferences sharedPreferences = context.getSharedPreferences("Login",Context.MODE_PRIVATE);
 
-        try{
-            HttpURLConnection urlConnection = null;
-            InputStream inputStream = null;
-            urlConnection = (HttpURLConnection)url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setRequestProperty("cookie",sharedPreferences.getString("SESSION_ID",""));
-
-            Log.e("SESSION",sharedPreferences.getString("SESSION_ID",""));
-
-            urlConnection.setReadTimeout(10000 /* milliseconds */);
-            urlConnection.setConnectTimeout(15000 /* milliseconds */);
-            urlConnection.connect();
-
-                if(urlConnection.getResponseCode() == 200){
-                    inputStream = urlConnection.getInputStream();
-                    topicsJSON = readFromStream(inputStream);
-                }
-                else{
-                    Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
-                }
-
-            if(urlConnection != null){
-                urlConnection.disconnect();
-            }
-            if(inputStream != null){
-                inputStream.close();
-            }
-
+        try {
+            topicsJSON = makeHttpRequest(context,url);
             if(TextUtils.isEmpty(topicsJSON)){
                 return null;
             }
@@ -258,34 +334,8 @@ public class QueryUtils {
         List<Discussion> topics = new ArrayList<>();
         SharedPreferences sharedPreferences = context.getSharedPreferences("Login",Context.MODE_PRIVATE);
 
-        try{
-            HttpURLConnection urlConnection = null;
-            InputStream inputStream = null;
-            urlConnection = (HttpURLConnection)url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setRequestProperty("cookie",sharedPreferences.getString("SESSION_ID",""));
-
-            Log.e("SESSION",sharedPreferences.getString("SESSION_ID",""));
-
-            urlConnection.setReadTimeout(10000 /* milliseconds */);
-            urlConnection.setConnectTimeout(15000 /* milliseconds */);
-            urlConnection.connect();
-
-                if(urlConnection.getResponseCode() == 200){
-                    inputStream = urlConnection.getInputStream();
-                    discussionsJSON = readFromStream(inputStream);
-                }
-                else{
-                    Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
-                }
-
-            if(urlConnection != null){
-                urlConnection.disconnect();
-            }
-            if(inputStream != null){
-                inputStream.close();
-            }
-
+        try {
+            discussionsJSON = makeHttpRequest(context,url);
             if(TextUtils.isEmpty(discussionsJSON)){
                 return null;
             }
@@ -313,7 +363,42 @@ public class QueryUtils {
             e.printStackTrace();
         }
         return topics;
+    }
 
+    /**
+     * 读取话题详情
+     * */
+    public static List<Discussion> extractDiscussionDetail(Context context,String discussionId){
+        String discussionDetailUrl = "http://39.97.181.175:8080/study/topic_goTopic.action";
+
+        Log.e("ID",discussionId);
+
+        URL url = createUrl(discussionDetailUrl);
+        String discussionDetailJSON = null;
+        List<Discussion> comments = new ArrayList<>();
+
+        try {
+            discussionDetailJSON = makeHttpRequest(context,url,discussionId);
+            if (TextUtils.isEmpty(discussionDetailJSON)) {
+                return null;
+            }
+            JSONObject base = new JSONObject(discussionDetailJSON);
+            JSONArray commentsArray = base.getJSONArray("topiccomment");
+            for (int i = 0; i < commentsArray.length(); i++){
+                JSONObject comment = commentsArray.getJSONObject(i);
+
+                String commentId = comment.getString("id");
+                String commentContent = comment.getString("content");
+
+                JSONObject author = comment.getJSONObject("commentsUser");
+                String commentUser = author.getString("nickname");
+
+                comments.add(new Discussion(commentId,commentUser,commentContent));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return comments;
     }
 
 }

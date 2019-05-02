@@ -232,45 +232,6 @@ public class AddBookActivity extends AppCompatActivity {
         }
     }
 
-    private static class SendBookInfo extends AsyncTask<String,Void,String>{
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            String data = "";
-
-            HttpURLConnection httpURLConnection = null;
-            try{
-                httpURLConnection = (HttpURLConnection)new URL(params[0]).openConnection();
-                httpURLConnection.setRequestMethod("POST");
-
-                httpURLConnection.setDoOutput(true);
-
-                DataOutputStream dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
-                dataOutputStream.writeBytes(params[1]);
-                dataOutputStream.flush();
-                dataOutputStream.close();
-
-                InputStream inputStream = httpURLConnection.getInputStream();
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-
-                int inputStreamData = inputStreamReader.read();
-                while (inputStreamData != -1){
-                    char current = (char) inputStreamData;
-                    inputStreamData = inputStreamReader.read();
-                    data += current;
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-            }finally {
-                if(httpURLConnection != null){
-                    httpURLConnection.disconnect();
-                }
-            }
-            return data;
-        }
-    }
-
     private void sendPost(){
         Thread thread = new Thread(new Runnable() {
             @Override

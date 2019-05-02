@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -69,6 +70,12 @@ public class MyDiscussionsActivity extends AppCompatActivity implements androidx
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //TODO: passing values
                 Intent intent = new Intent(getApplicationContext(),DiscussionDetailActivity.class);
+                Log.e("POSITION",String.valueOf(position));
+
+                intent.putExtra("DISCUSSION_ID",discussions.get(position).getDiscussionId());
+                intent.putExtra("DISCUSSION_AUTHOR",discussions.get(position).getDiscussionAuthor());
+                intent.putExtra("DISCUSSION_TITLE",discussions.get(position).getDiscussionTitle());
+                intent.putExtra("DISCUSSION_CONTENT",discussions.get(position).getDiscussionContent());
                 startActivity(intent);
             }
         });
