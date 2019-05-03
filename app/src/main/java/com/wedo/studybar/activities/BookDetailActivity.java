@@ -84,8 +84,6 @@ public class BookDetailActivity extends AppCompatActivity implements androidx.lo
                     listView.setVisibility(View.GONE);
                     loadBookDetail();
                 }
-
-                swipeRefreshLayout.setRefreshing(false);
             }
         });
         bookId = getIntent().getStringExtra("BOOK_ID");

@@ -10,33 +10,17 @@
         android:id="@+id/notification_avatar"
         android:layout_width="48dp"
         android:layout_height="match_parent"
-        tools:src="@drawable/avatar_example"
+        tools:src="@drawable/ic_notification_alert"
         android:contentDescription="@string/notification_avatar"/>
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/notification_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:paddingStart="8dp"
-        android:paddingEnd="8dp">
-
-        <TextView
-            android:id="@+id/notification_title"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:textStyle="bold"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            tools:text="You have a new message." />
-
-        <TextView
-            android:id="@+id/notification_detail"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            tools:text="Go fuck yourself."
-            android:maxLines="1"/>
-
-    </LinearLayout>
+        android:paddingEnd="8dp"
+        android:textStyle="bold"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        tools:text="You have a new message." />
 
 </LinearLayout>

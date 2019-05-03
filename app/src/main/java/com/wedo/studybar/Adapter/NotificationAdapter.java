@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wedo.studybar.util.Notification;
@@ -32,13 +31,7 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
         Notification currentAndroidAdapter = getItem(position);
 
         TextView notificationTitle = (TextView)notificationItemView.findViewById(R.id.notification_title);
-        notificationTitle.setText(currentAndroidAdapter.getTitle());
-
-        TextView notificationDetail = (TextView)notificationItemView.findViewById(R.id.notification_detail);
-        notificationDetail.setText(currentAndroidAdapter.getDetail());
-
-        ImageView image = (ImageView)notificationItemView.findViewById(R.id.notification_avatar);
-        image.setImageResource(currentAndroidAdapter.getImageResourceId());
+        notificationTitle.setText(currentAndroidAdapter.getNotificationContent());
 
         return notificationItemView;
     }

@@ -1,71 +1,56 @@
 package com.wedo.studybar.Fragments;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.AsyncTask;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.wedo.studybar.Adapter.NotificationAdapter;
 import com.wedo.studybar.activities.DiscussionDetailActivity;
+import com.wedo.studybar.loader.notificationLoader;
 import com.wedo.studybar.util.Notification;
 import com.wedo.studybar.R;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
 
-public class NotificationsFragment extends Fragment {
+public class NotificationsFragment extends Fragment implements androidx.loader.app.LoaderManager.LoaderCallbacks<List<Notification>> {
 
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private ListView listView;
-    private ProgressBar listFooterView;
+    private TextView emptyStateTextView;
+    private ProgressBar progressBar;
+
     private NotificationAdapter itemsAdapter;
-    private Boolean flag_loading = false;
+    private Boolean isRefreshing = false;
 
-    private int pageCount = 1;
-
-    private NotificationAsyncTaskWait asyncTaskWait;
-
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            listViewLoadMore();
-        }
-    };
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        IntentFilter intentFilter = new IntentFilter("NOTIFICATION_LOAD_MORE");
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver, intentFilter);
-    }
-
-    @Override
-    public void onPause(){
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastReceiver);
-        super.onPause();
-    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_notifications,container,false);
 
-        mSwipeRefreshLayout = rootView.findViewById(R.id.notification_refresh_layout);
-        listView = (ListView)rootView.findViewById(R.id.notification_list);
+        swipeRefreshLayout = rootView.findViewById(R.id.notification_refresh_layout);
+        listView = rootView.findViewById(R.id.notification_list);
+        emptyStateTextView = rootView.findViewById(R.id.notification_empty_view);
+        progressBar = rootView.findViewById(R.id.notification_load_progress);
         return rootView;
     }
 
@@ -73,123 +58,100 @@ public class NotificationsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        loadNotifications();
+
         final ArrayList<Notification> notifications = new ArrayList<Notification>();
-
-        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
-        notifications.add(new Notification("You have a new message","Search your feelings, Lord Vader. ",R.drawable.avatar_example));
-
         itemsAdapter = new NotificationAdapter(getActivity(),notifications);
-
+        listView.setEmptyView(emptyStateTextView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //todo:passing values
                 Intent intent = new Intent(getActivity(), DiscussionDetailActivity.class);
+                intent.putExtra("DISCUSSION_ID",notifications.get(position).getNotificationTopic().getDiscussionId());
+                intent.putExtra("DISCUSSION_AUTHOR",notifications.get(position).getNotificationTopic().getDiscussionAuthor());
+                intent.putExtra("DISCUSSION_TITLE",notifications.get(position).getNotificationTopic().getDiscussionTitle());
+                intent.putExtra("DISCUSSION_CONTENT",notifications.get(position).getNotificationTopic().getDiscussionContent());
                 startActivity(intent);
             }
         });
         listView.setAdapter(itemsAdapter);
-        setListViewFooter();
-        listView.setFooterDividersEnabled(false);
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if(scrollState == SCROLL_STATE_IDLE){
-                    if(listView.getLastVisiblePosition() >= listView.getCount() - 1){
-                        if(!flag_loading){
-                            flag_loading = true;
-                            listFooterView.setVisibility(View.VISIBLE);
-                            //todo:add items
-                            asyncTaskWait = new NotificationAsyncTaskWait(new WeakReference<Context>(getContext()));
-                            asyncTaskWait.execute();
-                        }
-                    }
-                }
-            }
 
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-            }
-        });
-
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 // Make sure that the SwipeRefreshLayout is displaying it's refreshing indicator
-                if (!mSwipeRefreshLayout.isRefreshing()) {
-                    mSwipeRefreshLayout.setRefreshing(true);
+                if(!swipeRefreshLayout.isRefreshing()){
+                    swipeRefreshLayout.setRefreshing(true);
+                    isRefreshing = true;
+                    progressBar.setVisibility(View.GONE);
+                    listView.setVisibility(View.GONE);
+                    loadNotifications();
+                    Log.e("REFRESH","START");
                 }
-                //todo:start background task
-                mSwipeRefreshLayout.setRefreshing(false);
-
             }
         });
     }
 
-    /**
-     * load more content
-     * */
-    private void listViewLoadMore(){
-        itemsAdapter.add(new Notification("You have a new message","Roll it again ",R.drawable.avatar_example));
-        itemsAdapter.add(new Notification("You have a new message","Roll it again ",R.drawable.avatar_example));
-        itemsAdapter.add(new Notification("You have a new message","Roll it again ",R.drawable.avatar_example));
-        itemsAdapter.add(new Notification("You have a new message","Roll it again ",R.drawable.avatar_example));
-        itemsAdapter.add(new Notification("You have a new message","Roll it again ",R.drawable.avatar_example));
-        itemsAdapter.notifyDataSetChanged();
-        flag_loading = false;
-        listFooterView.setVisibility(View.GONE);
-    }
+    private void loadNotifications() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+        if(sharedPreferences.getBoolean("LoginState",false)){
+            // Get a reference to the ConnectivityManager to check state of network connectivity
+            ConnectivityManager connMgr = (ConnectivityManager)
+                    getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 
-    /**
-     * set the FooterView of listview
-     * use to show the progress bar
-     * */
-    private void setListViewFooter(){
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.footer_view_load_animation,null);
-        listFooterView = view.findViewById(R.id.footer_view_progressbar);
-        listView.addFooterView(listFooterView);
-    }
+            // Get details on the currently active default data network
+            NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
-    /**
-     * doInBackground: make the thread pause for 3 seconds
-     * onPostExecute: make a broadcast to load new content
-     * */
-    public static class NotificationAsyncTaskWait extends AsyncTask<Void, Void, Void> {
+            // If there is a network connection, fetch data
+            if (networkInfo != null && networkInfo.isConnected()) {
+                // 引用 LoaderManager，以便与 loader 进行交互。
+                LoaderManager loaderManager = getLoaderManager();
 
-        private WeakReference<Context> context;
-
-        private NotificationAsyncTaskWait(WeakReference<Context> context){
-            this.context = context;
-        }
-
-        @Override
-        protected Void doInBackground(Void...params){
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                if(isRefreshing){
+                    Log.e("REFRESH","RELOAD");
+                    loaderManager.restartLoader(1,null,this);
+                }else {
+                    // 初始化 loader。传递上面定义的整数 ID 常量并为为捆绑
+                    // 传递 null。为 LoaderCallbacks 参数（由于
+                    // 此活动实现了 LoaderCallbacks 接口而有效）传递此活动。
+                    loaderManager.initLoader(1, null, this);
+                }
             }
-            return null;
+            else{
+                progressBar.setVisibility(View.GONE);
+                emptyStateTextView.setText(R.string.no_internet);
+            }
+        }else {
+            emptyStateTextView.setText(R.string.plz_login_first);
+            emptyStateTextView.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
         }
+    }
 
-        @Override
-        protected void onPostExecute(Void nothing){
-            Intent intent = new Intent("NOTIFICATION_LOAD_MORE");
-            LocalBroadcastManager.getInstance(context.get().getApplicationContext()).sendBroadcast
-                    (intent);
+    @NonNull
+    @Override
+    public Loader<List<Notification>> onCreateLoader(int id, @Nullable Bundle args) {
+        return new notificationLoader(getActivity());
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<List<Notification>> loader, List<Notification> notifications){
+        progressBar.setVisibility(View.GONE);
+        listView.setVisibility(View.VISIBLE);
+        emptyStateTextView.setText(R.string.no_notifications);
+        swipeRefreshLayout.setRefreshing(false);
+        isRefreshing = false;
+        if(itemsAdapter != null){
+            itemsAdapter.clear();
         }
+        if(notifications != null && !notifications.isEmpty()){
+            itemsAdapter.addAll(notifications);
+        }
+        Log.e("REFRESH","LOAD FINISHED");
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<List<Notification>> loader) {
+        itemsAdapter.clear();
     }
 }

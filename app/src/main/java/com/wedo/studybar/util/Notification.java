@@ -1,17 +1,32 @@
 package com.wedo.studybar.util;
 
-public class Notification {
-    private String mTitle;
-    private String mDetail;
-    private int mImageResourceId;
+import android.content.Context;
 
-    public Notification(String title,String detail,int imageResourceId){
-        mTitle = title;
-        mDetail = detail;
-        mImageResourceId = imageResourceId;
+import com.wedo.studybar.R;
+
+public class Notification {
+    private Context context;
+    private String notificationId;
+    private String notificationCommentUser;
+    private Discussion topic;
+
+
+    public Notification(Context context, String notificationId,String notificationCommentUser,Discussion topic){
+        this.context = context;
+        this.notificationId = notificationId;
+        this.notificationCommentUser = notificationCommentUser;
+        this.topic = topic;
     }
 
-    public String getTitle(){ return mTitle; }
-    public String getDetail(){ return mDetail; }
-    public int getImageResourceId() { return mImageResourceId; }
+    public String getNotificationId(){
+        return notificationId;
+    }
+
+    public Discussion getNotificationTopic(){
+        return topic;
+    }
+
+    public String getNotificationContent(){
+        return context.getString(R.string.notification_message,notificationCommentUser,topic.getDiscussionTitle());
+    }
 }

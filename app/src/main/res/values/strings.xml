@@ -120,6 +120,8 @@
     <string name="no_books">No Books Found.</string>
     <string name="avatar">Avatar</string>
     <string name="no_discussion">No Discussions Found.</string>
+    <string name="notification_message">%1$s replied your topic: %2$s</string>
+    <string name="no_notifications">No Notification Found.</string>
 
     <string-array name="category_array">
         <item>@string/select_book_category</item>

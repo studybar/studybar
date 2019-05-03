@@ -71,7 +71,7 @@ public class QueryUtils {
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
         }catch (IOException e){
-            Log.e(LOG_TAG, "Problem retrieving the earthquake JSON results.", e);
+            Log.e(LOG_TAG, "Problem retrieving the JSON results.", e);
         }finally {
             if(urlConnection != null){
                 urlConnection.disconnect();
@@ -110,7 +110,7 @@ public class QueryUtils {
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
         }catch (IOException e){
-            Log.e(LOG_TAG, "Problem retrieving the earthquake JSON results.", e);
+            Log.e(LOG_TAG, "Problem retrieving the JSON results.", e);
         }finally {
             if(urlConnection != null){
                 urlConnection.disconnect();
@@ -237,7 +237,6 @@ public class QueryUtils {
         URL url = createUrl(discussionsByUser);
         String topicsJSON = null;
         List<Discussion> discussions = new ArrayList<>();
-        SharedPreferences sharedPreferences = context.getSharedPreferences("Login",Context.MODE_PRIVATE);
 
         try {
             topicsJSON = makeHttpRequest(context,url);
@@ -346,6 +345,9 @@ public class QueryUtils {
         return comments;
     }
 
+    /**
+     * 读取书籍下话题列表
+     * */
     public static List<Discussion> extractBookDetail(Context context,String bookId){
         String bookDetailUrl = "http://39.97.181.175:8080/study/type_goType.action";
 
@@ -376,5 +378,46 @@ public class QueryUtils {
             e.printStackTrace();
         }
         return discussions;
+    }
+
+    /**
+     * 读取用户通知
+     * */
+    public static List<Notification> extractNotifications(Context context){
+        String notificationUrl = "http://39.97.181.175:8080/study/user_GetNews.action";
+
+        URL url = createUrl(notificationUrl);
+        String notificationJSON = null;
+        List<Notification> notifications = new ArrayList<>();
+
+        try {
+            notificationJSON = makeHttpRequest(context,url);
+            if(TextUtils.isEmpty(notificationJSON)){
+                return null;
+            }
+            JSONObject base = new JSONObject(notificationJSON);
+            if(base.getString("result").matches("success")){
+                JSONArray notificationsArray = base.getJSONArray("usernews");
+
+                for(int i = 0; i<notificationJSON.length(); i++){
+                    JSONObject notification = notificationsArray.getJSONObject(i);
+                    String notificationId = notification.getString("id");
+                    JSONObject commentUser = notification.getJSONObject("newsCommentUser");
+                    String notificationCommentUser = commentUser.getString("nickname");
+                    JSONObject topic = notification.getJSONObject("newsTopic");
+                    String notificationTopicId = topic.getString("id");
+                    String notificationTopicTitle = topic.getString("title");
+                    String notificationTopicContent = topic.getString("content");
+                    String notificationTopicCommentNum = topic.getString("countComment");
+                    String notificationTopicAuthor = topic.getJSONObject("topicsUser").getString("nickname");
+
+
+                    notifications.add(new Notification(context,notificationId,notificationCommentUser,new Discussion(notificationId,notificationTopicAuthor,notificationTopicTitle,notificationTopicContent,notificationTopicCommentNum)));
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return notifications;
     }
 }

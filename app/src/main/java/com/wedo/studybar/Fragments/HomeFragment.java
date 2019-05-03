@@ -182,7 +182,6 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
     }
 
     private void loadHomeBooks() {
-        progressBar.setVisibility(View.VISIBLE);
         emptyStateTextView.setVisibility(View.GONE);
 
         int id_one = new Random().nextInt(10)+1;
