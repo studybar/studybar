@@ -74,6 +74,10 @@ public class HorizontalBookAdapter extends RecyclerView.Adapter<HorizontalBookAd
         return books.get(id).getBookId();
     }
 
+    public String getBookCountNum(int id){
+        return books.get(id).getmNumOfComments();
+    }
+
     public void setClickListener(ItemClickListener itemClickListener){
         this.mClickListener = itemClickListener;
     }

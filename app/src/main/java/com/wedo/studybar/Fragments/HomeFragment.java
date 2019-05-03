@@ -63,7 +63,7 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home,container,false);
 
         swipeRefreshLayout = rootView.findViewById(R.id.home_refresh_layout);
@@ -86,7 +86,7 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
                 if(swipeRefreshLayout.isRefreshing()){
                     swipeRefreshLayout.setRefreshing(true);
                     isRefreshing = true;
-                    progressBar.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
                     emptyStateTextView.setVisibility(View.GONE);
                     linearLayout.setVisibility(View.GONE);
                     loadHomeBooks();
@@ -139,6 +139,7 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
                 intent.putExtra("BOOK_ID", horizontalBookAdapter_one.getBookId(position));
                 intent.putExtra("BOOK_NAME", horizontalBookAdapter_one.getBookName(position));
                 //todo:pass cover
+                intent.putExtra("BOOK_COMMENT_COUNT", horizontalBookAdapter_one.getBookCountNum(position));
                 startActivity(intent);
             }
         });
@@ -151,9 +152,10 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), BookDetailActivity.class);
-                intent.putExtra("BOOK_ID", horizontalBookAdapter_two.getBookId(position));
-                intent.putExtra("BOOK_NAME", horizontalBookAdapter_two.getBookName(position));
+                intent.putExtra("BOOK_ID", horizontalBookAdapter_one.getBookId(position));
+                intent.putExtra("BOOK_NAME", horizontalBookAdapter_one.getBookName(position));
                 //todo:pass cover
+                intent.putExtra("BOOK_COMMENT_COUNT", horizontalBookAdapter_one.getBookCountNum(position));
                 startActivity(intent);
             }
         });
@@ -166,9 +168,10 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), BookDetailActivity.class);
-                intent.putExtra("BOOK_ID", horizontalBookAdapter_three.getBookId(position));
-                intent.putExtra("BOOK_NAME", horizontalBookAdapter_three.getBookName(position));
+                intent.putExtra("BOOK_ID", horizontalBookAdapter_one.getBookId(position));
+                intent.putExtra("BOOK_NAME", horizontalBookAdapter_one.getBookName(position));
                 //todo:pass cover
+                intent.putExtra("BOOK_COMMENT_COUNT", horizontalBookAdapter_one.getBookCountNum(position));
                 startActivity(intent);
             }
         });
@@ -262,8 +265,6 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
         progressBar.setVisibility(View.GONE);
         emptyStateTextView.setVisibility(View.GONE);
         linearLayout.setVisibility(View.VISIBLE);
-
-        Log.e("HOME_test1",books.toString());
 
         int id = loader.getId();
         if(id == 1){

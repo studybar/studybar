@@ -68,10 +68,7 @@ public class MyDiscussionsActivity extends AppCompatActivity implements androidx
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO: passing values
                 Intent intent = new Intent(getApplicationContext(),DiscussionDetailActivity.class);
-                Log.e("POSITION",String.valueOf(position));
-
                 intent.putExtra("DISCUSSION_ID",discussions.get(position).getDiscussionId());
                 intent.putExtra("DISCUSSION_AUTHOR",discussions.get(position).getDiscussionAuthor());
                 intent.putExtra("DISCUSSION_TITLE",discussions.get(position).getDiscussionTitle());

@@ -83,6 +83,9 @@ public class QueryUtils {
         return jsonResponse;
     }
 
+    /**
+     * @param context 为了从 SharedPreferences 中读取 sessionId
+     * */
     private static String makeHttpRequest(Context context,URL url) throws IOException{
         String jsonResponse = "";
         SharedPreferences sharedPreferences = context.getSharedPreferences("Login",Context.MODE_PRIVATE);
@@ -119,6 +122,9 @@ public class QueryUtils {
         return jsonResponse;
     }
 
+    /**
+     * @param id 向服务器发送查找内容相关 id 来获取内容
+     * */
     private static String makeHttpRequest(Context context,URL url,String id) throws IOException{
         String jsonResponse = "";
         SharedPreferences sharedPreferences = context.getSharedPreferences("Login",Context.MODE_PRIVATE);
@@ -156,21 +162,6 @@ public class QueryUtils {
             in.close();
             //YOUR RESPONSE
             jsonResponse = stringBuilder.toString();
-
-            /*
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setReadTimeout(10000 );
-            urlConnection.setConnectTimeout(15000 );
-
-            //urlConnection.connect();
-            if(urlConnection.getResponseCode() == 200){
-                inputStream = urlConnection.getInputStream();
-                jsonResponse = readFromStream(inputStream);
-            }
-            else{
-                Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
-            }
-            */
         }catch (Exception e){
             Log.e(LOG_TAG, "Problem retrieving the JSON results.", e);
         }finally {
@@ -203,52 +194,6 @@ public class QueryUtils {
         return output.toString();
     }
 
-    public static List<Discussion> extractTopicsFromJson(String json){
-        List<Discussion> discussions = new ArrayList<Discussion>();
-
-        if(TextUtils.isEmpty(json)){
-            return null;
-        }
-        try{
-            //JSONObject userInfo = new JSONObject(json);
-            JSONArray discussionsArray = new JSONArray(json);
-
-            for(int i=0;i<discussionsArray.length();i++){
-                JSONObject discussion = discussionsArray.getJSONObject(i);
-
-                String id = discussion.getString("id");
-                String content = discussion.getString("content");
-                String countComment = discussion.getString("countComment");
-                String title = discussion.getString("title");
-
-                discussions.add(new Discussion(id,"",title,content,countComment));
-            }
-        }catch (JSONException e){
-            e.printStackTrace();
-        }
-        return discussions;
-    }
-
-    public static List<Discussion> extractCommentsFromJson(String json){
-        List<Discussion> comments = new ArrayList<Discussion>();
-
-        if(TextUtils.isEmpty(json)){
-            return null;
-        }
-        try{
-            JSONArray commentsArray = new JSONArray(json);
-
-            for(int i = 0;i < commentsArray.length(); i++){
-                JSONObject comment = commentsArray.getJSONObject(i);
-
-                //String id = comment.getString("")
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return comments;
-    }
-
     /**
      * 读取各个分类下图书数据
      * */
@@ -273,7 +218,7 @@ public class QueryUtils {
                 String bookId = book.getString("id");
                 String bookName = book.getString("name");
                 String bookCover = book.getString("typespicture");
-                String bookCommentsNum = book.getString("countComments");
+                String bookCommentsNum = book.getString("countTopics");
 
                 books.add(new Book(bookId,bookName,R.drawable.test,bookCommentsNum));
             }
@@ -401,4 +346,35 @@ public class QueryUtils {
         return comments;
     }
 
+    public static List<Discussion> extractBookDetail(Context context,String bookId){
+        String bookDetailUrl = "http://39.97.181.175:8080/study/type_goType.action";
+
+        URL url = createUrl(bookDetailUrl);
+        String bookDetailJSON = null;
+        List<Discussion> discussions = new ArrayList<>();
+
+        try {
+            bookDetailJSON = makeHttpRequest(context,url,bookId);
+            if (TextUtils.isEmpty(bookDetailJSON)) {
+                return null;
+            }
+            JSONObject base = new JSONObject(bookDetailJSON);
+            JSONArray discussionsArray = base.getJSONArray("listtopic");
+            for (int i = 0;i<discussionsArray.length();i++){
+                JSONObject discussion = discussionsArray.getJSONObject(i);
+                String discussionId = discussion.getString("id");
+                String discussionTitle = discussion.getString("title");
+                String discussionContent = discussion.getString("content");
+                String discussionCommentsNum = discussion.getString("countComment");
+
+                JSONObject authorObject = discussion.getJSONObject("topicsUser");
+                String discussionAuthor = authorObject.getString("nickname");
+
+                discussions.add(new Discussion(discussionId,discussionAuthor,discussionTitle,discussionContent,discussionCommentsNum));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return discussions;
+    }
 }

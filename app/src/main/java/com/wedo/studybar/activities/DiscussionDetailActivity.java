@@ -101,7 +101,7 @@ public class DiscussionDetailActivity extends AppCompatActivity implements andro
         LayoutInflater mInflater = getLayoutInflater();
         ViewGroup bookHeader = (ViewGroup)mInflater.inflate(R.layout.comment_topic_header_view,listView,false);
         listView.addHeaderView(bookHeader);
-        listView.setHeaderDividersEnabled(true);;
+        listView.setHeaderDividersEnabled(true);
 
         TextView commentTopicAuthor = (TextView)findViewById(R.id.comment_topic_author);
         TextView commentTopicTitle = (TextView)findViewById(R.id.comment_topic_title);
