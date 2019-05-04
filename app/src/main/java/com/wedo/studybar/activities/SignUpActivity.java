@@ -57,9 +57,8 @@ public class SignUpActivity extends AppCompatActivity {
     private static final String LOG_TAG = Context.class.getSimpleName();
 
 
-    Uri imageUri;
+    //Uri imageUri;
 
-    private ImageView imageViewAvatar;
     private EditText editTextEmail;
     private EditText editTextNickname;
     private EditText editTextPassword;
@@ -68,6 +67,7 @@ public class SignUpActivity extends AppCompatActivity {
     private Button buttonGetVerificationCode;
     private CheckBox checkBox;
     private Spinner spinnerGender;
+
     private String gender = "";
     private String email = "";
     //private String username = "";
@@ -90,6 +90,7 @@ public class SignUpActivity extends AppCompatActivity {
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_action_close);
 
+        /*
         imageViewAvatar = findViewById(R.id.sign_up_avatar);
         imageViewAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +105,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             }
         });
+        */
         editTextEmail = findViewById(R.id.sign_up_email);
         editTextNickname = findViewById(R.id.sign_up_nickname);
         editTextPassword = findViewById(R.id.sign_up_password);
@@ -201,6 +203,7 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
+    /*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -214,14 +217,6 @@ public class SignUpActivity extends AppCompatActivity {
                     //ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                     //bitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
                     //byte[] b = byteArrayOutputStream.toByteArray();
-
-                    //only for test
-                    /*
-                    String encodedImage = Base64.encodeToString(b,Base64.DEFAULT);
-                    byte[] decodedString = Base64.decode(encodedImage,Base64.DEFAULT);
-                    Bitmap decodeByte = BitmapFactory.decodeByteArray(decodedString,0,decodedString.length);
-                    imageView.setImageBitmap(decodeByte);
-                    */
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -231,6 +226,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
     }
+    */
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

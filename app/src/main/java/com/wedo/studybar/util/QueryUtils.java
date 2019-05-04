@@ -280,6 +280,10 @@ public class QueryUtils {
 
         try {
             discussionsJSON = makeHttpRequest(context,url);
+
+            Log.e("JSON",discussionsJSON);
+
+
             if(TextUtils.isEmpty(discussionsJSON)){
                 return null;
             }
@@ -415,6 +419,9 @@ public class QueryUtils {
 
                     notifications.add(new Notification(context,notificationId,notificationCommentUser,new Discussion(notificationId,notificationTopicAuthor,notificationTopicTitle,notificationTopicContent,notificationTopicCommentNum)));
                 }
+
+                Log.e("JSON",notificationJSON);
+
             }
         }catch (Exception e){
             e.printStackTrace();

@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.provider.ContactsContract;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,7 +90,10 @@ public class UserFragment extends Fragment {
             logInLayout.setVisibility(View.GONE);
             loggedInUser.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
-            //todo:set avatar
+            String avatarString = sharedPreferences.getString("Avatar","");
+            byte[] avatarBytesArray = Base64.decode(avatarString,Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(avatarBytesArray,0,avatarBytesArray.length);
+            avatar.setImageBitmap(bitmap);
             username.setText(sharedPreferences.getString("Username",""));
             bio.setText(sharedPreferences.getString("Bio",""));
         }else {
@@ -208,9 +212,6 @@ public class UserFragment extends Fragment {
                 editor.putString("SESSION_ID",sessionId);
                 editor.apply();
 
-                Log.e("SESSION_ID",sessionId);
-
-
                 BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 String decodedString;
                 StringBuilder stringBuilder = new StringBuilder();
@@ -220,6 +221,8 @@ public class UserFragment extends Fragment {
                 in.close();
                 //YOUR RESPONSE
                 response = stringBuilder.toString();
+
+                Log.e("LOGIN",response);
 
                 //JSONObject base = new JSONObject(response);
                 //check = base.getString("result");
@@ -254,11 +257,12 @@ public class UserFragment extends Fragment {
                 String nickname = userInfo.getString("nickname");
                 String introduction = userInfo.getString("introduction");
                 //byte[] avatarBytesArray = userInfo.getString("picture").getBytes();
-                //todo:set avatar
+                String avatarString = userInfo.getString("picture");
+                byte[] avatarBytesArray = Base64.decode(avatarString,Base64.DEFAULT);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(avatarBytesArray,0,avatarBytesArray.length);
+                avatar.setImageBitmap(bitmap);
                 username.setText(nickname);
                 bio.setText(introduction);
-                //Bitmap bitmap = BitmapFactory.decodeByteArray(avatarBytesArray,0,avatarBytesArray.length);
-                //avatar.setImageBitmap(bitmap);
 
                 sharedPreferences = getActivity().getSharedPreferences("Login",Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -267,6 +271,7 @@ public class UserFragment extends Fragment {
                 editor.putString("Username",nickname);
                 editor.putString("Bio",introduction);
                 editor.putBoolean("LoginState",true);
+                editor.putString("Avatar",avatarString);
                 //TODO: avatar
                 editor.apply();
                 }

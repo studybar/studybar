@@ -31,6 +31,16 @@ public class SettingsActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
 
+            Preference editProfile = findPreference("profile_edit");
+            editProfile.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent intent = new Intent(getActivity(),editProfileActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+            });
+
             Preference logout = findPreference("logout");
             logout.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override

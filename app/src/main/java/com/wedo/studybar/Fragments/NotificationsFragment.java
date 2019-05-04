@@ -49,12 +49,6 @@ public class NotificationsFragment extends Fragment implements androidx.loader.a
         listView = rootView.findViewById(R.id.notification_list);
         emptyStateTextView = rootView.findViewById(R.id.notification_empty_view);
         progressBar = rootView.findViewById(R.id.notification_load_progress);
-        return rootView;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
         loadNotifications();
 
@@ -82,10 +76,11 @@ public class NotificationsFragment extends Fragment implements androidx.loader.a
                     swipeRefreshLayout.setRefreshing(true);
                 }
                 progressBar.setVisibility(View.GONE);
-                listView.setVisibility(View.GONE);
                 loadNotifications();
             }
         });
+
+        return rootView;
     }
 
     private void loadNotifications() {
@@ -119,7 +114,6 @@ public class NotificationsFragment extends Fragment implements androidx.loader.a
             }
         }else {
             emptyStateTextView.setText(R.string.plz_login_first);
-            emptyStateTextView.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
         }
     }

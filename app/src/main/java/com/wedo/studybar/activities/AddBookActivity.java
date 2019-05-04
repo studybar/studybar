@@ -37,7 +37,6 @@ import java.net.URL;
 public class AddBookActivity extends AppCompatActivity {
 
     private ImageView imageView;
-    public static final int REQUEST_CODE_OPEN = 1;
     Uri imageUri;
     private Button buttonAdd;
     private Button buttonCancle;
