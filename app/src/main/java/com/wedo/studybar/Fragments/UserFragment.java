@@ -10,20 +10,18 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.provider.ContactsContract;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +30,6 @@ import com.wedo.studybar.activities.MyBooksActivity;
 import com.wedo.studybar.activities.MyDiscussionsActivity;
 import com.wedo.studybar.activities.SettingsActivity;
 import com.wedo.studybar.activities.SignUpActivity;
-import com.wedo.studybar.util.loginAsyncTask;
 
 import org.json.JSONObject;
 
@@ -46,7 +43,8 @@ public class UserFragment extends Fragment {
 
     private static final String LOG_TAG = Context.class.getSimpleName();
 
-    private LinearLayout loggedInUser;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private LinearLayout loggedInLayout;
     private LinearLayout logInLayout;
     private EditText editTextEmail;
     private EditText editTextPassword;
@@ -67,7 +65,8 @@ public class UserFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_user,container,false);
 
-        loggedInUser = rootView.findViewById(R.id.logged_in_user);
+        swipeRefreshLayout = rootView.findViewById(R.id.logged_in_refresh);
+        loggedInLayout = rootView.findViewById(R.id.logged_in_layout);
         logInLayout = rootView.findViewById(R.id.login_user);
         progressBar = rootView.findViewById(R.id.login_progress);
 
@@ -86,9 +85,27 @@ public class UserFragment extends Fragment {
          * then show the User Info directly
          * else ask for logging in
          * */
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if(!swipeRefreshLayout.isRefreshing()){
+                    swipeRefreshLayout.setRefreshing(true);
+                }
+                loggedInLayout.setVisibility(View.GONE);
+                try {
+                    JSONObject user = new JSONObject();
+                    user.put("username",sharedPreferences.getString("Email",""));
+                    user.put("password",sharedPreferences.getString("Password",""));
+                    new verifyAsyncTask().execute(user.toString());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
         if(sharedPreferences.getBoolean("LoginState",false)){
             logInLayout.setVisibility(View.GONE);
-            loggedInUser.setVisibility(View.VISIBLE);
+            swipeRefreshLayout.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
             String avatarString = sharedPreferences.getString("Avatar","");
             byte[] avatarBytesArray = Base64.decode(avatarString,Base64.DEFAULT);
@@ -98,7 +115,7 @@ public class UserFragment extends Fragment {
             bio.setText(sharedPreferences.getString("Bio",""));
         }else {
             //第一次进入需要登陆
-            loggedInUser.setVisibility(View.GONE);
+            swipeRefreshLayout.setVisibility(View.GONE);
             logInLayout.setVisibility(View.VISIBLE);
             editTextEmail.setText(sharedPreferences.getString("Email",""));
             editTextPassword.setText(sharedPreferences.getString("Password",""));
@@ -222,16 +239,9 @@ public class UserFragment extends Fragment {
                 //YOUR RESPONSE
                 response = stringBuilder.toString();
 
-                Log.e("LOGIN",response);
-
-                //JSONObject base = new JSONObject(response);
-                //check = base.getString("result");
-
                 Log.e("STATUS", String.valueOf(conn.getResponseCode()));
                 Log.e("MSG" , conn.getResponseMessage());
-                //Log.e("RESULT",check);
                 conn.disconnect();
-                //Log.e("RESPONSE",response);
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -248,11 +258,13 @@ public class UserFragment extends Fragment {
             progressBar.setVisibility(View.GONE);
             if(result.equals("fail")){
                 logInLayout.setVisibility(View.VISIBLE);
-                loggedInUser.setVisibility(View.GONE);
+                swipeRefreshLayout.setVisibility(View.GONE);
                 Toast.makeText(getActivity(),R.string.login_failed,Toast.LENGTH_SHORT).show();
             }
             else{
-                loggedInUser.setVisibility(View.VISIBLE);
+                swipeRefreshLayout.setVisibility(View.VISIBLE);
+                swipeRefreshLayout.setRefreshing(false);
+                loggedInLayout.setVisibility(View.VISIBLE);
                 JSONObject userInfo = base.getJSONObject("user");
                 String nickname = userInfo.getString("nickname");
                 String introduction = userInfo.getString("introduction");

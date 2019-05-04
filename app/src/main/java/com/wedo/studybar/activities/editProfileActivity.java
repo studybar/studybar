@@ -147,7 +147,7 @@ public class editProfileActivity extends AppCompatActivity {
 
                 if(strings[0].matches(URL_AVATAR)){
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG,60,byteArrayOutputStream);
                     byte[] b = byteArrayOutputStream.toByteArray();
                     String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
 
@@ -160,39 +160,19 @@ public class editProfileActivity extends AppCompatActivity {
                 }else {
                     //todo:pass user info
                 }
-
-                //JSONObject editedUser = new JSONObject(strings[1]);
-
-                Log.e("POSTING","post1");
-
                 dataOutputStream.flush();
-
-                Log.e("POSTING","post2");
-
                 dataOutputStream.close();
-
-                Log.e("POSTING","post3");
-
                 BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 String decodedString;
-
-                Log.e("POSTING","post4");
-
                 StringBuilder stringBuilder = new StringBuilder();
                 while ((decodedString = in.readLine()) != null) {
                     stringBuilder.append(decodedString);
                 }
                 in.close();
-
-                Log.e("POSTING","post5");
-
                 //YOUR RESPONSE
                 response = stringBuilder.toString();
 
                 urlConnection.disconnect();
-
-                Log.e("POSTING","post6");
-
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -204,17 +184,11 @@ public class editProfileActivity extends AppCompatActivity {
             String result = "";
             try{
                 JSONObject base = new JSONObject(response);
-
-                Log.e("POSTING","post7");
-
                 result = base.getString("result");
 
-                Log.e("POSTING","post8");
-
-
-                Log.e("POSTING",result);
-
-                if (result.matches("true")){
+                Log.e("COUNT",String.valueOf(countChanges));
+                Log.e("RESULT",result);
+                if (result.matches("success")){
                     if (countChanges == 1){
                         finish();
                     }
