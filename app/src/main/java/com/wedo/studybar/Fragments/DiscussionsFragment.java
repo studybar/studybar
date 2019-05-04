@@ -86,11 +86,10 @@ public class DiscussionsFragment extends Fragment implements androidx.loader.app
             public void onRefresh() {
                 if(!swipeRefreshLayout.isRefreshing()){
                     swipeRefreshLayout.setRefreshing(true);
-                    progressBar.setVisibility(View.VISIBLE);
-                    listView.setVisibility(View.GONE);
-                    loadDiscussions();
                 }
-                swipeRefreshLayout.setRefreshing(false);
+                progressBar.setVisibility(View.GONE);
+                listView.setVisibility(View.GONE);
+                loadDiscussions();
             }
         });
 
@@ -184,22 +183,6 @@ public class DiscussionsFragment extends Fragment implements androidx.loader.app
         return rootView;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if(!swipeRefreshLayout.isRefreshing()){
-                    swipeRefreshLayout.setRefreshing(true);
-                }
-
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
-    }
-
     public DiscussionsFragment(){
 
     }
@@ -208,7 +191,6 @@ public class DiscussionsFragment extends Fragment implements androidx.loader.app
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
         if(sharedPreferences.getBoolean("LoginState",false)){
-            progressBar.setVisibility(View.VISIBLE);
             emptyStateTextView.setVisibility(View.GONE);
 
             // Get a reference to the ConnectivityManager to check state of network connectivity
@@ -223,10 +205,14 @@ public class DiscussionsFragment extends Fragment implements androidx.loader.app
                 // 引用 LoaderManager，以便与 loader 进行交互。
                 LoaderManager loaderManager = getLoaderManager();
 
-                // 初始化 loader。传递上面定义的整数 ID 常量并为为捆绑
-                // 传递 null。为 LoaderCallbacks 参数（由于
-                // 此活动实现了 LoaderCallbacks 接口而有效）传递此活动。
-                loaderManager.initLoader(1, null, this);
+                if(swipeRefreshLayout.isRefreshing()){
+                    loaderManager.restartLoader(1, null, this);
+                }else {
+                    // 初始化 loader。传递上面定义的整数 ID 常量并为为捆绑
+                    // 传递 null。为 LoaderCallbacks 参数（由于
+                    // 此活动实现了 LoaderCallbacks 接口而有效）传递此活动。
+                    loaderManager.initLoader(1, null, this);
+                }
             }
             else{
                 progressBar.setVisibility(View.GONE);
@@ -249,6 +235,7 @@ public class DiscussionsFragment extends Fragment implements androidx.loader.app
     public void onLoadFinished(@NonNull Loader<List<Discussion>> loader, List<Discussion> discussions) {
         progressBar.setVisibility(View.GONE);
         emptyStateTextView.setText(R.string.no_discussion);
+        swipeRefreshLayout.setRefreshing(false);
         if(itemsAdapter!=null){
             itemsAdapter.clear();
         }

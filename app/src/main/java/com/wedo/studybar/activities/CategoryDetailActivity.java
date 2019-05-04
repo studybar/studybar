@@ -57,11 +57,9 @@ public class CategoryDetailActivity extends AppCompatActivity implements android
             public void onRefresh() {
                 if(!swipeRefreshLayout.isRefreshing()){
                     swipeRefreshLayout.setRefreshing(true);
-                    progressBar.setVisibility(View.VISIBLE);
-                    listView.setVisibility(View.GONE);
-                    loadBooks();
                 }
-                swipeRefreshLayout.setRefreshing(false);
+                listView.setVisibility(View.GONE);
+                loadBooks();
             }
         });
 
@@ -121,7 +119,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements android
     public void onLoadFinished(@NonNull androidx.loader.content.Loader<List<Book>> loader, List<Book> books) {
         progressBar.setVisibility(View.GONE);
         emptyStateTextView.setText(R.string.no_books);
-        Log.e("LOG_TAG","RUNNING");
+        swipeRefreshLayout.setRefreshing(false);
         if(itemsAdapter != null){
             itemsAdapter.clear();
         }
@@ -149,10 +147,14 @@ public class CategoryDetailActivity extends AppCompatActivity implements android
             // 引用 LoaderManager，以便与 loader 进行交互。
             LoaderManager loaderManager = getSupportLoaderManager();
 
-            // 初始化 loader。传递上面定义的整数 ID 常量并为为捆绑
-            // 传递 null。为 LoaderCallbacks 参数（由于
-            // 此活动实现了 LoaderCallbacks 接口而有效）传递此活动。
-            loaderManager.initLoader(1, null, this);
+            if (swipeRefreshLayout.isRefreshing()){
+                loaderManager.restartLoader(1, null, this);
+            }else {
+                // 初始化 loader。传递上面定义的整数 ID 常量并为为捆绑
+                // 传递 null。为 LoaderCallbacks 参数（由于
+                // 此活动实现了 LoaderCallbacks 接口而有效）传递此活动。
+                loaderManager.initLoader(1, null, this);
+            }
         }
         else{
             progressBar.setVisibility(View.GONE);

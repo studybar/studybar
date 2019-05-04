@@ -245,7 +245,7 @@ public class QueryUtils {
             }
             JSONObject base = new JSONObject(topicsJSON);
             if (base.getString("result").matches("success")){
-                JSONArray discussionsArray = base.getJSONArray("usertopic");
+                JSONArray discussionsArray = base.getJSONArray("listtopic");
 
                 for (int i=0; i<discussionsArray.length(); i++){
                     JSONObject discussion = discussionsArray.getJSONObject(i);
@@ -399,7 +399,9 @@ public class QueryUtils {
             if(base.getString("result").matches("success")){
                 JSONArray notificationsArray = base.getJSONArray("usernews");
 
-                for(int i = 0; i<notificationJSON.length(); i++){
+                final int length = notificationsArray.length();
+
+                for(int i = 0; i<length; i++){
                     JSONObject notification = notificationsArray.getJSONObject(i);
                     String notificationId = notification.getString("id");
                     JSONObject commentUser = notification.getJSONObject("newsCommentUser");
@@ -410,7 +412,6 @@ public class QueryUtils {
                     String notificationTopicContent = topic.getString("content");
                     String notificationTopicCommentNum = topic.getString("countComment");
                     String notificationTopicAuthor = topic.getJSONObject("topicsUser").getString("nickname");
-
 
                     notifications.add(new Notification(context,notificationId,notificationCommentUser,new Discussion(notificationId,notificationTopicAuthor,notificationTopicTitle,notificationTopicContent,notificationTopicCommentNum)));
                 }

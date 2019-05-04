@@ -58,8 +58,6 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
     private String category_two;
     private String category_three;
 
-    private Boolean isRefreshing = false;
-
 
     @Nullable
     @Override
@@ -83,14 +81,13 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if(swipeRefreshLayout.isRefreshing()){
+                if(!swipeRefreshLayout.isRefreshing()){
                     swipeRefreshLayout.setRefreshing(true);
-                    isRefreshing = true;
-                    progressBar.setVisibility(View.GONE);
-                    emptyStateTextView.setVisibility(View.GONE);
-                    linearLayout.setVisibility(View.GONE);
-                    loadHomeBooks();
                 }
+                progressBar.setVisibility(View.GONE);
+                emptyStateTextView.setVisibility(View.GONE);
+                linearLayout.setVisibility(View.GONE);
+                loadHomeBooks();
             }
         });
         /**
@@ -125,8 +122,6 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
         /**
          * to show books
          * */
-
-
 
         loadHomeBooks();
 
@@ -199,10 +194,6 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
             case 10: category_one = "管理学";category_two = "哲学"; category_three = "经济学";break;
         }
 
-        row_one.setText(category_one);
-        row_two.setText(category_two);
-        row_three.setText(category_three);
-
         // Get a reference to the ConnectivityManager to check state of network connectivity
         ConnectivityManager connMgr = (ConnectivityManager)
                 getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -215,7 +206,7 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
             // 引用 LoaderManager，以便与 loader 进行交互。
             LoaderManager loaderManager = getLoaderManager();
 
-            if(isRefreshing){
+            if(swipeRefreshLayout.isRefreshing()){
                 loaderManager.restartLoader(1,null,this);
                 loaderManager.restartLoader(2,null,this);
                 loaderManager.restartLoader(3,null,this);
@@ -261,9 +252,13 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
 
     @Override
     public void onLoadFinished(@NonNull Loader<List<Book>> loader, List<Book> books) {
-        progressBar.setVisibility(View.GONE);
         emptyStateTextView.setVisibility(View.GONE);
+        row_one.setText(category_one);
+        row_two.setText(category_two);
+        row_three.setText(category_three);
         linearLayout.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
+
 
         int id = loader.getId();
         if(id == 1){
@@ -273,7 +268,6 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
             if(books != null && !books.isEmpty()){
                 horizontalBookAdapter_one.addAll(books);
                 horizontalBookAdapter_one.notifyDataSetChanged();
-                Log.e("ORDER","1");
             }
         }
         else if(id == 2){
@@ -283,7 +277,6 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
             if(books != null && !books.isEmpty()){
                 horizontalBookAdapter_two.addAll(books);
                 horizontalBookAdapter_two.notifyDataSetChanged();
-                Log.e("ORDER","2");
             }
         }
         else if(id == 3){
@@ -293,11 +286,9 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
             if(books != null && !books.isEmpty()){
                 horizontalBookAdapter_three.addAll(books);
                 horizontalBookAdapter_three.notifyDataSetChanged();
-                Log.e("ORDER","3");
             }
         }
         swipeRefreshLayout.setRefreshing(false);
-        isRefreshing = false;
     }
 
     @Override

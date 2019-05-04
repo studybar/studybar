@@ -60,8 +60,6 @@ public class BookDetailActivity extends AppCompatActivity implements androidx.lo
 
     private DiscussionAdapter discussionAdapter;
 
-    private Boolean isRefreshing = false;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,11 +77,10 @@ public class BookDetailActivity extends AppCompatActivity implements androidx.lo
             public void onRefresh() {
                 if(!swipeRefreshLayout.isRefreshing()){
                     swipeRefreshLayout.setRefreshing(true);
-                    isRefreshing = true;
-                    progressBar.setVisibility(View.GONE);
-                    listView.setVisibility(View.GONE);
-                    loadBookDetail();
                 }
+                progressBar.setVisibility(View.GONE);
+                listView.setVisibility(View.GONE);
+                loadBookDetail();
             }
         });
         bookId = getIntent().getStringExtra("BOOK_ID");
@@ -147,7 +144,7 @@ public class BookDetailActivity extends AppCompatActivity implements androidx.lo
             // 引用 LoaderManager，以便与 loader 进行交互。
             LoaderManager loaderManager = getSupportLoaderManager();
 
-            if(isRefreshing){
+            if(swipeRefreshLayout.isRefreshing()){
                 loaderManager.restartLoader(1, null, this);
             }else {
                 // 初始化 loader。传递上面定义的整数 ID 常量并为为捆绑
@@ -240,7 +237,6 @@ public class BookDetailActivity extends AppCompatActivity implements androidx.lo
             discussionAdapter.addAll(data);
         }
         swipeRefreshLayout.setRefreshing(false);
-        isRefreshing = false;
     }
 
 

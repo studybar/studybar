@@ -39,8 +39,6 @@ public class NotificationsFragment extends Fragment implements androidx.loader.a
     private ProgressBar progressBar;
 
     private NotificationAdapter itemsAdapter;
-    private Boolean isRefreshing = false;
-
 
     @Nullable
     @Override
@@ -82,12 +80,10 @@ public class NotificationsFragment extends Fragment implements androidx.loader.a
                 // Make sure that the SwipeRefreshLayout is displaying it's refreshing indicator
                 if(!swipeRefreshLayout.isRefreshing()){
                     swipeRefreshLayout.setRefreshing(true);
-                    isRefreshing = true;
-                    progressBar.setVisibility(View.GONE);
-                    listView.setVisibility(View.GONE);
-                    loadNotifications();
-                    Log.e("REFRESH","START");
                 }
+                progressBar.setVisibility(View.GONE);
+                listView.setVisibility(View.GONE);
+                loadNotifications();
             }
         });
     }
@@ -95,6 +91,7 @@ public class NotificationsFragment extends Fragment implements androidx.loader.a
     private void loadNotifications() {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
         if(sharedPreferences.getBoolean("LoginState",false)){
+            emptyStateTextView.setVisibility(View.GONE);
             // Get a reference to the ConnectivityManager to check state of network connectivity
             ConnectivityManager connMgr = (ConnectivityManager)
                     getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -107,8 +104,7 @@ public class NotificationsFragment extends Fragment implements androidx.loader.a
                 // 引用 LoaderManager，以便与 loader 进行交互。
                 LoaderManager loaderManager = getLoaderManager();
 
-                if(isRefreshing){
-                    Log.e("REFRESH","RELOAD");
+                if(swipeRefreshLayout.isRefreshing()){
                     loaderManager.restartLoader(1,null,this);
                 }else {
                     // 初始化 loader。传递上面定义的整数 ID 常量并为为捆绑
@@ -140,14 +136,12 @@ public class NotificationsFragment extends Fragment implements androidx.loader.a
         listView.setVisibility(View.VISIBLE);
         emptyStateTextView.setText(R.string.no_notifications);
         swipeRefreshLayout.setRefreshing(false);
-        isRefreshing = false;
         if(itemsAdapter != null){
             itemsAdapter.clear();
         }
         if(notifications != null && !notifications.isEmpty()){
             itemsAdapter.addAll(notifications);
         }
-        Log.e("REFRESH","LOAD FINISHED");
     }
 
     @Override

@@ -10,7 +10,7 @@
         android:id="@+id/notification_avatar"
         android:layout_width="48dp"
         android:layout_height="match_parent"
-        tools:src="@drawable/ic_notification_alert"
+        android:src="@drawable/ic_notification_alert"
         android:contentDescription="@string/notification_avatar"/>
 
     <TextView

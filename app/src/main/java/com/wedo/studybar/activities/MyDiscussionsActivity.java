@@ -51,11 +51,9 @@ public class MyDiscussionsActivity extends AppCompatActivity implements androidx
             public void onRefresh() {
                 if(!swipeRefreshLayout.isRefreshing()){
                     swipeRefreshLayout.setRefreshing(true);
-                    progressBar.setVisibility(View.VISIBLE);
-                    listView.setVisibility(View.GONE);
-                    loadMyDiscussions();
                 }
-                swipeRefreshLayout.setRefreshing(false);
+                listView.setVisibility(View.GONE);
+                loadMyDiscussions();
             }
         });
 
@@ -103,10 +101,14 @@ public class MyDiscussionsActivity extends AppCompatActivity implements androidx
             // 引用 LoaderManager，以便与 loader 进行交互。
             LoaderManager loaderManager = getSupportLoaderManager();
 
-            // 初始化 loader。传递上面定义的整数 ID 常量并为为捆绑
-            // 传递 null。为 LoaderCallbacks 参数（由于
-            // 此活动实现了 LoaderCallbacks 接口而有效）传递此活动。
-            loaderManager.initLoader(1, null, this);
+            if(swipeRefreshLayout.isRefreshing()){
+                loaderManager.restartLoader(1, null, this);
+            }else {
+                // 初始化 loader。传递上面定义的整数 ID 常量并为为捆绑
+                // 传递 null。为 LoaderCallbacks 参数（由于
+                // 此活动实现了 LoaderCallbacks 接口而有效）传递此活动。
+                loaderManager.initLoader(1, null, this);
+            }
         }
         else{
             progressBar.setVisibility(View.GONE);
@@ -124,6 +126,7 @@ public class MyDiscussionsActivity extends AppCompatActivity implements androidx
     public void onLoadFinished(@NonNull Loader<List<Discussion>> loader, List<Discussion> discussions) {
         progressBar.setVisibility(View.GONE);
         emptyStateTextView.setText(R.string.no_discussion);
+        swipeRefreshLayout.setRefreshing(false);
         if(discussionAdapter!=null){
             discussionAdapter.clear();
         }
