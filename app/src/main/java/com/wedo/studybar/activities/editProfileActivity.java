@@ -4,20 +4,28 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 import com.wedo.studybar.R;
@@ -37,15 +45,24 @@ import androidx.appcompat.app.AppCompatActivity;
 public class editProfileActivity extends AppCompatActivity {
 
     private ImageView imageView;
-    private EditText editTextNickname;
+    private TextInputEditText editTextNickname;
     private Spinner spinner;
-    private EditText editTextProfession;
+    private TextInputEditText editTextBio;
+    private TextInputEditText editTextProfession;
+    private ProgressBar progressBar;
 
     private Uri imageUri;
     private Bitmap bitmap;
 
     private Boolean isAvatarChanged = false;
+    private Boolean isInfoChanged = false;
     private int countChanges = 0;
+
+    private String encodedString;
+    private String nickname;
+    private String bio;
+    private String profession;
+    private String gender;
 
     private String URL_AVATAR = "http://39.97.181.175:8080/study/uploadUserPic.action";
     private String URL_INFO = "http://39.97.181.175:8080/study/user_UpdateInfo.action";
@@ -60,7 +77,59 @@ public class editProfileActivity extends AppCompatActivity {
         imageView = findViewById(R.id.profile_edit_avatar);
         editTextNickname = findViewById(R.id.profile_edit_nickname);
         spinner = findViewById(R.id.profile_edit_gender);
+        editTextBio = findViewById(R.id.profile_edit_bio);
         editTextProfession = findViewById(R.id.profile_edit_profession);
+        progressBar = findViewById(R.id.profile_edit_post_progress);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("Login",Context.MODE_PRIVATE);
+        encodedString = sharedPreferences.getString("Avatar","");
+        nickname = sharedPreferences.getString("Username","");
+        bio = sharedPreferences.getString("Bio","");
+        profession = sharedPreferences.getString("Profession","");
+        gender = sharedPreferences.getString("Gender","");
+
+        final ArrayAdapter<CharSequence> genderAdapter;
+        genderAdapter = ArrayAdapter.createFromResource(this,R.array.gender_identity,android.R.layout.simple_spinner_item);
+        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(genderAdapter);
+
+        if(!encodedString.matches("")){
+            byte[] avatarBytesArray = Base64.decode(encodedString,Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(avatarBytesArray,0,avatarBytesArray.length);
+            imageView.setImageBitmap(bitmap);
+        }
+
+        if (!nickname.matches("")){
+            editTextNickname.setText(nickname);
+        }
+
+        if (!bio.matches("")){
+            editTextBio.setText(bio);
+        }
+
+        if (!profession.matches("")){
+            editTextProfession.setText(profession);
+        }
+
+        int spinner_id;
+        switch (gender){
+            case "":
+                spinner_id = 0;
+                break;
+            case "男":
+                spinner_id = 1;
+                break;
+            case "女":
+                spinner_id = 2;
+                break;
+            case "双":
+                spinner_id = 3;
+                break;
+                default:
+                    spinner_id = 0;
+        }
+
+        spinner.setSelection(spinner_id);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +142,71 @@ public class editProfileActivity extends AppCompatActivity {
                         .start(editProfileActivity.this);
             }
         });
+
+        InputFilter inputFilter = new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                for(int i = start;i < end; i++){
+                    if(Character.isWhitespace((source.charAt(i)))){
+                        return "";
+                    }
+                }
+                return null;
+            }
+        };
+
+        editTextNickname.setFilters(new InputFilter[]{inputFilter});
+
+        editTextNickname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isInfoChanged = true;
+            }
+        });
+
+        editTextProfession.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isInfoChanged = true;
+            }
+        });
+
+        editTextBio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isInfoChanged = true;
+            }
+        });
+
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                isInfoChanged = true;
+                switch (Math.toIntExact(id)){
+                    case 0:
+                        gender = "";
+                        break;
+                    case 1:
+                        gender = "男";
+                        break;
+                    case 2:
+                        gender = "女";
+                        break;
+                    case 3:
+                        gender = "双";
+                        break;
+                    default:
+                        gender = "";
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override
@@ -82,8 +216,23 @@ public class editProfileActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.menu_confirm_button:
-                if (isAvatarChanged){
-                    new editProfileAsyncTask().execute(URL_AVATAR);
+                nickname = editTextNickname.getText().toString();
+                bio = editTextBio.getText().toString();
+                profession = editTextBio.getText().toString();
+
+                if (isInfoChanged){
+                    if(!nickname.matches("")){
+                        progressBar.setVisibility(View.GONE);
+                        countChanges++;
+                        new editProfileAsyncTask().execute(URL_INFO);
+
+                        if (isAvatarChanged){
+                            new editProfileAsyncTask().execute(URL_AVATAR);
+                        }
+
+                    }else {
+                        Toast.makeText(this,R.string.nickname_not_null,Toast.LENGTH_SHORT).show();
+                    }
                 }
                 return true;
             default:
@@ -158,7 +307,14 @@ public class editProfileActivity extends AppCompatActivity {
                     Log.e("POSTING",avatar.toString());
 
                 }else {
-                    //todo:pass user info
+                    JSONObject user = new JSONObject();
+                    user.put("introduction",bio);
+                    user.put("nickname",nickname);
+                    user.put("profession",profession);
+                    user.put("sex",gender);
+                    dataOutputStream.writeBytes(user.toString());
+
+                    Log.e("POSTING",user.toString());
                 }
                 dataOutputStream.flush();
                 dataOutputStream.close();
@@ -189,8 +345,11 @@ public class editProfileActivity extends AppCompatActivity {
                 Log.e("COUNT",String.valueOf(countChanges));
                 Log.e("RESULT",result);
                 if (result.matches("success")){
+                    progressBar.setVisibility(View.GONE);
                     if (countChanges == 1){
                         finish();
+                    }else {
+                        countChanges--;
                     }
                 }
             }catch (Exception e){

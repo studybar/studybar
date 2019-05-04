@@ -124,6 +124,8 @@
     <string name="no_notifications">No Notification Found.</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="profile_edit_summary">Change your avatar, nickname, profession and more</string>
+    <string name="bio">Bio</string>
+    <string name="nickname_not_null">Nickname can\'t be null.</string>
 
     <string-array name="category_array">
         <item>@string/select_book_category</item>

@@ -266,10 +266,15 @@ public class UserFragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(false);
                 loggedInLayout.setVisibility(View.VISIBLE);
                 JSONObject userInfo = base.getJSONObject("user");
+
+
+                Log.e("USER",userInfo.toString());
+
                 String nickname = userInfo.getString("nickname");
                 String introduction = userInfo.getString("introduction");
                 //byte[] avatarBytesArray = userInfo.getString("picture").getBytes();
                 String avatarString = userInfo.getString("picture");
+                String profession = userInfo.getString("profession");
                 byte[] avatarBytesArray = Base64.decode(avatarString,Base64.DEFAULT);
                 Bitmap bitmap = BitmapFactory.decodeByteArray(avatarBytesArray,0,avatarBytesArray.length);
                 avatar.setImageBitmap(bitmap);
@@ -282,9 +287,10 @@ public class UserFragment extends Fragment {
                 editor.putString("Password",userInfo.getString("password"));
                 editor.putString("Username",nickname);
                 editor.putString("Bio",introduction);
-                editor.putBoolean("LoginState",true);
                 editor.putString("Avatar",avatarString);
-                //TODO: avatar
+                editor.putString("Profession",profession);
+                editor.putString("Gender",userInfo.getString("sex"));
+                editor.putBoolean("LoginState",true);
                 editor.apply();
                 }
             }catch (Exception e){
