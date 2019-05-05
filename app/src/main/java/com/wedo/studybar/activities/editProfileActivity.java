@@ -38,6 +38,7 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -194,7 +195,7 @@ public class editProfileActivity extends AppCompatActivity {
                         gender = "女";
                         break;
                     case 3:
-                        gender = "双";
+                        gender = "无";
                         break;
                     default:
                         gender = "";
@@ -218,7 +219,7 @@ public class editProfileActivity extends AppCompatActivity {
             case R.id.menu_confirm_button:
                 nickname = editTextNickname.getText().toString();
                 bio = editTextBio.getText().toString();
-                profession = editTextBio.getText().toString();
+                profession = editTextProfession.getText().toString();
 
                 if (isInfoChanged){
                     if(!nickname.matches("")){
@@ -308,11 +309,12 @@ public class editProfileActivity extends AppCompatActivity {
 
                 }else {
                     JSONObject user = new JSONObject();
-                    user.put("introduction",bio);
-                    user.put("nickname",nickname);
-                    user.put("profession",profession);
-                    user.put("sex",gender);
-                    dataOutputStream.writeBytes(user.toString());
+                    user.put("userIntro",bio);
+                    user.put("userNic",nickname);
+                    user.put("userProfe",profession);
+                    user.put("userSex",gender);
+                    byte[] JsonString = user.toString().getBytes(StandardCharsets.UTF_8);
+                    dataOutputStream.write(JsonString,0,JsonString.length);
 
                     Log.e("POSTING",user.toString());
                 }

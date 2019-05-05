@@ -272,7 +272,6 @@ public class UserFragment extends Fragment {
 
                 String nickname = userInfo.getString("nickname");
                 String introduction = userInfo.getString("introduction");
-                //byte[] avatarBytesArray = userInfo.getString("picture").getBytes();
                 String avatarString = userInfo.getString("picture");
                 String profession = userInfo.getString("profession");
                 byte[] avatarBytesArray = Base64.decode(avatarString,Base64.DEFAULT);
