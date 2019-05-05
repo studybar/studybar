@@ -267,7 +267,6 @@ public class UserFragment extends Fragment {
                 loggedInLayout.setVisibility(View.VISIBLE);
                 JSONObject userInfo = base.getJSONObject("user");
 
-
                 Log.e("USER",userInfo.toString());
 
                 String nickname = userInfo.getString("nickname");

@@ -126,6 +126,7 @@
     <string name="profile_edit_summary">Change your avatar, nickname, profession and more</string>
     <string name="bio">Bio</string>
     <string name="nickname_not_null">Nickname can\'t be null.</string>
+    <string name="preview_of_content">Content preview</string>
 
     <string-array name="category_array">
         <item>@string/select_book_category</item>

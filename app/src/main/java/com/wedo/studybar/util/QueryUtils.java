@@ -281,9 +281,6 @@ public class QueryUtils {
         try {
             discussionsJSON = makeHttpRequest(context,url);
 
-            Log.e("JSON",discussionsJSON);
-
-
             if(TextUtils.isEmpty(discussionsJSON)){
                 return null;
             }
@@ -319,14 +316,13 @@ public class QueryUtils {
     public static List<Discussion> extractDiscussionDetail(Context context,String discussionId){
         String discussionDetailUrl = "http://39.97.181.175:8080/study/topic_goTopic.action";
 
-        Log.e("ID",discussionId);
-
         URL url = createUrl(discussionDetailUrl);
         String discussionDetailJSON = null;
         List<Discussion> comments = new ArrayList<>();
 
         try {
             discussionDetailJSON = makeHttpRequest(context,url,discussionId);
+
             if (TextUtils.isEmpty(discussionDetailJSON)) {
                 return null;
             }
@@ -361,6 +357,7 @@ public class QueryUtils {
 
         try {
             bookDetailJSON = makeHttpRequest(context,url,bookId);
+
             if (TextUtils.isEmpty(bookDetailJSON)) {
                 return null;
             }
@@ -417,11 +414,8 @@ public class QueryUtils {
                     String notificationTopicCommentNum = topic.getString("countComment");
                     String notificationTopicAuthor = topic.getJSONObject("topicsUser").getString("nickname");
 
-                    notifications.add(new Notification(context,notificationId,notificationCommentUser,new Discussion(notificationId,notificationTopicAuthor,notificationTopicTitle,notificationTopicContent,notificationTopicCommentNum)));
+                    notifications.add(new Notification(context,notificationId,notificationCommentUser,new Discussion(notificationTopicId,notificationTopicAuthor,notificationTopicTitle,notificationTopicContent,notificationTopicCommentNum)));
                 }
-
-                Log.e("JSON",notificationJSON);
-
             }
         }catch (Exception e){
             e.printStackTrace();

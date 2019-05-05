@@ -18,6 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import katex.hourglass.in.mathlib.MathView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -79,6 +80,7 @@ public class DiscussionDetailActivity extends AppCompatActivity implements andro
         });
 
         discussionId = getIntent().getStringExtra("DISCUSSION_ID");
+
         String discussionAuthor = getIntent().getStringExtra("DISCUSSION_AUTHOR");
         String discussionTitle = getIntent().getStringExtra("DISCUSSION_TITLE");
         String discussionContent = getIntent().getStringExtra("DISCUSSION_CONTENT");

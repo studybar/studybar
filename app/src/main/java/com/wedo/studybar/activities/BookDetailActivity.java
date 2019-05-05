@@ -17,6 +17,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -99,10 +100,13 @@ public class BookDetailActivity extends AppCompatActivity implements androidx.lo
                 position--;
                 Intent intent = new Intent(getApplicationContext(),DiscussionDetailActivity.class);
                 intent.putExtra("DISCUSSION_ID",discussions.get(position).getDiscussionId());
+
                 intent.putExtra("DISCUSSION_AUTHOR",discussions.get(position).getDiscussionAuthor());
                 intent.putExtra("DISCUSSION_TITLE",discussions.get(position).getDiscussionTitle());
                 intent.putExtra("DISCUSSION_CONTENT",discussions.get(position).getDiscussionContent());
                 startActivity(intent);
+
+
             }
         });
         listView.setAdapter(discussionAdapter);
@@ -126,6 +130,7 @@ public class BookDetailActivity extends AppCompatActivity implements androidx.lo
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),BookCommentActivity.class);
+                intent.putExtra("BOOK_ID",bookId);
                 startActivity(intent);
             }
         });
