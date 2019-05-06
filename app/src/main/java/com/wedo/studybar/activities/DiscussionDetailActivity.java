@@ -116,6 +116,7 @@ public class DiscussionDetailActivity extends AppCompatActivity implements andro
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), DiscussionCommentActivity.class);
+                intent.putExtra("DISCUSSION_ID",discussionId);
                 startActivity(intent);
             }
         });

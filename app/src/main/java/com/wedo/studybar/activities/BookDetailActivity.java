@@ -100,13 +100,10 @@ public class BookDetailActivity extends AppCompatActivity implements androidx.lo
                 position--;
                 Intent intent = new Intent(getApplicationContext(),DiscussionDetailActivity.class);
                 intent.putExtra("DISCUSSION_ID",discussions.get(position).getDiscussionId());
-
                 intent.putExtra("DISCUSSION_AUTHOR",discussions.get(position).getDiscussionAuthor());
                 intent.putExtra("DISCUSSION_TITLE",discussions.get(position).getDiscussionTitle());
                 intent.putExtra("DISCUSSION_CONTENT",discussions.get(position).getDiscussionContent());
                 startActivity(intent);
-
-
             }
         });
         listView.setAdapter(discussionAdapter);
