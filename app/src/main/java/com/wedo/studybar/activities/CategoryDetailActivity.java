@@ -14,7 +14,6 @@ import androidx.loader.app.LoaderManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -50,7 +49,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements android
 
         progressBar = findViewById(R.id.list_progress_bar);
         emptyStateTextView = findViewById(R.id.empty_view);
-        swipeRefreshLayout = findViewById(R.id.category_detail_refresh_layout);
+        swipeRefreshLayout = findViewById(R.id.refresh_layout);
         listView = (ListView)findViewById(R.id.list_view);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

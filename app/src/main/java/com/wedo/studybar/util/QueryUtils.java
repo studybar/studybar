@@ -21,6 +21,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -421,5 +422,85 @@ public class QueryUtils {
             e.printStackTrace();
         }
         return notifications;
+    }
+
+    /**
+     * 用户搜索结果
+     * */
+    public static List<Discussion> extractSearchResult(Context context,String content){
+        String searchurl = "http://39.97.181.175:8080/study/topic_Search.action";
+
+        URL url = createUrl(searchurl);
+        String topicsJSON = null;
+        List<Discussion> topics = new ArrayList<>();
+
+        try {
+            HttpURLConnection urlConnection = null;
+            try{
+                urlConnection = (HttpURLConnection)url.openConnection();
+
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                urlConnection.setRequestProperty("Accept","application/json");
+                urlConnection.setDoOutput(true);
+                urlConnection.setDoInput(true);
+
+                JSONObject queryJSON = new JSONObject();
+                queryJSON.put("content",content);
+
+                Log.e("JSON_OUT",queryJSON.toString());
+
+                DataOutputStream dataOutputStream = new DataOutputStream(urlConnection.getOutputStream());
+                byte[] JsonString = queryJSON.toString().getBytes(StandardCharsets.UTF_8);
+                dataOutputStream.write(JsonString,0,JsonString.length);
+
+                dataOutputStream.flush();
+                dataOutputStream.close();
+
+                BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                String decodedString;
+                StringBuilder stringBuilder = new StringBuilder();
+                while ((decodedString = in.readLine()) != null) {
+                    stringBuilder.append(decodedString);
+                }
+                in.close();
+                //YOUR RESPONSE
+                topicsJSON = stringBuilder.toString();
+            }catch (Exception e){
+                Log.e(LOG_TAG, "Problem retrieving the JSON results.", e);
+            }finally {
+                if(urlConnection != null){
+                    urlConnection.disconnect();
+                }
+                //if(inputStream != null){
+                //  inputStream.close();
+                //}
+            }
+            Log.e("JSON",topicsJSON);
+            if(TextUtils.isEmpty(topicsJSON)){
+                return null;
+            }
+            JSONObject base = new JSONObject(topicsJSON);
+            if (base.getString("result").matches("success")){
+                JSONArray discussionsArray = base.getJSONArray("listtopic");
+
+                for (int i=0; i<discussionsArray.length(); i++){
+                    JSONObject discussion = discussionsArray.getJSONObject(i);
+
+                    String discussionId = discussion.getString("id");
+                    String discussionTitle = discussion.getString("title");
+                    String discussionContent = discussion.getString("content");
+                    String discussionCommentsNum = discussion.getString("countComment");
+
+                    JSONObject authorObject = discussion.getJSONObject("topicsUser");
+                    String discussionAuthor = authorObject.getString("nickname");
+
+                    topics.add(new Discussion(discussionId,discussionAuthor,discussionTitle,discussionContent,discussionCommentsNum));
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return topics;
     }
 }

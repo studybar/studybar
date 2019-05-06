@@ -38,38 +38,14 @@ import java.util.List;
 
 public class DiscussionsFragment extends Fragment implements androidx.loader.app.LoaderManager.LoaderCallbacks<List<Discussion>>{
 
-    private HorizontalBookAdapter mHorizontalBookAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private DiscussionAdapter itemsAdapter;
-    private Boolean flag_loading = false;
-//    private DiscussionAsyncTaskWait asyncTaskWait;
-//    private ProgressBar listFooterView;
+
     private ListView listView;
     private ProgressBar progressBar;
     private TextView emptyStateTextView;
 
-    /*
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            listViewLoadMore();
-        }
-    };
-
-    @Override
-    public void onResume(){
-        super.onResume();
-        IntentFilter intentFilter = new IntentFilter("DISCUSSION_LOAD_MORE");
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver, intentFilter);
-    }
-
-    @Override
-    public void onPause(){
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastReceiver);
-        super.onPause();
-    }
-    */
 
     @Nullable
     @Override
@@ -79,7 +55,7 @@ public class DiscussionsFragment extends Fragment implements androidx.loader.app
         swipeRefreshLayout = rootView.findViewById(R.id.discussion_refresh_layout);
         emptyStateTextView = rootView.findViewById(R.id.discussion_fragment_empty_view);
         progressBar = rootView.findViewById(R.id.discussion_load_progress);
-        listView = (ListView)rootView.findViewById(R.id.my_discussion_list);
+        listView = rootView.findViewById(R.id.my_discussion_list);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -116,69 +92,6 @@ public class DiscussionsFragment extends Fragment implements androidx.loader.app
             }
         });
         listView.setAdapter(itemsAdapter);
-
-       /*
-        setListViewFooter();
-        listView.setFooterDividersEnabled(false);
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if(scrollState == SCROLL_STATE_IDLE){
-                    if(listView.getLastVisiblePosition() >= listView.getCount() - 1){
-                        if(!flag_loading){
-                            flag_loading = true;
-                            listFooterView.setVisibility(View.VISIBLE);
-                            //todo:add items
-                            asyncTaskWait = new DiscussionAsyncTaskWait(new WeakReference<Context>(getContext()));
-                            asyncTaskWait.execute();
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-            }
-        });
-        */
-
-
-        /**
-         * to show my books
-         * */
-        LayoutInflater mInflater = getLayoutInflater();
-        ViewGroup bookHeader = (ViewGroup)mInflater.inflate(R.layout.discussion_fragment_header,listView,false);
-        listView.addHeaderView(bookHeader);
-
-        ArrayList<Book> books = new ArrayList<>();
-        books.add(new Book("8378001","习近平谈治国理政",R.drawable.test));
-        books.add(new Book("8378001","习近平谈治国理政",R.drawable.test));
-        books.add(new Book("8378001","习近平谈治国理政",R.drawable.test));
-        books.add(new Book("8378001","习近平谈治国理政",R.drawable.test));
-        books.add(new Book("8378001","习近平谈治国理政",R.drawable.test));
-        books.add(new Book("8378001","习近平谈治国理政",R.drawable.test));
-        books.add(new Book("8378001","习近平谈治国理政",R.drawable.test));
-        books.add(new Book("8378001","习近平谈治国理政",R.drawable.test));
-        books.add(new Book("8378001","习近平谈治国理政",R.drawable.test));
-        books.add(new Book("8378001","习近平谈治国理政",R.drawable.test));
-
-        RecyclerView horizontalBookRecyclerView = rootView.findViewById(R.id.discussion_books_recycler_view);
-        LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
-        horizontalBookRecyclerView.setLayoutManager(horizontalLayoutManager);
-        mHorizontalBookAdapter = new HorizontalBookAdapter(getActivity(),books);
-        mHorizontalBookAdapter.setClickListener(
-                new HorizontalBookAdapter.ItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        Intent intent = new Intent(getActivity(), BookDetailActivity.class);
-                        intent.putExtra("BOOK_ID",mHorizontalBookAdapter.getBookId(position));
-                        intent.putExtra("BOOK_NAME",mHorizontalBookAdapter.getBookName(position));
-                        startActivity(intent);
-                    }
-                }
-        );
-        horizontalBookRecyclerView.setAdapter(mHorizontalBookAdapter);
 
         return rootView;
     }
@@ -248,50 +161,4 @@ public class DiscussionsFragment extends Fragment implements androidx.loader.app
     public void onLoaderReset(@NonNull Loader<List<Discussion>> loader) {
         itemsAdapter.clear();
     }
-
-    /*
-    private void listViewLoadMore(){
-        itemsAdapter.add(new Discussion("34728774660012",getString(R.string.discussion_author_pre)+"nobody","Hello There!","General Kenobi!","89","64"));
-        itemsAdapter.add(new Discussion("34728774660012",getString(R.string.discussion_author_pre)+"nobody","Hello There!","General Kenobi!","89","64"));
-        itemsAdapter.add(new Discussion("34728774660012",getString(R.string.discussion_author_pre)+"nobody","Hello There!","General Kenobi!","89","64"));
-        itemsAdapter.add(new Discussion("34728774660012",getString(R.string.discussion_author_pre)+"nobody","Hello There!","General Kenobi!","89","64"));
-        itemsAdapter.add(new Discussion("34728774660012",getString(R.string.discussion_author_pre)+"nobody","Hello There!","General Kenobi!","89","64"));
-        itemsAdapter.notifyDataSetChanged();
-        flag_loading = false;
-        listFooterView.setVisibility(View.GONE);
-    }
-
-
-    private void setListViewFooter(){
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.footer_view_load_animation,null);
-        listFooterView = view.findViewById(R.id.footer_view_progressbar);
-        listView.addFooterView(listFooterView);
-    }
-
-    public static class DiscussionAsyncTaskWait extends AsyncTask<Void, Void, Void>{
-
-        private WeakReference<Context> context;
-
-        private DiscussionAsyncTaskWait(WeakReference<Context> context){
-            this.context = context;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void nothing){
-            Intent intent = new Intent("DISCUSSION_LOAD_MORE");
-            LocalBroadcastManager.getInstance(context.get().getApplicationContext()).sendBroadcast
-                    (intent);
-        }
-    }
-    */
 }

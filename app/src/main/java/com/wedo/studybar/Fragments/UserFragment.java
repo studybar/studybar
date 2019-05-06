@@ -26,7 +26,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wedo.studybar.R;
-import com.wedo.studybar.activities.MyBooksActivity;
 import com.wedo.studybar.activities.MyDiscussionsActivity;
 import com.wedo.studybar.activities.SettingsActivity;
 import com.wedo.studybar.activities.SignUpActivity;
@@ -158,15 +157,6 @@ public class UserFragment extends Fragment {
 
 
         //for logged in user
-        Button myBooksButton = rootView.findViewById(R.id.my_books);
-        myBooksButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MyBooksActivity.class);
-                startActivity(intent);
-            }
-        });
-
         Button myDiscussionsButton = rootView.findViewById(R.id.my_discussions);
         myDiscussionsButton.setOnClickListener(new View.OnClickListener() {
             @Override

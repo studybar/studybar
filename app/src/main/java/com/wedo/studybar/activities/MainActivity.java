@@ -25,7 +25,7 @@ import com.wedo.studybar.Fragments.UserFragment;
 import com.wedo.studybar.R;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
 
     ViewPager viewPager;
     ViewPagerAdapter viewPagerAdapter;
@@ -96,17 +96,9 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-
-        //about search history
-        Intent intent = getIntent();
-
-        if(Intent.ACTION_SEARCH.equals(intent.getAction())){
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
-                    SuggestionProvider.AUTHORITY,SuggestionProvider.MODE);
-            suggestions.saveRecentQuery(query,null);
-        }
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -134,5 +126,15 @@ public class MainActivity extends AppCompatActivity {
         searchView.setQueryHint(getResources().getString(R.string.search_hint));
 
         return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 }
