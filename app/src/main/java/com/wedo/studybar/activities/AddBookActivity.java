@@ -2,6 +2,7 @@ package com.wedo.studybar.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,26 +26,42 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 import com.wedo.studybar.R;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 public class AddBookActivity extends AppCompatActivity {
 
     private ImageView imageView;
-    Uri imageUri;
-    private Button buttonAdd;
-    private Button buttonCancle;
     private EditText addBookTitle;
+    private EditText addBookAuthor;
+    private EditText addBookPublisher;
     private Spinner spinner;
+    private Button buttonCancel;
+    private Button buttonAdd;
+
+    private Uri imageUri;
+    private Bitmap bitmap;
     private String bookTitle;
+    private String bookAuthor;
+    private String bookPublisher;
     private long bookCategory;
+
+    private String bookId;
+
+    private Boolean isCoverChanged = false;
+    private Boolean isCoverPosted = false;
+    private Boolean isInfoPosted = false;
+
+    private String URL_COVER = "http://39.97.181.175:8080/study/uploadTypePic.action";
+    private String URL_INFO = "http://39.97.181.175:8080/study/type_addtype.action";
 
     private static final String LOG_TAG = Context.class.getSimpleName();
 
@@ -52,11 +70,13 @@ public class AddBookActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_add_book);
 
-        imageView = (ImageView)findViewById(R.id.add_book_cover);
-        spinner = (Spinner)findViewById(R.id.add_book_category);
-        addBookTitle=(EditText)findViewById(R.id.add_book_name);
-        buttonAdd = (Button)findViewById(R.id.button_add);
-        buttonCancle = (Button)findViewById(R.id.button_cancel);
+        imageView = findViewById(R.id.add_book_cover);
+        spinner = findViewById(R.id.add_book_category);
+        addBookTitle=findViewById(R.id.add_book_name);
+        addBookAuthor=findViewById(R.id.add_book_author);
+        addBookPublisher =findViewById(R.id.add_book_press);
+        buttonAdd = findViewById(R.id.button_add);
+        buttonCancel = findViewById(R.id.button_cancel);
 
         InputFilter inputFilter = new InputFilter() {
             @Override
@@ -73,148 +93,86 @@ public class AddBookActivity extends AppCompatActivity {
         addBookTitle.setFilters(new InputFilter[]{
                 inputFilter
         });
+        addBookAuthor.setFilters(new InputFilter[]{
+                inputFilter
+        });
+        addBookPublisher.setFilters(new InputFilter[]{
+                inputFilter
+        });
 
         ArrayAdapter<CharSequence> categoryAdapter;
 
-        String bookId;
-        String mistake_item = getIntent().getStringExtra("MISTAKE_ITEM");
-        /**
-         * 区分修改信息/添加信息
-         * */
-        if(mistake_item != null && mistake_item.length() != 0){
-            this.setTitle(R.string.correct_book_info);
-            buttonAdd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    bookTitle = addBookTitle.getText().toString();
-                    if(bookTitle.matches("")||bookCategory==0){
-                        Toast.makeText(getApplicationContext(),R.string.plz_input_full_info,Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                        //todo: process the info
-                        finish();
-                    }
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CropImage.activity()
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .setAllowFlipping(false)
+                        .setAllowRotation(false)
+                        .start(AddBookActivity.this);
+            }
+        });
+
+        categoryAdapter = ArrayAdapter.createFromResource(this,
+                R.array.category_array, android.R.layout.simple_spinner_item);
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(categoryAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                bookCategory = id;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        buttonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bookTitle = addBookTitle.getText().toString();
+                bookAuthor = addBookAuthor.getText().toString();
+                bookPublisher = addBookPublisher.getText().toString();
+                if(bookTitle.matches("")||bookAuthor.matches("")||bookPublisher.matches("")||bookCategory==0 ||!isCoverChanged){
+                    Toast.makeText(getApplicationContext(),R.string.plz_input_full_info,Toast.LENGTH_SHORT).show();
                 }
-            });
-            buttonCancle.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                else{
+                    new addBookAsyncTask().execute(URL_COVER);
+                    new addBookAsyncTask().execute(URL_INFO);
+                }
+            }
+        });
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        buttonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bookTitle = addBookTitle.getText().toString();
+                bookAuthor = addBookAuthor.getText().toString();
+                bookPublisher = addBookPublisher.getText().toString();
+                if(bookTitle.matches("")||bookAuthor.matches("")||bookPublisher.matches("")||bookCategory==0){
+                    Toast.makeText(getApplicationContext(),R.string.plz_input_full_info,Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    //todo: process the info
                     finish();
                 }
-            });
-            switch(mistake_item) {
-                case "COVER":
-                    bookId = getIntent().getStringExtra("BOOK_ID");
-                    Toast.makeText(this, String.valueOf(R.string.plz_correct_cover) + " " + bookId, Toast.LENGTH_SHORT).show();
-                    imageView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            CropImage.activity()
-                                    .setGuidelines(CropImageView.Guidelines.ON)
-                                    .setAllowFlipping(false)
-                                    .setAllowRotation(false)
-                                    .setAspectRatio(1,1)
-                                    .start(AddBookActivity.this);
-                        }
-                    });
-                    addBookTitle.setEnabled(false);
-                    //todo:put the right content in other element
-                    break;
-                case "TITLE":
-                    bookId = getIntent().getStringExtra("BOOK_ID");
-                    //todo:put the right content in other element
-                    Toast.makeText(this, String.valueOf(R.string.plz_correct_title) + " " + bookId, Toast.LENGTH_SHORT).show();
-                    break;
-                case "CATEGORY":
-                    bookId = getIntent().getStringExtra("BOOK_ID");
-                    addBookTitle.setEnabled(false);
-                    //todo:put the right content in other element
-                    Toast.makeText(this, String.valueOf(R.string.plz_correct_category) + " " + bookId, Toast.LENGTH_SHORT).show();
-                    categoryAdapter = ArrayAdapter.createFromResource(this,
-                            R.array.category_array, android.R.layout.simple_spinner_item);
-                    categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spinner.setAdapter(categoryAdapter);
-                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            bookCategory = id;
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
-                        }
-                    });
-                    break;
             }
-        }
-        else{
-                    /**
-                     * default state is add book
-                     * */
-                    imageView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            CropImage.activity()
-                                    .setGuidelines(CropImageView.Guidelines.ON)
-                                    .setAllowFlipping(false)
-                                    .setAllowRotation(false)
-                                    .setAspectRatio(1,1)
-                                    .start(AddBookActivity.this);
-                        }
-                    });
+        });
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
-                    categoryAdapter = ArrayAdapter.createFromResource(this,
-                            R.array.category_array, android.R.layout.simple_spinner_item);
-                    categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spinner.setAdapter(categoryAdapter);
-                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            bookCategory = id;
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
-                        }
-                    });
-
-                    buttonAdd.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            bookTitle = addBookTitle.getText().toString();
-                            if(bookTitle.matches("")||bookCategory==0){
-                                Toast.makeText(getApplicationContext(),R.string.plz_input_full_info,Toast.LENGTH_SHORT).show();
-                            }
-                            else{
-                                /*
-                                JSONObject newBook = new JSONObject();
-                                try{
-                                    newBook.put("name",bookTitle+" "+bookAuthor+" "+bookPublisher);
-                                    newBook.put("types_category_id",String.valueOf(bookCategory));
-                                    //todo:添加创建者 id
-                                    newBook.put("user_id","5");
-
-                                    new SendBookInfo().execute("http://39.97.181.175:8080/study/type_addtype.action",newBook.toString());
-                                    //todo:send the json object
-                                }catch (JSONException e){
-                                    e.printStackTrace();
-                                }
-                                */
-                                sendPost();
-                                Toast.makeText(getApplicationContext(),"ok",Toast.LENGTH_SHORT).show();
-                                //finish();
-                            }
-                        }
-                    });
-                    buttonCancle.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            finish();
-                        }
-                    });
-        }
     }
 
     @Override
@@ -225,10 +183,103 @@ public class AddBookActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 imageUri = result.getUri();
                 imageView.setImageURI(imageUri);
+                try {
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
+                    byte[] b = byteArrayOutputStream.toByteArray();
+                    isCoverChanged = true;
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
             }
         }
+    }
+
+    private class addBookAsyncTask extends AsyncTask<String,Void,String>{
+
+        HttpURLConnection urlConnection = null;
+        String response;
+        Boolean isCover = false;
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            try{
+                URL url = new URL(strings[0]);
+
+                urlConnection = (HttpURLConnection)url.openConnection();
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                urlConnection.setRequestProperty("Accept","application/json");
+                urlConnection.setDoOutput(true);
+                urlConnection.setDoInput(true);
+
+                DataOutputStream dataOutputStream = new DataOutputStream(urlConnection.getOutputStream());
+                if(strings[0].matches(URL_COVER)){
+                    isCover = true;
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG,60,byteArrayOutputStream);
+                    byte[] b = byteArrayOutputStream.toByteArray();
+                    String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+
+                    JSONObject cover = new JSONObject();
+                    cover.put("picture",encodedImage);
+                    dataOutputStream.writeBytes(cover.toString());
+                }else {
+                    JSONObject book = new JSONObject();
+                    book.put("name",bookTitle+" "+bookAuthor+" "+bookPublisher);
+                    JSONObject bookCategory = new JSONObject();
+                    bookCategory.put("id",String.valueOf(bookCategory));
+                    book.put("typesCategory",bookCategory);
+
+                    byte[] JsonString = book.toString().getBytes(StandardCharsets.UTF_8);
+                    dataOutputStream.write(JsonString,0,JsonString.length);
+
+                    Log.e("POSTING",book.toString());
+                }
+                dataOutputStream.flush();
+                dataOutputStream.close();
+                BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                String decodedString;
+                StringBuilder stringBuilder = new StringBuilder();
+                while ((decodedString = in.readLine()) != null) {
+                    stringBuilder.append(decodedString);
+                }
+                in.close();
+                //YOUR RESPONSE
+                response = stringBuilder.toString();
+
+                urlConnection.disconnect();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            String result = "";
+            try{
+                JSONObject base = new JSONObject(response);
+                result = base.getString("result");
+
+                Log.e("RESULT",result);
+                if (result.matches("success")){
+                    if (isCoverChanged && isCoverPosted){
+                        finish();
+                    }else {
+                        if(isCover){
+                            isCoverPosted = true;
+                        }else {
+                            isInfoPosted = true;
+                        }
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
     }
 
     private void sendPost(){
@@ -245,7 +296,7 @@ public class AddBookActivity extends AppCompatActivity {
                     conn.setDoInput(true);
 
                     JSONObject newBook = new JSONObject();
-                    newBook.put("name",bookTitle/*+" "+bookAuthor+" "+bookPublisher*/);
+                    newBook.put("name",bookTitle+" "+bookAuthor+" "+bookPublisher);
                     JSONObject bookCategory = new JSONObject();
                     bookCategory.put("types_category_id",String.valueOf(bookCategory));
                     //newBook.put("")
