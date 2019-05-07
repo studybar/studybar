@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.provider.MediaStore;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.util.Base64;
@@ -31,7 +32,6 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -52,15 +52,13 @@ public class AddBookActivity extends AppCompatActivity {
     private String bookTitle;
     private String bookAuthor;
     private String bookPublisher;
-    private long bookCategory;
+    private long bookCategoryId;
+    private byte[] b;
 
     private String bookId;
 
     private Boolean isCoverChanged = false;
-    private Boolean isCoverPosted = false;
-    private Boolean isInfoPosted = false;
 
-    private String URL_COVER = "http://39.97.181.175:8080/study/uploadTypePic.action";
     private String URL_INFO = "http://39.97.181.175:8080/study/type_addtype.action";
 
     private static final String LOG_TAG = Context.class.getSimpleName();
@@ -120,7 +118,7 @@ public class AddBookActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                bookCategory = id;
+                bookCategoryId = id;
             }
 
             @Override
@@ -135,11 +133,10 @@ public class AddBookActivity extends AppCompatActivity {
                 bookTitle = addBookTitle.getText().toString();
                 bookAuthor = addBookAuthor.getText().toString();
                 bookPublisher = addBookPublisher.getText().toString();
-                if(bookTitle.matches("")||bookAuthor.matches("")||bookPublisher.matches("")||bookCategory==0 ||!isCoverChanged){
+                if(bookTitle.matches("")||bookAuthor.matches("")||bookPublisher.matches("")|| bookCategoryId ==0 ||!isCoverChanged){
                     Toast.makeText(getApplicationContext(),R.string.plz_input_full_info,Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    new addBookAsyncTask().execute(URL_COVER);
                     new addBookAsyncTask().execute(URL_INFO);
                 }
             }
@@ -157,12 +154,13 @@ public class AddBookActivity extends AppCompatActivity {
                 bookTitle = addBookTitle.getText().toString();
                 bookAuthor = addBookAuthor.getText().toString();
                 bookPublisher = addBookPublisher.getText().toString();
-                if(bookTitle.matches("")||bookAuthor.matches("")||bookPublisher.matches("")||bookCategory==0){
+                if(bookTitle.matches("")||bookAuthor.matches("")||bookPublisher.matches("")|| bookCategoryId ==0){
                     Toast.makeText(getApplicationContext(),R.string.plz_input_full_info,Toast.LENGTH_SHORT).show();
                 }
                 else{
                     //todo: process the info
-                    finish();
+                    //finish();
+                    new addBookAsyncTask().execute(URL_INFO);
                 }
             }
         });
@@ -181,12 +179,13 @@ public class AddBookActivity extends AppCompatActivity {
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
-                imageUri = result.getUri();
-                imageView.setImageURI(imageUri);
                 try {
+                    imageUri = result.getUri();
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                    imageView.setImageURI(imageUri);
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
-                    byte[] b = byteArrayOutputStream.toByteArray();
+                    bitmap.compress(Bitmap.CompressFormat.PNG,60,byteArrayOutputStream);
+                    b = byteArrayOutputStream.toByteArray();
                     isCoverChanged = true;
                 }catch (Exception e){
                     e.printStackTrace();
@@ -201,7 +200,6 @@ public class AddBookActivity extends AppCompatActivity {
 
         HttpURLConnection urlConnection = null;
         String response;
-        Boolean isCover = false;
 
         @Override
         protected String doInBackground(String... strings) {
@@ -217,28 +215,23 @@ public class AddBookActivity extends AppCompatActivity {
                 urlConnection.setDoInput(true);
 
                 DataOutputStream dataOutputStream = new DataOutputStream(urlConnection.getOutputStream());
-                if(strings[0].matches(URL_COVER)){
-                    isCover = true;
-                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG,60,byteArrayOutputStream);
-                    byte[] b = byteArrayOutputStream.toByteArray();
-                    String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+                String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
 
-                    JSONObject cover = new JSONObject();
-                    cover.put("picture",encodedImage);
-                    dataOutputStream.writeBytes(cover.toString());
-                }else {
-                    JSONObject book = new JSONObject();
-                    book.put("name",bookTitle+" "+bookAuthor+" "+bookPublisher);
-                    JSONObject bookCategory = new JSONObject();
-                    bookCategory.put("id",String.valueOf(bookCategory));
-                    book.put("typesCategory",bookCategory);
+                JSONObject book = new JSONObject();
+                JSONObject bookCategory = new JSONObject();
+                bookCategory.put("id",String.valueOf(bookCategoryId));
+                book.put("typesCategory",bookCategory);
+                JSONObject name = new JSONObject();
+                name.put("name",bookTitle+" "+bookAuthor+" "+bookPublisher);
+                book.put("name",name);
+                book.put("picture",encodedImage);
 
-                    byte[] JsonString = book.toString().getBytes(StandardCharsets.UTF_8);
-                    dataOutputStream.write(JsonString,0,JsonString.length);
+                Log.e("CATEGORY2",String.valueOf(bookCategoryId));
 
-                    Log.e("POSTING",book.toString());
-                }
+                byte[] JsonString = book.toString().getBytes(StandardCharsets.UTF_8);
+                dataOutputStream.write(JsonString,0,JsonString.length);
+
+                Log.e("POSTING",book.toString());
                 dataOutputStream.flush();
                 dataOutputStream.close();
                 BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
@@ -261,77 +254,15 @@ public class AddBookActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String response) {
             String result = "";
-            try{
+            try {
                 JSONObject base = new JSONObject(response);
                 result = base.getString("result");
 
-                Log.e("RESULT",result);
-                if (result.matches("success")){
-                    if (isCoverChanged && isCoverPosted){
-                        finish();
-                    }else {
-                        if(isCover){
-                            isCoverPosted = true;
-                        }else {
-                            isInfoPosted = true;
-                        }
-                    }
-                }
-            }catch (Exception e){
+                Log.e("RESULT", result);
+                finish();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-    }
-
-    private void sendPost(){
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    URL url = new URL("http://39.97.181.175:8080/study/type_addtype.action");
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setRequestMethod("POST");
-                    conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
-                    conn.setRequestProperty("Accept","application/json");
-                    conn.setDoOutput(true);
-                    conn.setDoInput(true);
-
-                    JSONObject newBook = new JSONObject();
-                    newBook.put("name",bookTitle+" "+bookAuthor+" "+bookPublisher);
-                    JSONObject bookCategory = new JSONObject();
-                    bookCategory.put("types_category_id",String.valueOf(bookCategory));
-                    //newBook.put("")
-                    //newBook.put("types_category_id",String.valueOf(bookCategory));
-                    //todo:添加创建者 id
-                    //newBook.put("user_id","5");
-
-                    DataOutputStream dataOutputStream = new DataOutputStream(conn.getOutputStream());
-                    dataOutputStream.writeBytes(newBook.toString());
-
-                    Log.e(LOG_TAG,newBook.toString());
-
-                    dataOutputStream.flush();
-                    dataOutputStream.close();
-
-                    /*
-                    BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    String decodedString;
-                    StringBuilder stringBuilder = new StringBuilder();
-                    while ((decodedString = in.readLine()) != null) {
-                        stringBuilder.append(decodedString);
-                    }
-                    in.close();
-                    YOUR RESPONSE
-                    String response = stringBuilder.toString();
-                    */
-                    Log.e("STATUS", String.valueOf(conn.getResponseCode()));
-                    Log.e("MSG" , conn.getResponseMessage());
-                    //Log.e("RESPONSE",response);
-                    conn.disconnect();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
+        }
     }
 }

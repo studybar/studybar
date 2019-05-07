@@ -252,7 +252,7 @@ public class editProfileActivity extends AppCompatActivity {
                     bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
                     imageView.setImageURI(imageUri);
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
+                    bitmap.compress(Bitmap.CompressFormat.PNG,60,byteArrayOutputStream);
                     byte[] b = byteArrayOutputStream.toByteArray();
                     if(!isAvatarChanged){ countChanges++; }
                     isAvatarChanged = true;
@@ -304,9 +304,6 @@ public class editProfileActivity extends AppCompatActivity {
                     JSONObject avatar = new JSONObject();
                     avatar.put("picture",encodedImage);
                     dataOutputStream.writeBytes(avatar.toString());
-
-                    Log.e("POSTING",avatar.toString());
-
                 }else {
                     JSONObject user = new JSONObject();
                     user.put("userIntro",bio);
@@ -315,8 +312,6 @@ public class editProfileActivity extends AppCompatActivity {
                     user.put("userSex",gender);
                     byte[] JsonString = user.toString().getBytes(StandardCharsets.UTF_8);
                     dataOutputStream.write(JsonString,0,JsonString.length);
-
-                    Log.e("POSTING",user.toString());
                 }
                 dataOutputStream.flush();
                 dataOutputStream.close();

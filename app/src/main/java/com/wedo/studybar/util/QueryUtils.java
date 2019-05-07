@@ -218,7 +218,8 @@ public class QueryUtils {
 
                 String bookId = book.getString("id");
                 String bookName = book.getString("name");
-                String bookCover = book.getString("typespicture");
+                String bookCover = "";
+                bookCover = book.getString("typespicture");
                 String bookCommentsNum = book.getString("countTopics");
 
                 books.add(new Book(bookId,bookName,R.drawable.test,bookCommentsNum));
@@ -447,9 +448,6 @@ public class QueryUtils {
 
                 JSONObject queryJSON = new JSONObject();
                 queryJSON.put("content",content);
-
-                Log.e("JSON_OUT",queryJSON.toString());
-
                 DataOutputStream dataOutputStream = new DataOutputStream(urlConnection.getOutputStream());
                 byte[] JsonString = queryJSON.toString().getBytes(StandardCharsets.UTF_8);
                 dataOutputStream.write(JsonString,0,JsonString.length);
