@@ -236,7 +236,7 @@ public class QueryUtils {
                 String bookCommentsNum = book.getString("countTopics");
 
                 //books.add(new Book(bookId,bookName,R.drawable.test,bookCommentsNum));
-                books.add(new Book(bookId,bookName,R.drawable.test,bookAuthor,bookPublisher,bookCommentsNum));
+                books.add(new Book(bookId,bookName,bookCover,bookAuthor,bookPublisher,bookCommentsNum));
             }
         }catch (Exception e){
             e.printStackTrace();

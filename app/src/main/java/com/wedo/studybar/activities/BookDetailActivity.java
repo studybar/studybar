@@ -3,6 +3,8 @@ package com.wedo.studybar.activities;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -56,7 +59,7 @@ public class BookDetailActivity extends AppCompatActivity implements androidx.lo
 
     private String bookId;
     private String bookName;
-    //todo:book cover
+    private String bookCover;
     private String bookCommentsNum;
 
     private DiscussionAdapter discussionAdapter;
@@ -86,7 +89,7 @@ public class BookDetailActivity extends AppCompatActivity implements androidx.lo
         });
         bookId = getIntent().getStringExtra("BOOK_ID");
         bookName = getIntent().getStringExtra("BOOK_NAME");
-        //todo:book cover
+        bookCover = getIntent().getStringExtra("BOOK_COVER");
         bookCommentsNum = getIntent().getStringExtra("BOOK_COMMENT_COUNT");
 
         loadBookDetail();
@@ -116,10 +119,11 @@ public class BookDetailActivity extends AppCompatActivity implements androidx.lo
         bookCoverView = findViewById(R.id.book_search_cover);
         bookTitleView = findViewById(R.id.book_search_title);
         bookCommentNumView = findViewById(R.id.search_num_of_discuss);
-        buttonFollow = findViewById(R.id.book_follow_button);
 
-        //todo:change cover
-        bookCoverView.setImageResource(R.drawable.test);
+        byte[] coverBytesArray = Base64.decode(bookCover,Base64.DEFAULT);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(coverBytesArray,0,coverBytesArray.length);
+        bookCoverView.setImageBitmap(bitmap);
+        //bookCoverView.setImageResource(R.drawable.test);
         bookTitleView.setText(bookName);
         bookCommentNumView.setText(bookCommentsNum);
 

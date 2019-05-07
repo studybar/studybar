@@ -3,6 +3,10 @@ package com.wedo.studybar.Adapter;
 import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,10 +39,14 @@ public class HorizontalBookAdapter extends RecyclerView.Adapter<HorizontalBookAd
     @Override
     public void onBindViewHolder(@NonNull HorizontalBookAdapter.horizontalBookViewHolder horizontalBookViewHolder, int position) {
         String horizontalBookId = books.get(position).getBookId();
-        int horizontalBookCover = books.get(position).getBookCoverId();
+        //int horizontalBookCover = books.get(position).getBookCoverId();
+        String horizontalBookCover = books.get(position).getBookCoverId();
         String horizontalBookName = books.get(position).getBookName();
         String horizontalBookAuthor = books.get(position).getBookAuthor();
-        horizontalBookViewHolder.horizontalBookCoverView.setImageResource(horizontalBookCover);
+        //horizontalBookViewHolder.horizontalBookCoverView.setImageResource(horizontalBookCover);
+        byte[] coverBytesArray = Base64.decode(books.get(position).getBookCoverId(),Base64.DEFAULT);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(coverBytesArray,0,coverBytesArray.length);
+        horizontalBookViewHolder.horizontalBookCoverView.setImageBitmap(bitmap);
         horizontalBookViewHolder.horizontalBookNameView.setText(horizontalBookName);
         horizontalBookViewHolder.horizontalBookAuthorView.setText(horizontalBookAuthor);
     }
@@ -74,6 +82,10 @@ public class HorizontalBookAdapter extends RecyclerView.Adapter<HorizontalBookAd
 
     public String getBookId(int id){
         return books.get(id).getBookId();
+    }
+
+    public String getBookCover(int id){
+        return books.get(id).getBookCoverId();
     }
 
     public String getBookCountNum(int id){

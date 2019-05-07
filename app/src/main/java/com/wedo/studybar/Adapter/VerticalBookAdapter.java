@@ -3,6 +3,10 @@ package com.wedo.studybar.Adapter;
 import android.app.Activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +42,10 @@ public class VerticalBookAdapter extends ArrayAdapter<Book> {
         Book  currentAndroidAdapter = getItem(position);
 
         ImageView verticalBookCover = (ImageView)bookItemView.findViewById(R.id.book_search_cover);
-        verticalBookCover.setImageResource(currentAndroidAdapter.getBookCoverId());
+        //verticalBookCover.setImageResource(currentAndroidAdapter.getBookCoverId());
+        byte[] coverBytesArray = Base64.decode(currentAndroidAdapter.getBookCoverId(),Base64.DEFAULT);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(coverBytesArray,0,coverBytesArray.length);
+        verticalBookCover.setImageBitmap(bitmap);
 
         TextView verticalBookTitle = (TextView)bookItemView.findViewById(R.id.book_search_title);
         verticalBookTitle.setText(currentAndroidAdapter.getBookName());
@@ -52,18 +59,6 @@ public class VerticalBookAdapter extends ArrayAdapter<Book> {
         TextView verticalBookComments = (TextView)bookItemView.findViewById(R.id.search_num_of_discuss);
         verticalBookComments.setText(currentAndroidAdapter.getNumOfComments());
 
-
-        ToggleButton followButton = (ToggleButton)bookItemView.findViewById(R.id.book_follow_button);
-        followButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    Toast.makeText(getContext(),R.string.followed,Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(getContext(),R.string.unfollowed,Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
         return bookItemView;
     }
 }

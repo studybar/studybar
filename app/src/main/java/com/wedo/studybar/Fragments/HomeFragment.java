@@ -133,7 +133,7 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
                 Intent intent = new Intent(getActivity(), BookDetailActivity.class);
                 intent.putExtra("BOOK_ID", horizontalBookAdapter_one.getBookId(position));
                 intent.putExtra("BOOK_NAME", horizontalBookAdapter_one.getBookName(position));
-                //todo:pass cover
+                intent.putExtra("BOOK_COVER",horizontalBookAdapter_one.getBookCover(position));
                 intent.putExtra("BOOK_COMMENT_COUNT", horizontalBookAdapter_one.getBookCountNum(position));
                 startActivity(intent);
             }
@@ -147,10 +147,10 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), BookDetailActivity.class);
-                intent.putExtra("BOOK_ID", horizontalBookAdapter_one.getBookId(position));
-                intent.putExtra("BOOK_NAME", horizontalBookAdapter_one.getBookName(position));
-                //todo:pass cover
-                intent.putExtra("BOOK_COMMENT_COUNT", horizontalBookAdapter_one.getBookCountNum(position));
+                intent.putExtra("BOOK_ID", horizontalBookAdapter_two.getBookId(position));
+                intent.putExtra("BOOK_NAME", horizontalBookAdapter_two.getBookName(position));
+                intent.putExtra("BOOK_COVER",horizontalBookAdapter_two.getBookCover(position));
+                intent.putExtra("BOOK_COMMENT_COUNT", horizontalBookAdapter_two.getBookCountNum(position));
                 startActivity(intent);
             }
         });
@@ -163,10 +163,10 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), BookDetailActivity.class);
-                intent.putExtra("BOOK_ID", horizontalBookAdapter_one.getBookId(position));
-                intent.putExtra("BOOK_NAME", horizontalBookAdapter_one.getBookName(position));
-                //todo:pass cover
-                intent.putExtra("BOOK_COMMENT_COUNT", horizontalBookAdapter_one.getBookCountNum(position));
+                intent.putExtra("BOOK_ID", horizontalBookAdapter_three.getBookId(position));
+                intent.putExtra("BOOK_NAME", horizontalBookAdapter_three.getBookName(position));
+                intent.putExtra("BOOK_COVER",horizontalBookAdapter_three.getBookCover(position));
+                intent.putExtra("BOOK_COMMENT_COUNT", horizontalBookAdapter_three.getBookCountNum(position));
                 startActivity(intent);
             }
         });

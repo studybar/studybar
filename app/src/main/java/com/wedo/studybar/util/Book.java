@@ -5,18 +5,18 @@ public class Book {
     private String mBookName;       //book_name
     private String mBookPublisher;
     private String mBookAuthor;
-    private int mBookCoverId;
-    private String mCoverId;        //book_image
+    //private int mBookCoverId;
+    private String mBookCoverId;        //book_image
     private String mNumOfComments;
 
-    public Book(String bookId,String bookName,int bookCoverId,String bookAuthor){
+    public Book(String bookId,String bookName,String bookCoverId,String bookAuthor){
         mBookId = bookId;
         mBookName = bookName;
         mBookCoverId = bookCoverId;
         mBookAuthor = bookAuthor;
     }
 
-    public Book(String bookId,String bookName,int bookCoverId,String bookAuthor,String bookPublisher,String numOfComments){
+    public Book(String bookId,String bookName,String bookCoverId,String bookAuthor,String bookPublisher,String numOfComments){
         mBookId = bookId;
         mBookName = bookName;
         mBookCoverId = bookCoverId;
@@ -33,7 +33,7 @@ public class Book {
         return mBookName;
     }
 
-    public int getBookCoverId(){
+    public String getBookCoverId(){
         return mBookCoverId;
     }
 

@@ -14,6 +14,7 @@ import androidx.loader.app.LoaderManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -85,10 +86,15 @@ public class CategoryDetailActivity extends AppCompatActivity implements android
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("ID",books.get(position).getBookId());
+                Log.e("NAME",books.get(position).getBookName());
+                Log.e("COVER",books.get(position).getBookCoverId());
+                Log.e("PRESS",books.get(position).getBookPublisher());
+                Log.e("COUNT",books.get(position).getNumOfComments());
                 Intent intent = new Intent(getApplicationContext(),BookDetailActivity.class);
                 intent.putExtra("BOOK_ID",books.get(position).getBookId());
                 intent.putExtra("BOOK_NAME",books.get(position).getBookName());
-                //todo:pass cover
+                intent.putExtra("BOOK_COVER",books.get(position).getBookCoverId());
                 intent.putExtra("BOOK_COMMENT_COUNT",books.get(position).getNumOfComments());
                 startActivity(intent);
             }

@@ -89,18 +89,6 @@
                     tools:text="64"/>
             </LinearLayout>
 
-            <ToggleButton
-                android:id="@+id/book_follow_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_follow_background"
-                android:textOff="@string/follow"
-                android:textOn="@string/followed"
-                android:layout_margin="8dp"
-                android:focusable="false"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:textAppearance="?android:textAppearanceSmall"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
