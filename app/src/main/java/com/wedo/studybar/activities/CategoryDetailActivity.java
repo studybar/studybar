@@ -89,7 +89,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements android
                 intent.putExtra("BOOK_ID",books.get(position).getBookId());
                 intent.putExtra("BOOK_NAME",books.get(position).getBookName());
                 //todo:pass cover
-                intent.putExtra("BOOK_COMMENT_COUNT",books.get(position).getmNumOfComments());
+                intent.putExtra("BOOK_COMMENT_COUNT",books.get(position).getNumOfComments());
                 startActivity(intent);
             }
         });

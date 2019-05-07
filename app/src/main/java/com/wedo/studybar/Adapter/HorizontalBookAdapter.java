@@ -11,9 +11,7 @@ import android.widget.TextView;
 
 import com.wedo.studybar.R;
 import com.wedo.studybar.util.Book;
-import com.wedo.studybar.util.Discussion;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HorizontalBookAdapter extends RecyclerView.Adapter<HorizontalBookAdapter.horizontalBookViewHolder> {
@@ -39,8 +37,10 @@ public class HorizontalBookAdapter extends RecyclerView.Adapter<HorizontalBookAd
         String horizontalBookId = books.get(position).getBookId();
         int horizontalBookCover = books.get(position).getBookCoverId();
         String horizontalBookName = books.get(position).getBookName();
+        String horizontalBookAuthor = books.get(position).getBookAuthor();
         horizontalBookViewHolder.horizontalBookCoverView.setImageResource(horizontalBookCover);
         horizontalBookViewHolder.horizontalBookNameView.setText(horizontalBookName);
+        horizontalBookViewHolder.horizontalBookAuthorView.setText(horizontalBookAuthor);
     }
 
     public String getBookName(int position) {
@@ -50,11 +50,13 @@ public class HorizontalBookAdapter extends RecyclerView.Adapter<HorizontalBookAd
     public class horizontalBookViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
         ImageView horizontalBookCoverView;
         TextView horizontalBookNameView;
+        TextView horizontalBookAuthorView;
 
         horizontalBookViewHolder(View itemView){
             super(itemView);
             horizontalBookCoverView = itemView.findViewById(R.id.book_cover);
             horizontalBookNameView = itemView.findViewById(R.id.book_name);
+            horizontalBookAuthorView = itemView.findViewById(R.id.book_author);
             itemView.setOnClickListener(this);
         }
 
@@ -75,7 +77,7 @@ public class HorizontalBookAdapter extends RecyclerView.Adapter<HorizontalBookAd
     }
 
     public String getBookCountNum(int id){
-        return books.get(id).getmNumOfComments();
+        return books.get(id).getNumOfComments();
     }
 
     public void setClickListener(ItemClickListener itemClickListener){

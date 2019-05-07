@@ -226,12 +226,9 @@ public class AddBookActivity extends AppCompatActivity {
                 book.put("name",name);
                 book.put("picture",encodedImage);
 
-                Log.e("CATEGORY2",String.valueOf(bookCategoryId));
-
                 byte[] JsonString = book.toString().getBytes(StandardCharsets.UTF_8);
                 dataOutputStream.write(JsonString,0,JsonString.length);
 
-                Log.e("POSTING",book.toString());
                 dataOutputStream.flush();
                 dataOutputStream.close();
                 BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
@@ -257,8 +254,6 @@ public class AddBookActivity extends AppCompatActivity {
             try {
                 JSONObject base = new JSONObject(response);
                 result = base.getString("result");
-
-                Log.e("RESULT", result);
                 finish();
             } catch (Exception e) {
                 e.printStackTrace();

@@ -16,6 +16,8 @@ import android.widget.ToggleButton;
 import com.wedo.studybar.R;
 import com.wedo.studybar.util.Book;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class VerticalBookAdapter extends ArrayAdapter<Book> {
@@ -41,8 +43,14 @@ public class VerticalBookAdapter extends ArrayAdapter<Book> {
         TextView verticalBookTitle = (TextView)bookItemView.findViewById(R.id.book_search_title);
         verticalBookTitle.setText(currentAndroidAdapter.getBookName());
 
+        TextView verticalBookPress = bookItemView.findViewById(R.id.book_press);
+        verticalBookPress.setText(currentAndroidAdapter.getBookPublisher());
+
+        TextView verticalBookAuthor = bookItemView.findViewById(R.id.book_search_author);
+        verticalBookAuthor.setText(currentAndroidAdapter.getBookAuthor());
+
         TextView verticalBookComments = (TextView)bookItemView.findViewById(R.id.search_num_of_discuss);
-        verticalBookComments.setText(currentAndroidAdapter.getmNumOfComments());
+        verticalBookComments.setText(currentAndroidAdapter.getNumOfComments());
 
 
         ToggleButton followButton = (ToggleButton)bookItemView.findViewById(R.id.book_follow_button);

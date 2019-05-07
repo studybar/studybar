@@ -217,12 +217,26 @@ public class QueryUtils {
                 JSONObject book = booksArray.getJSONObject(i);
 
                 String bookId = book.getString("id");
-                String bookName = book.getString("name");
+
+                String[] strings = book.getString("name").split("\\s+");
+                String bookName = strings[0];
+                String bookAuthor = "";
+                String bookPublisher = "";
+                if (strings.length==3){
+                    bookAuthor = strings[1];
+                    bookPublisher = strings[2];
+                }
+                if (strings.length == 2) {
+                    bookAuthor = strings[1];
+                }
+
+                //String bookName = book.getString("name");
                 String bookCover = "";
                 bookCover = book.getString("typespicture");
                 String bookCommentsNum = book.getString("countTopics");
 
-                books.add(new Book(bookId,bookName,R.drawable.test,bookCommentsNum));
+                //books.add(new Book(bookId,bookName,R.drawable.test,bookCommentsNum));
+                books.add(new Book(bookId,bookName,R.drawable.test,bookAuthor,bookPublisher,bookCommentsNum));
             }
         }catch (Exception e){
             e.printStackTrace();
