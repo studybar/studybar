@@ -41,9 +41,9 @@ public class VerticalBookAdapter extends ArrayAdapter<Book> {
         }
         Book  currentAndroidAdapter = getItem(position);
 
-        ImageView verticalBookCover = (ImageView)bookItemView.findViewById(R.id.book_search_cover);
+        ImageView verticalBookCover = bookItemView.findViewById(R.id.book_search_cover);
         //verticalBookCover.setImageResource(currentAndroidAdapter.getBookCoverId());
-        byte[] coverBytesArray = Base64.decode(currentAndroidAdapter.getBookCoverId(),Base64.DEFAULT);
+        byte[] coverBytesArray = currentAndroidAdapter.getBookCoverId();
         Bitmap bitmap = BitmapFactory.decodeByteArray(coverBytesArray,0,coverBytesArray.length);
         verticalBookCover.setImageBitmap(bitmap);
 

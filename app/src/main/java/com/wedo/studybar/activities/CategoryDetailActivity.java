@@ -3,6 +3,8 @@ package com.wedo.studybar.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -27,6 +29,7 @@ import com.wedo.studybar.R;
 import com.wedo.studybar.util.Book;
 import com.wedo.studybar.loader.BooksLoader;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,11 +89,6 @@ public class CategoryDetailActivity extends AppCompatActivity implements android
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("ID",books.get(position).getBookId());
-                Log.e("NAME",books.get(position).getBookName());
-                Log.e("COVER",books.get(position).getBookCoverId());
-                Log.e("PRESS",books.get(position).getBookPublisher());
-                Log.e("COUNT",books.get(position).getNumOfComments());
                 Intent intent = new Intent(getApplicationContext(),BookDetailActivity.class);
                 intent.putExtra("BOOK_ID",books.get(position).getBookId());
                 intent.putExtra("BOOK_NAME",books.get(position).getBookName());

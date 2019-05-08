@@ -40,11 +40,11 @@ public class HorizontalBookAdapter extends RecyclerView.Adapter<HorizontalBookAd
     public void onBindViewHolder(@NonNull HorizontalBookAdapter.horizontalBookViewHolder horizontalBookViewHolder, int position) {
         String horizontalBookId = books.get(position).getBookId();
         //int horizontalBookCover = books.get(position).getBookCoverId();
-        String horizontalBookCover = books.get(position).getBookCoverId();
+        byte[] horizontalBookCover = books.get(position).getBookCoverId();
         String horizontalBookName = books.get(position).getBookName();
         String horizontalBookAuthor = books.get(position).getBookAuthor();
         //horizontalBookViewHolder.horizontalBookCoverView.setImageResource(horizontalBookCover);
-        byte[] coverBytesArray = Base64.decode(books.get(position).getBookCoverId(),Base64.DEFAULT);
+        byte[] coverBytesArray = books.get(position).getBookCoverId();
         Bitmap bitmap = BitmapFactory.decodeByteArray(coverBytesArray,0,coverBytesArray.length);
         horizontalBookViewHolder.horizontalBookCoverView.setImageBitmap(bitmap);
         horizontalBookViewHolder.horizontalBookNameView.setText(horizontalBookName);
@@ -84,7 +84,7 @@ public class HorizontalBookAdapter extends RecyclerView.Adapter<HorizontalBookAd
         return books.get(id).getBookId();
     }
 
-    public String getBookCover(int id){
+    public byte[] getBookCover(int id){
         return books.get(id).getBookCoverId();
     }
 

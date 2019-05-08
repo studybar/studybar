@@ -48,6 +48,8 @@ public class BookCommentActivity extends AppCompatActivity {
         this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_action_close);
         setContentView(R.layout.activity_book_comment);
 
+        bookId = getIntent().getStringExtra("BOOK_ID");
+
         progressBar = findViewById(R.id.book_comment_post_progress);
         editTextTitle = findViewById(R.id.book_comment_title);
         editTextContent = findViewById(R.id.book_comment_content);

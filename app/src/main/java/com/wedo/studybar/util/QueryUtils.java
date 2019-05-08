@@ -2,7 +2,10 @@ package com.wedo.studybar.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.JsonReader;
 import android.util.Log;
 
@@ -233,10 +236,11 @@ public class QueryUtils {
                 //String bookName = book.getString("name");
                 String bookCover = "";
                 bookCover = book.getString("typespicture");
+                byte[] bytes = Base64.decode(bookCover,Base64.DEFAULT);
                 String bookCommentsNum = book.getString("countTopics");
 
                 //books.add(new Book(bookId,bookName,R.drawable.test,bookCommentsNum));
-                books.add(new Book(bookId,bookName,bookCover,bookAuthor,bookPublisher,bookCommentsNum));
+                books.add(new Book(bookId,bookName,bytes,bookAuthor,bookPublisher,bookCommentsNum));
             }
         }catch (Exception e){
             e.printStackTrace();

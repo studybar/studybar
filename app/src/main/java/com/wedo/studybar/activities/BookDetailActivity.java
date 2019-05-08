@@ -59,7 +59,7 @@ public class BookDetailActivity extends AppCompatActivity implements androidx.lo
 
     private String bookId;
     private String bookName;
-    private String bookCover;
+    private Bitmap bookCover;
     private String bookCommentsNum;
 
     private DiscussionAdapter discussionAdapter;
@@ -89,7 +89,9 @@ public class BookDetailActivity extends AppCompatActivity implements androidx.lo
         });
         bookId = getIntent().getStringExtra("BOOK_ID");
         bookName = getIntent().getStringExtra("BOOK_NAME");
-        bookCover = getIntent().getStringExtra("BOOK_COVER");
+        bookCover = BitmapFactory.decodeByteArray(
+                getIntent().getByteArrayExtra("BOOK_COVER"),0,getIntent().getByteArrayExtra("BOOK_COVER").length);
+        //bookCover = getIntent().getStringExtra("BOOK_COVER");
         bookCommentsNum = getIntent().getStringExtra("BOOK_COMMENT_COUNT");
 
         loadBookDetail();
@@ -120,9 +122,9 @@ public class BookDetailActivity extends AppCompatActivity implements androidx.lo
         bookTitleView = findViewById(R.id.book_search_title);
         bookCommentNumView = findViewById(R.id.search_num_of_discuss);
 
-        byte[] coverBytesArray = Base64.decode(bookCover,Base64.DEFAULT);
-        Bitmap bitmap = BitmapFactory.decodeByteArray(coverBytesArray,0,coverBytesArray.length);
-        bookCoverView.setImageBitmap(bitmap);
+        //byte[] coverBytesArray = Base64.decode(bookCover,Base64.DEFAULT);
+        //Bitmap bitmap = BitmapFactory.decodeByteArray(coverBytesArray,0,coverBytesArray.length);
+        bookCoverView.setImageBitmap(bookCover);
         //bookCoverView.setImageResource(R.drawable.test);
         bookTitleView.setText(bookName);
         bookCommentNumView.setText(bookCommentsNum);
@@ -170,34 +172,6 @@ public class BookDetailActivity extends AppCompatActivity implements androidx.lo
         switch (item.getItemId()){
             case android.R.id.home:
                 finish();
-                return true;
-            case R.id.correct_mistakes:
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.pick_mistake_item)
-                        .setItems(R.array.mistakes_list, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(getApplicationContext(),AddBookActivity.class);
-                                intent.putExtra("BOOK_ID",bookId);
-                                //todo:pass book item
-
-                                switch (which){
-                                    case 0:
-                                        intent.putExtra("MISTAKE_ITEM","COVER");
-                                        startActivity(intent);
-                                        break;
-                                    case 1:
-                                        intent.putExtra("MISTAKE_ITEM","TITLE");
-                                        startActivity(intent);
-                                        break;
-                                    case 2:
-                                        intent.putExtra("MISTAKE_ITEM","CATEGORY");
-                                        startActivity(intent);
-                                        break;
-                                }
-                            }
-                        })
-                        .show();
                 return true;
             case R.id.report:
                 new AlertDialog.Builder(this)
