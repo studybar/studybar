@@ -14,11 +14,11 @@ import androidx.loader.content.AsyncTaskLoader;
 
 public class BooksLoader extends AsyncTaskLoader<List<Book>> {
 
-    private String categoryName;
+    private String categoryId;
 
-    public BooksLoader(@NonNull Context context, String categoryName) {
+    public BooksLoader(@NonNull Context context, String categoryId) {
         super(context);
-        this.categoryName = categoryName;
+        this.categoryId = categoryId;
     }
 
     @Override
@@ -29,6 +29,6 @@ public class BooksLoader extends AsyncTaskLoader<List<Book>> {
     @Nullable
     @Override
     public List<Book> loadInBackground() {
-        return QueryUtils.extractBooks(categoryName);
+        return QueryUtils.extractCategoryDetail(categoryId);
     }
 }

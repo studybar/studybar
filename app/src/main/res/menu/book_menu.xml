@@ -9,12 +9,6 @@
         app:showAsAction="always">
         <menu>
             <item
-                android:id="@+id/correct_mistakes"
-                android:title="@string/correct"
-                android:icon="@drawable/ic_action_edit"
-                app:showAsAction="always|withText"/>
-
-            <item
                 android:id="@+id/report"
                 android:title="@string/report"
                 android:icon="@drawable/ic_action_report"

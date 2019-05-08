@@ -42,6 +42,8 @@ public class CategoryDetailActivity extends AppCompatActivity implements android
     private TextView emptyStateTextView;
     private ListView listView;
 
+    private String categoryId;
+
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +68,8 @@ public class CategoryDetailActivity extends AppCompatActivity implements android
             }
         });
 
-        String categoryId = getIntent().getStringExtra("CATEGORY_ID");
+        categoryId = getIntent().getStringExtra("CATEGORY_ID");
+        /*
         category = "";
         switch (categoryId){
             case "1": category = "哲学";break;
@@ -80,6 +83,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements android
             case "9": category = "医学";break;
             case "10": category = "管理学";break;
         }
+        */
 
         loadBooks();
 
@@ -115,7 +119,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements android
     @NonNull
     @Override
     public Loader<List<Book>> onCreateLoader(int id, @Nullable Bundle args) {
-        return new BooksLoader(this,category);
+        return new BooksLoader(this,categoryId);
     }
 
     @Override

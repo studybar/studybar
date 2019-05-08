@@ -58,6 +58,9 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
     private String category_two;
     private String category_three;
 
+    private String id_one;
+    private String id_two;
+    private String id_three;
 
     @Nullable
     @Override
@@ -179,9 +182,15 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
     private void loadHomeBooks() {
         emptyStateTextView.setVisibility(View.GONE);
 
-        int id_one = new Random().nextInt(10)+1;
+        int one = new Random().nextInt(10)+1;
+        int two = one+1;
+        int three = two+1;
 
-        switch (id_one){
+        id_one = String.valueOf(one);
+        id_two = String.valueOf(two);
+        id_three = String.valueOf(three);
+
+        switch (one){
             case 1: category_one = "哲学"; category_two = "经济学"; category_three = "法学";break;
             case 2: category_one = "经济学";category_two = "法学"; category_three = "教育学";break;
             case 3: category_one = "法学";category_two = "教育学"; category_three = "文学";break;
@@ -239,13 +248,13 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
     @Override
     public Loader<List<Book>> onCreateLoader(int id, @Nullable Bundle args) {
         if(id==1){
-            return new BooksLoader(getActivity(),category_one);
+            return new BooksLoader(getActivity(),id_one);
         }
         else if(id==2){
-            return new BooksLoader(getActivity(),category_two);
+            return new BooksLoader(getActivity(),id_two);
         }
         else if(id==3){
-            return new BooksLoader(getActivity(),category_three);
+            return new BooksLoader(getActivity(),id_three);
         }
         return null;
     }

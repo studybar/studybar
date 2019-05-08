@@ -179,6 +179,54 @@ public class QueryUtils {
         return jsonResponse;
     }
 
+    private static String makeHttpRequest(URL url,String id) throws IOException{
+        String jsonResponse = "";
+
+        if(url == null){
+            return jsonResponse;
+        }
+        HttpURLConnection urlConnection = null;
+        InputStream inputStream = null;
+        try{
+            urlConnection = (HttpURLConnection)url.openConnection();
+
+            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+            urlConnection.setRequestProperty("Accept","application/json");
+            urlConnection.setDoOutput(true);
+            urlConnection.setDoInput(true);
+
+            JSONObject idJSON = new JSONObject();
+            idJSON.put("id",id);
+
+            DataOutputStream dataOutputStream = new DataOutputStream(urlConnection.getOutputStream());
+            dataOutputStream.writeBytes(idJSON.toString());
+
+            dataOutputStream.flush();
+            dataOutputStream.close();
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+            String decodedString;
+            StringBuilder stringBuilder = new StringBuilder();
+            while ((decodedString = in.readLine()) != null) {
+                stringBuilder.append(decodedString);
+            }
+            in.close();
+            //YOUR RESPONSE
+            jsonResponse = stringBuilder.toString();
+        }catch (Exception e){
+            Log.e(LOG_TAG, "Problem retrieving the JSON results.", e);
+        }finally {
+            if(urlConnection != null){
+                urlConnection.disconnect();
+            }
+            //if(inputStream != null){
+            //  inputStream.close();
+            //}
+        }
+        return jsonResponse;
+    }
+
     /**
      * Convert the {@link InputStream} into a String which contains the
      * whole JSON response from the server.
@@ -201,46 +249,48 @@ public class QueryUtils {
     /**
      * 读取各个分类下图书数据
      * */
-    public static List<Book> extractBooks(String category){
-        String booksByCategory = "http://39.97.181.175:8080/study/cate_getCatetype.action";
+    public static List<Book> extractCategoryDetail(String categoryId){
+        String booksByCategory = "http://39.97.181.175:8080/study/cate_goCate.action";
 
         URL url = createUrl(booksByCategory);
         String booksJSON = null;
-        List<Book> books = new ArrayList<Book>();
-
+        List<Book> books = new ArrayList<>();
         try{
-            booksJSON = makeHttpRequest(url);
+            booksJSON = makeHttpRequest(url,categoryId);
             if(TextUtils.isEmpty(booksJSON)){
                 return null;
             }
             JSONObject base = new JSONObject(booksJSON);
-            JSONArray booksArray = base.getJSONArray(category);
+            String result = base.getString("result");
+            if (result.matches("success")){
+                JSONArray booksArray = base.getJSONArray("categoryall");
 
-            for (int i =0; i < booksArray.length(); i++){
-                JSONObject book = booksArray.getJSONObject(i);
+                for (int i =0; i < booksArray.length(); i++) {
+                    JSONObject book = booksArray.getJSONObject(i);
 
-                String bookId = book.getString("id");
+                    String bookId = book.getString("id");
 
-                String[] strings = book.getString("name").split("\\s+");
-                String bookName = strings[0];
-                String bookAuthor = "";
-                String bookPublisher = "";
-                if (strings.length==3){
-                    bookAuthor = strings[1];
-                    bookPublisher = strings[2];
-                }
-                if (strings.length == 2) {
-                    bookAuthor = strings[1];
-                }
+                    String[] strings = book.getString("name").split("\\s+");
+                    String bookName = strings[0];
+                    String bookAuthor = "";
+                    String bookPublisher = "";
+                    if (strings.length == 3) {
+                        bookAuthor = strings[1];
+                        bookPublisher = strings[2];
+                    }
+                    if (strings.length == 2) {
+                        bookAuthor = strings[1];
+                    }
 
-                //String bookName = book.getString("name");
-                String bookCover = "";
-                bookCover = book.getString("typespicture");
-                byte[] bytes = Base64.decode(bookCover,Base64.DEFAULT);
-                String bookCommentsNum = book.getString("countTopics");
+                    //String bookName = book.getString("name");
+                    String bookCover = "";
+                    bookCover = book.getString("typespicture");
+                    byte[] bytes = Base64.decode(bookCover, Base64.DEFAULT);
+                    String bookCommentsNum = book.getString("countTopics");
 
-                //books.add(new Book(bookId,bookName,R.drawable.test,bookCommentsNum));
-                books.add(new Book(bookId,bookName,bytes,bookAuthor,bookPublisher,bookCommentsNum));
+                    //books.add(new Book(bookId,bookName,R.drawable.test,bookCommentsNum));
+                    books.add(new Book(bookId, bookName, bytes, bookAuthor, bookPublisher, bookCommentsNum));
+            }
             }
         }catch (Exception e){
             e.printStackTrace();
