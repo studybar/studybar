@@ -28,6 +28,10 @@ public class DiscussionCommentActivity extends AppCompatActivity {
 
     private String discussionId;
     private String content;
+    private String floor;
+    private String commentAuthor;
+    private String commentContent;
+    private Boolean isComment;
 
     private EditText editText;
 
@@ -38,7 +42,14 @@ public class DiscussionCommentActivity extends AppCompatActivity {
         this.setTitle(null);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_action_close);
+
+        isComment = getIntent().getBooleanExtra("DISCUSSION_COMMENT",true);
         discussionId = getIntent().getStringExtra("DISCUSSION_ID");
+        if (!isComment){
+            floor = getIntent().getStringExtra("COMMENT_FLOOR");
+            commentAuthor = getIntent().getStringExtra("COMMENT_AUTHOR");
+            commentContent = getIntent().getStringExtra("COMMENT_CONTENT");
+        }
 
         editText = (EditText)findViewById(R.id.comment_edit_box);
         editText.requestFocus();
@@ -52,6 +63,9 @@ public class DiscussionCommentActivity extends AppCompatActivity {
                 return true;
             case R.id.menu_confirm_button:
                 content = editText.getText().toString();
+                if (!isComment){
+                    content = getString(R.string.quote_content,floor,commentAuthor,commentContent,content);
+                }
                 if(content.length()>15){
                     try{
                         JSONObject base = new JSONObject();

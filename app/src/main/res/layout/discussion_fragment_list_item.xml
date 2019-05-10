@@ -74,8 +74,6 @@
                 tools:text="Here is the content of this discussion. Here is the content of this discussion. Here is the content of this discussion. Here is the content of this discussion."
                 android:maxLines="3"/>
 
-
-
         </LinearLayout>
 
 </androidx.cardview.widget.CardView>

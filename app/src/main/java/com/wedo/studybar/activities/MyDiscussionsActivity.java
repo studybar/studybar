@@ -2,12 +2,14 @@ package com.wedo.studybar.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -62,7 +64,8 @@ public class MyDiscussionsActivity extends AppCompatActivity implements androidx
 
         final ArrayList<Discussion> discussions = new ArrayList<>();
         discussionAdapter = new DiscussionAdapter(this,discussions);
-        listView.setEmptyView(emptyStateTextView);
+        //listView.setEmptyView(emptyStateTextView);
+        toggleEmptyView(discussionAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -138,5 +141,21 @@ public class MyDiscussionsActivity extends AppCompatActivity implements androidx
     @Override
     public void onLoaderReset(@NonNull Loader<List<Discussion>> loader) {
         discussionAdapter.clear();
+    }
+
+    /**
+     * Custom empty view handling because we don't want the
+     * list to be hidden when the empty view is displayed,
+     * since the list must always display the header.
+     */
+    private void toggleEmptyView(final Adapter adapter)
+    {
+        //final View emptyView = findViewById(R.id.empty_view);
+        adapter.registerDataSetObserver(new DataSetObserver() {
+            @Override
+            public void onChanged() {
+                emptyStateTextView.setVisibility(adapter.getCount() == 0 ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 }

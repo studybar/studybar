@@ -86,7 +86,7 @@
     <string name="mistake_book_category">Category</string>
     <string name="mistakes_categories">Categories</string>
     <string name="ok">OK</string>
-    <string name="plz_correct_cover">Please upload a corrent book cover.</string>
+    <string name="plz_correct_cover">Please upload a correct book cover.</string>
     <string name="plz_correct_title">Please input correct title.</string>
     <string name="plz_correct_author">Please input the correct author.</string>
     <string name="plz_correct_publisher">Please input correct publisher.</string>
@@ -127,6 +127,7 @@
     <string name="bio">Bio</string>
     <string name="nickname_not_null">Nickname can\'t be null.</string>
     <string name="preview_of_content">Content preview</string>
+    <string name="quote_content"><![CDATA[<fieldset style=\\\"font-size: 12px;border: 1px solid #CCC;word-break: break-word;word-wrap: break-word;overflow-x: hidden;margin: 0 0 5px 0;padding: 0 5px 5px;\\\"><legend style=\\\"font-weight:bold;font-size:14px;\\\">引自 %1$s 楼 %2$s 的回复</legend>%3$s </fieldset>%4$s]]></string>
 
     <string-array name="category_array">
         <item>@string/select_book_category</item>

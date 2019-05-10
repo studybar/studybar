@@ -100,6 +100,8 @@ public class BookCommentActivity extends AppCompatActivity {
                         base.put("topic",topic);
                         base.put("type",type);
 
+                        Log.e("BASE",base.toString());
+
                         new postTopicAsyncTask().execute(base.toString());
                     }catch (Exception e){
                         e.printStackTrace();

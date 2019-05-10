@@ -3,6 +3,7 @@ package com.wedo.studybar.Fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.DataSetObserver;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -72,7 +74,8 @@ public class DiscussionsFragment extends Fragment implements androidx.loader.app
 
         final ArrayList<Discussion> discussions = new ArrayList<>();
         itemsAdapter = new DiscussionAdapter(getActivity(),discussions);
-        listView.setEmptyView(emptyStateTextView);
+        //listView.setEmptyView(emptyStateTextView);
+        toggleEmptyView(itemsAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -143,6 +146,7 @@ public class DiscussionsFragment extends Fragment implements androidx.loader.app
     public void onLoadFinished(@NonNull Loader<List<Discussion>> loader, List<Discussion> discussions) {
         progressBar.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(false);
+        listView.setVisibility(View.VISIBLE);
         if(itemsAdapter!=null){
             itemsAdapter.clear();
         }
@@ -155,5 +159,21 @@ public class DiscussionsFragment extends Fragment implements androidx.loader.app
     @Override
     public void onLoaderReset(@NonNull Loader<List<Discussion>> loader) {
         itemsAdapter.clear();
+    }
+
+    /**
+     * Custom empty view handling because we don't want the
+     * list to be hidden when the empty view is displayed,
+     * since the list must always display the header.
+     */
+    private void toggleEmptyView(final Adapter adapter)
+    {
+        //final View emptyView = findViewById(R.id.empty_view);
+        adapter.registerDataSetObserver(new DataSetObserver() {
+            @Override
+            public void onChanged() {
+                emptyStateTextView.setVisibility(adapter.getCount() == 0 ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 }

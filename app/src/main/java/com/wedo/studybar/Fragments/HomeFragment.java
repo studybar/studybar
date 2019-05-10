@@ -204,21 +204,6 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
         category_two = matchCategory(two);
         category_three = matchCategory(three);
 
-        /*
-        switch (one){
-            case 1: category_one = "哲学"; category_two = "经济学"; category_three = "法学";break;
-            case 2: category_one = "经济学";category_two = "法学"; category_three = "教育学";break;
-            case 3: category_one = "法学";category_two = "教育学"; category_three = "文学";break;
-            case 4: category_one = "教育学";category_two = "文学"; category_three = "历史学";break;
-            case 5: category_one = "文学";category_two = "历史学"; category_three = "理学";break;
-            case 6: category_one = "历史学";category_two = "理学"; category_three = "工学";break;
-            case 7: category_one = "理学";category_two = "工学"; category_three = "医学";break;
-            case 8: category_one = "工学";category_two = "医学"; category_three = "管理学";break;
-            case 9: category_one = "医学";category_two = "管理学"; category_three = "哲学";break;
-            case 10: category_one = "管理学";category_two = "哲学"; category_three = "经济学";break;
-        }
-        */
-
         // Get a reference to the ConnectivityManager to check state of network connectivity
         ConnectivityManager connMgr = (ConnectivityManager)
                 getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);

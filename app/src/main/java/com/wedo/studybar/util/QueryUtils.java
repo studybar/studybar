@@ -396,7 +396,6 @@ public class QueryUtils {
 
         try {
             discussionDetailJSON = makeHttpRequest(context,url,discussionId);
-
             if (TextUtils.isEmpty(discussionDetailJSON)) {
                 return null;
             }
@@ -407,11 +406,12 @@ public class QueryUtils {
 
                 String commentId = comment.getString("id");
                 String commentContent = comment.getString("content");
+                String commentFloor = comment.getString("floor");
 
                 JSONObject author = comment.getJSONObject("commentsUser");
                 String commentUser = author.getString("nickname");
 
-                comments.add(new Discussion(commentId,commentUser,commentContent));
+                comments.add(new Discussion(commentId,commentUser,commentContent,commentFloor));
             }
         }catch (Exception e){
             e.printStackTrace();

@@ -7,6 +7,8 @@ public class Discussion {
     private String mDiscussionContent;
     private String mDiscussionNumberOfComments;
 
+    private String mCommentFloor;
+
     /**
      * Usr for the topic of discussion
      * */
@@ -23,10 +25,11 @@ public class Discussion {
      * @param discussionAuthor means the user who wrote this comment
      * @param discussionContent means the content of the comment
      * */
-    public Discussion(String discussionId,String discussionAuthor,String discussionContent){
+    public Discussion(String discussionId,String discussionAuthor,String discussionContent,String commentFloor){
         mDiscussionId = discussionId;
         mDiscussionAuthor = discussionAuthor;
         mDiscussionContent = discussionContent;
+        mCommentFloor = commentFloor;
         //mDiscussionNumberOfLikes = discussionNumberOfLikes;
         //mDiscussionNumberOfComments = discussionNumberOfComments;
     }
@@ -49,5 +52,9 @@ public class Discussion {
 
     public String getNumOfComments(){
         return mDiscussionNumberOfComments;
+    }
+
+    public String getCommentFloor(){
+        return mCommentFloor;
     }
 }

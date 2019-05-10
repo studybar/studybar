@@ -3,6 +3,7 @@ package com.wedo.studybar.Fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.DataSetObserver;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -54,7 +56,8 @@ public class NotificationsFragment extends Fragment implements androidx.loader.a
 
         final ArrayList<Notification> notifications = new ArrayList<Notification>();
         itemsAdapter = new NotificationAdapter(getActivity(),notifications);
-        listView.setEmptyView(emptyStateTextView);
+        //listView.setEmptyView(emptyStateTextView);
+        toggleEmptyView(itemsAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -76,6 +79,7 @@ public class NotificationsFragment extends Fragment implements androidx.loader.a
                     swipeRefreshLayout.setRefreshing(true);
                 }
                 progressBar.setVisibility(View.GONE);
+                listView.setVisibility(View.GONE);
                 loadNotifications();
             }
         });
@@ -141,5 +145,21 @@ public class NotificationsFragment extends Fragment implements androidx.loader.a
     @Override
     public void onLoaderReset(@NonNull Loader<List<Notification>> loader) {
         itemsAdapter.clear();
+    }
+
+    /**
+     * Custom empty view handling because we don't want the
+     * list to be hidden when the empty view is displayed,
+     * since the list must always display the header.
+     */
+    private void toggleEmptyView(final Adapter adapter)
+    {
+        //final View emptyView = findViewById(R.id.empty_view);
+        adapter.registerDataSetObserver(new DataSetObserver() {
+            @Override
+            public void onChanged() {
+                emptyStateTextView.setVisibility(adapter.getCount() == 0 ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 }

@@ -3,6 +3,7 @@ package com.wedo.studybar.activities;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -53,6 +55,9 @@ public class DiscussionDetailActivity extends AppCompatActivity implements andro
     private ProgressBar progressBar;
     private CommentAdapter commentAdapter;
     private String discussionId;
+    private String discussionAuthor;
+    private String discussionTitle;
+    private String discussionContent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,22 +85,16 @@ public class DiscussionDetailActivity extends AppCompatActivity implements andro
         });
 
         discussionId = getIntent().getStringExtra("DISCUSSION_ID");
-
-        String discussionAuthor = getIntent().getStringExtra("DISCUSSION_AUTHOR");
-        String discussionTitle = getIntent().getStringExtra("DISCUSSION_TITLE");
-        String discussionContent = getIntent().getStringExtra("DISCUSSION_CONTENT");
+        discussionAuthor = getIntent().getStringExtra("DISCUSSION_AUTHOR");
+        discussionTitle = getIntent().getStringExtra("DISCUSSION_TITLE");
+        discussionContent = getIntent().getStringExtra("DISCUSSION_CONTENT");
 
         loadDiscussionDetail();
 
         final ArrayList<Discussion> comments = new ArrayList<>();
-        commentAdapter = new CommentAdapter(this,comments);
-        listView.setEmptyView(emptyStateTextView);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //todo:to comment detail
-            }
-        });
+        commentAdapter = new CommentAdapter(this,comments,discussionId);
+        //listView.setEmptyView(emptyStateTextView);
+        toggleEmptyView(commentAdapter);
         listView.setAdapter(commentAdapter);
 
         LayoutInflater mInflater = getLayoutInflater();
@@ -116,6 +115,7 @@ public class DiscussionDetailActivity extends AppCompatActivity implements andro
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), DiscussionCommentActivity.class);
+                intent.putExtra("DISCUSSION_COMMENT",true);
                 intent.putExtra("DISCUSSION_ID",discussionId);
                 startActivity(intent);
             }
@@ -191,6 +191,7 @@ public class DiscussionDetailActivity extends AppCompatActivity implements andro
     public void onLoadFinished(@NonNull Loader<List<Discussion>> loader, List<Discussion> comments) {
         progressBar.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(false);
+        listView.setVisibility(View.VISIBLE);
         emptyStateTextView.setText(R.string.no_discussion);
         if(commentAdapter !=null){
             commentAdapter.clear();
@@ -203,5 +204,21 @@ public class DiscussionDetailActivity extends AppCompatActivity implements andro
     @Override
     public void onLoaderReset(@NonNull Loader<List<Discussion>> loader) {
         commentAdapter.clear();
+    }
+
+    /**
+     * Custom empty view handling because we don't want the
+     * list to be hidden when the empty view is displayed,
+     * since the list must always display the header.
+     */
+    private void toggleEmptyView(final Adapter adapter)
+    {
+        //final View emptyView = findViewById(R.id.empty_view);
+        adapter.registerDataSetObserver(new DataSetObserver() {
+            @Override
+            public void onChanged() {
+                emptyStateTextView.setVisibility(adapter.getCount() == 0 ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 }
