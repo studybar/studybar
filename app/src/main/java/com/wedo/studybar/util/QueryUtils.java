@@ -257,6 +257,10 @@ public class QueryUtils {
         List<Book> books = new ArrayList<>();
         try{
             booksJSON = makeHttpRequest(url,categoryId);
+
+            Log.e("ID",categoryId);
+            Log.e("BOOK_JSON",booksJSON);
+
             if(TextUtils.isEmpty(booksJSON)){
                 return null;
             }

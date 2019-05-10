@@ -6,15 +6,6 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.Loader;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,16 +16,20 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.wedo.studybar.Adapter.DiscussionAdapter;
-import com.wedo.studybar.Adapter.HorizontalBookAdapter;
 import com.wedo.studybar.R;
-import com.wedo.studybar.activities.BookDetailActivity;
 import com.wedo.studybar.activities.DiscussionDetailActivity;
 import com.wedo.studybar.loader.discussionsLoader;
-import com.wedo.studybar.util.Book;
 import com.wedo.studybar.util.Discussion;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class DiscussionsFragment extends Fragment implements androidx.loader.app.LoaderManager.LoaderCallbacks<List<Discussion>>{
 
@@ -147,7 +142,6 @@ public class DiscussionsFragment extends Fragment implements androidx.loader.app
     @Override
     public void onLoadFinished(@NonNull Loader<List<Discussion>> loader, List<Discussion> discussions) {
         progressBar.setVisibility(View.GONE);
-        emptyStateTextView.setText(R.string.no_discussion);
         swipeRefreshLayout.setRefreshing(false);
         if(itemsAdapter!=null){
             itemsAdapter.clear();
@@ -155,6 +149,7 @@ public class DiscussionsFragment extends Fragment implements androidx.loader.app
         if(discussions != null && !discussions.isEmpty()){
             itemsAdapter.addAll(discussions);
         }
+        emptyStateTextView.setText(R.string.no_discussion);
     }
 
     @Override

@@ -128,7 +128,6 @@ public class NotificationsFragment extends Fragment implements androidx.loader.a
     public void onLoadFinished(@NonNull Loader<List<Notification>> loader, List<Notification> notifications){
         progressBar.setVisibility(View.GONE);
         listView.setVisibility(View.VISIBLE);
-        emptyStateTextView.setText(R.string.no_notifications);
         swipeRefreshLayout.setRefreshing(false);
         if(itemsAdapter != null){
             itemsAdapter.clear();
@@ -136,6 +135,7 @@ public class NotificationsFragment extends Fragment implements androidx.loader.a
         if(notifications != null && !notifications.isEmpty()){
             itemsAdapter.addAll(notifications);
         }
+        emptyStateTextView.setText(R.string.no_notifications);
     }
 
     @Override

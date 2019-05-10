@@ -54,9 +54,9 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
     private TextView row_three;
     private RecyclerView recyclerViewThree;
 
-    private String category_one;
-    private String category_two;
-    private String category_three;
+    private int category_one;
+    private int category_two;
+    private int category_three;
 
     private String id_one;
     private String id_two;
@@ -183,13 +183,28 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
         emptyStateTextView.setVisibility(View.GONE);
 
         int one = new Random().nextInt(10)+1;
-        int two = one+1;
-        int three = two+1;
+        int two = 0,three = 0;
+        if (one < 9 ){
+            two = one+1;
+            three = two+1;
+        }else if(one == 9){
+            two = one +1;
+            three = 1;
+        }else if (one == 10){
+            two = 1;
+            three = 2;
+        }
+
 
         id_one = String.valueOf(one);
         id_two = String.valueOf(two);
         id_three = String.valueOf(three);
 
+        category_one = matchCategory(one);
+        category_two = matchCategory(two);
+        category_three = matchCategory(three);
+
+        /*
         switch (one){
             case 1: category_one = "哲学"; category_two = "经济学"; category_three = "法学";break;
             case 2: category_one = "经济学";category_two = "法学"; category_three = "教育学";break;
@@ -202,6 +217,7 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
             case 9: category_one = "医学";category_two = "管理学"; category_three = "哲学";break;
             case 10: category_one = "管理学";category_two = "哲学"; category_three = "经济学";break;
         }
+        */
 
         // Get a reference to the ConnectivityManager to check state of network connectivity
         ConnectivityManager connMgr = (ConnectivityManager)
@@ -232,6 +248,24 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
             progressBar.setVisibility(View.GONE);
             emptyStateTextView.setText(R.string.no_internet);
         }
+    }
+
+    private int matchCategory(int id){
+        int category;
+        switch (id){
+            case 1: category = R.string.Philosophy; break;
+            case 2: category = R.string.Economics;break;
+            case 3: category = R.string.Jurisprudence;break;
+            case 4: category = R.string.Pedagogy;break;
+            case 5: category = R.string.Literature;break;
+            case 6: category = R.string.History;break;
+            case 7: category = R.string.formalScience;break;
+            case 8: category = R.string.Engineering;break;
+            case 9: category = R.string.Medicine;break;
+            case 10: category = R.string.Management;break;
+            default: category = R.string.blank;break;
+        }
+        return category;
     }
 
     @Override
@@ -312,7 +346,6 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
         }
         else if(id == 3){
             horizontalBookAdapter_three.clear();
-
         }
     }
 }
