@@ -78,8 +78,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         final BottomNavigationView navigation = findViewById(R.id.navigation);
 
-
-        Log.e("GET_ACTION",getIntent().getAction());
         if ("android.intent.action.launch_discussion".equals(getIntent().getAction())){
             viewPager.setCurrentItem(1);
             navigation.setSelectedItemId(R.id.navigation_discussion);

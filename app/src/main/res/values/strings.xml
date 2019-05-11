@@ -137,6 +137,12 @@
     <string name="follow_system">Follow system</string>
     <string name="when_battery_saver_on">Battery saver only</string>
     <string name="based_on_time">Base on time. (Switch to darkmode on night.)</string>
+    <string name="old_password">Old password</string>
+    <string name="new_password">New password</string>
+    <string name="check_your_intput">Check your input</string>
+    <string name="plz_login_again">Please login again</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="check_your_password">Wrong password, check it again.</string>
 
     <string-array name="category_array">
         <item>@string/select_book_category</item>

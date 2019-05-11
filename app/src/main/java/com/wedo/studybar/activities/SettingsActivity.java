@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 
 import com.wedo.studybar.R;
@@ -82,7 +83,9 @@ public class SettingsActivity extends AppCompatActivity {
             changePassword.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    return false;
+                    Intent intent = new Intent(getActivity(),ChangePassword.class);
+                    startActivity(intent);
+                    return true;
                 }
             });
 

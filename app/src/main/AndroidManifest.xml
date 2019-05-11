@@ -70,6 +70,10 @@
 
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"/>
 
+        <activity android:name=".activities.ChangePassword"
+            android:label="@string/change_password"
+            android:theme="@style/Theme.MaterialComponents.DayNight.Dialog"/>
+
     </application>
 
 </manifest>

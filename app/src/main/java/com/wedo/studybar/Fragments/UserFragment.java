@@ -260,23 +260,31 @@ public class UserFragment extends Fragment {
 
                 Log.e("USER",userInfo.toString());
 
+                sharedPreferences = getActivity().getSharedPreferences("Login",Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
                 String nickname = userInfo.getString("nickname");
                 String introduction = userInfo.getString("introduction");
-                String avatarString = userInfo.getString("picture");
+                /*
+                if (!userInfo.getString("picture").equals("")&&userInfo.getString("picture")!=null){
+                    String avatarString = userInfo.getString("picture");
+                    byte[] avatarBytesArray = Base64.decode(avatarString,Base64.DEFAULT);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(avatarBytesArray,0,avatarBytesArray.length);
+                    avatar.setImageBitmap(bitmap);
+                    editor.putString("Avatar",avatarString);
+                }
+                */
+
                 String profession = userInfo.getString("profession");
-                byte[] avatarBytesArray = Base64.decode(avatarString,Base64.DEFAULT);
-                Bitmap bitmap = BitmapFactory.decodeByteArray(avatarBytesArray,0,avatarBytesArray.length);
-                avatar.setImageBitmap(bitmap);
                 username.setText(nickname);
                 bio.setText(introduction);
 
-                sharedPreferences = getActivity().getSharedPreferences("Login",Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
+
                 editor.putString("Email",userInfo.getString("username"));
                 editor.putString("Password",userInfo.getString("password"));
                 editor.putString("Username",nickname);
                 editor.putString("Bio",introduction);
-                editor.putString("Avatar",avatarString);
+                //editor.putString("Avatar",avatarString);
                 editor.putString("Profession",profession);
                 editor.putString("Gender",userInfo.getString("sex"));
                 editor.putBoolean("LoginState",true);
