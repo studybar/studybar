@@ -22,6 +22,7 @@
     </android.support.v7.widget.RecyclerView>
 -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
+        style="@style/Widget.MaterialComponents.BottomNavigationView"
         android:id="@+id/navigation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

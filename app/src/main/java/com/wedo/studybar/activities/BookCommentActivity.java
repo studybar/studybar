@@ -34,7 +34,7 @@ public class BookCommentActivity extends AppCompatActivity {
 
     private ProgressBar progressBar;
     private TextInputEditText editTextTitle;
-    private TextInputEditText editTextContent;
+    private EditText editTextContent;
     private MathView mathView;
 
     private String bookId;

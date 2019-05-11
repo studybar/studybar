@@ -3,9 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <Preference
+        android:key="darkmode"
+        android:title="@string/darkmode"
+        android:summary="@string/toggle_darkmode"/>
+    <Preference
         android:key="profile_edit"
         android:title="@string/edit_profile"
         android:summary="@string/profile_edit_summary"/>
+    <Preference
+        android:key="change_password"
+        android:title="@string/change_password"
+        android:summary="@string/change_your_password"/>
     <Preference
         android:key="logout"
         android:title="@string/logout"

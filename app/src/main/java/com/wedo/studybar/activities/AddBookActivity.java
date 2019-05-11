@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 import com.wedo.studybar.R;
@@ -41,9 +42,9 @@ import java.nio.charset.StandardCharsets;
 public class AddBookActivity extends AppCompatActivity {
 
     private ImageView imageView;
-    private EditText addBookTitle;
-    private EditText addBookAuthor;
-    private EditText addBookPublisher;
+    private TextInputEditText addBookTitle;
+    private TextInputEditText addBookAuthor;
+    private TextInputEditText addBookPublisher;
     private Spinner spinner;
     private Button buttonCancel;
     private Button buttonAdd;

@@ -59,7 +59,6 @@ public class MyDiscussionsActivity extends AppCompatActivity implements androidx
             }
         });
 
-
         loadMyDiscussions();
 
         final ArrayList<Discussion> discussions = new ArrayList<>();
@@ -129,6 +128,7 @@ public class MyDiscussionsActivity extends AppCompatActivity implements androidx
     public void onLoadFinished(@NonNull Loader<List<Discussion>> loader, List<Discussion> discussions) {
         progressBar.setVisibility(View.GONE);
         emptyStateTextView.setText(R.string.no_discussion);
+        listView.setVisibility(View.VISIBLE);
         swipeRefreshLayout.setRefreshing(false);
         if(discussionAdapter!=null){
             discussionAdapter.clear();

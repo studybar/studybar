@@ -25,6 +25,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.wedo.studybar.R;
 import com.wedo.studybar.activities.MyDiscussionsActivity;
 import com.wedo.studybar.activities.SettingsActivity;
@@ -45,8 +46,8 @@ public class UserFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayout loggedInLayout;
     private LinearLayout logInLayout;
-    private EditText editTextEmail;
-    private EditText editTextPassword;
+    private TextInputEditText editTextEmail;
+    private TextInputEditText editTextPassword;
     private Button buttonSignIn;
     private ProgressBar progressBar;
 

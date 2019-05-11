@@ -128,6 +128,15 @@
     <string name="nickname_not_null">Nickname can\'t be null.</string>
     <string name="preview_of_content">Content preview</string>
     <string name="quote_content"><![CDATA[<fieldset style=\\\"font-size: 12px;border: 1px solid #CCC;word-break: break-word;word-wrap: break-word;overflow-x: hidden;margin: 0 0 5px 0;padding: 0 5px 5px;\\\"><legend style=\\\"font-weight:bold;font-size:14px;\\\">引自 %1$s 楼 %2$s 的回复</legend>%3$s </fieldset>%4$s]]></string>
+    <string name="change_password">Change Password</string>
+    <string name="change_your_password">Change your password</string>
+    <string name="darkmode">Dark Mode</string>
+    <string name="toggle_darkmode">Toggle Dark Mode</string>
+    <string name="always_off">Always OFF</string>
+    <string name="always_on">Always ON</string>
+    <string name="follow_system">Follow system</string>
+    <string name="when_battery_saver_on">Battery saver only</string>
+    <string name="based_on_time">Base on time. (Switch to darkmode on night.)</string>
 
     <string-array name="category_array">
         <item>@string/select_book_category</item>
@@ -167,6 +176,13 @@
         <item>@string/male</item>
         <item>@string/female</item>
         <item>@string/agender</item>
+    </string-array>
+
+    <string-array name="dark_mode_setting">
+        <item>@string/always_off</item>
+        <item>@string/always_on</item>
+        <item>@string/follow_system</item>
+        <item>@string/when_battery_saver_on</item>
     </string-array>
 
 </resources>

@@ -4,27 +4,25 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.SearchRecentSuggestions;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.wedo.studybar.Adapter.ViewPagerAdapter;
-
 import com.wedo.studybar.Fragments.DiscussionsFragment;
 import com.wedo.studybar.Fragments.HomeFragment;
 import com.wedo.studybar.Fragments.NotificationsFragment;
 import com.wedo.studybar.Fragments.UserFragment;
 import com.wedo.studybar.R;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{

@@ -40,23 +40,15 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/book_comment_content_layout"
+        <EditText
+            android:id="@+id/book_comment_content"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="8dp"
+            android:layout_weight="1"
             android:gravity="top"
-            android:layout_weight="1">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/book_comment_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="top"
-                android:hint="@string/be_nice"
-                android:textAlignment="gravity" />
-
-        </com.google.android.material.textfield.TextInputLayout>
+            android:hint="@string/be_nice"
+            android:textAlignment="gravity" />
 
         <TextView
             android:layout_width="match_parent"
@@ -66,6 +58,7 @@
 
         <katex.hourglass.in.mathlib.MathView
             android:id="@+id/book_comment_preview"
+            app:setTextColor="?android:attr/textColorPrimary"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="8dp"

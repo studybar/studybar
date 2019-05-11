@@ -59,7 +59,8 @@
 
             </RelativeLayout>
 
-            <Button
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:id="@+id/my_discussions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -73,7 +74,8 @@
                 android:textAlignment="viewStart"
                 android:drawableEnd="@drawable/ic_settings_arrow"/>
 
-            <Button
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:id="@+id/settings_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -108,10 +110,11 @@
         android:layout_centerInParent="true">
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <AutoCompleteTextView
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/email_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -123,10 +126,11 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/login_user_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -140,18 +144,18 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:id="@+id/sign_in_button"
-            style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/action_sign_in"
             android:textStyle="bold" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:id="@+id/sign_up_button"
-            style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"

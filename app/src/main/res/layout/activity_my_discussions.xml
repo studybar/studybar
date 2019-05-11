@@ -20,8 +20,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:visibility="gone"/>
+        app:layout_constraintRight_toRightOf="parent" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/my_discussions_refresh_layout"
@@ -36,7 +35,6 @@
             android:layout_marginStart="8dp"
             android:divider="@null"
             tools:listitem="@layout/discussion_fragment_list_item"
-            tools:listheader="@layout/discussion_fragment_header"
             android:headerDividersEnabled="false">
 
         </ListView>

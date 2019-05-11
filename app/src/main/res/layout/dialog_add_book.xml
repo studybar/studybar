@@ -17,34 +17,57 @@
             android:src="@drawable/ic_action_add_large"
             android:layout_alignParentStart="true"/>
 
-        <EditText
-            android:id="@+id/add_book_name"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_book_name_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_toEndOf="@id/add_book_cover"
-            android:hint="@string/input_book_name"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginEnd="8dp">
 
-        <EditText
-            android:id="@+id/add_book_author"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_toEndOf="@id/add_book_cover"
-            android:layout_below="@id/add_book_name"
-            android:hint="@string/input_book_author"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/add_book_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/input_book_name" />
 
-        <EditText
-            android:id="@+id/add_book_press"
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/add_book_author_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_toEndOf="@id/add_book_cover"
-            android:layout_below="@id/add_book_author"
-            android:hint="@string/input_book_publisher"
+            android:layout_below="@id/add_book_name_layout"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginEnd="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/add_book_author"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/input_book_author" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_toEndOf="@id/add_book_cover"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_below="@id/add_book_author_layout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/add_book_press"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/input_book_publisher" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
     </RelativeLayout>
 
@@ -60,18 +83,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_cancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginEnd="4dp"
             android:background="?selectableItemBackgroundBorderless"
             android:text="@string/Cancel"/>
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_add"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginStart="4dp"
             android:background="?selectableItemBackgroundBorderless"
             android:text="@string/Add"/>
 

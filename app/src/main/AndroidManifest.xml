@@ -61,7 +61,7 @@
         <activity
             android:name=".activities.AddBookActivity"
             android:label="@string/add_book"
-            android:theme="@style/Theme.AppCompat.Light.Dialog"/>
+            android:theme="@style/Theme.MaterialComponents.DayNight.Dialog"/>
 
         <activity android:name=".activities.MyDiscussionsActivity"
             android:label="@string/my_discussions"/>

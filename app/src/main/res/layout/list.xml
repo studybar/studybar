@@ -37,10 +37,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:focusable="true"
-            android:paddingTop="16dp"
             tools:listitem="@layout/vertical_list_book_item"
-            android:divider="@color/white"
-            android:dividerHeight="8dp"/>
+            android:divider="@null"/>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

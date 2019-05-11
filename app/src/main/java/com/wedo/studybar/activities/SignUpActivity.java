@@ -32,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 import com.wedo.studybar.Fragments.UserFragment;
@@ -59,11 +60,11 @@ public class SignUpActivity extends AppCompatActivity {
 
     //Uri imageUri;
 
-    private EditText editTextEmail;
-    private EditText editTextNickname;
-    private EditText editTextPassword;
-    private EditText editTextProfession;
-    private EditText editTextVerificationCode;
+    private TextInputEditText editTextEmail;
+    private TextInputEditText editTextNickname;
+    private TextInputEditText editTextPassword;
+    private TextInputEditText editTextProfession;
+    private TextInputEditText editTextVerificationCode;
     private Button buttonGetVerificationCode;
     private CheckBox checkBox;
     private Spinner spinnerGender;
