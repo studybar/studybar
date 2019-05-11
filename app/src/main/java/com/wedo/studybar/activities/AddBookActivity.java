@@ -2,6 +2,7 @@ package com.wedo.studybar.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -65,6 +66,13 @@ public class AddBookActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
+        SharedPreferences sharedPreferences = getSharedPreferences("Login",MODE_PRIVATE);
+        if(!sharedPreferences.getBoolean("LoginState",false)){
+            Toast.makeText(this,R.string.plz_login_first,Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_add_book);
 

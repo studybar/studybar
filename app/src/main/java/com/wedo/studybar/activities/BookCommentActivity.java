@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.wedo.studybar.R;
@@ -42,6 +43,13 @@ public class BookCommentActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
+        SharedPreferences sharedPreferences = getSharedPreferences("Login",MODE_PRIVATE);
+        if(!sharedPreferences.getBoolean("LoginState",false)){
+            Toast.makeText(this,R.string.plz_login_first,Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
         super.onCreate(savedInstanceState);
         this.setTitle(null);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);

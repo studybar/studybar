@@ -27,7 +27,6 @@
             android:id="@+id/book_cover"
             android:layout_width="@dimen/list_book_show_width"
             android:layout_height="@dimen/list_book_show_height"
-            tools:src="@drawable/test"
             android:scaleType="centerInside"/>
 
         <TextView
@@ -35,7 +34,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/list_book_name_height"
             android:layout_marginTop="8dp"
-            tools:text="习近平谈治国理政"
             android:textStyle="bold"
             android:gravity="bottom"
             android:maxLines="2"
@@ -45,7 +43,6 @@
             android:id="@+id/book_author"
             android:layout_width="match_parent"
             android:layout_height="@dimen/list_book_author_height"
-            tools:text="习近平"
             android:gravity="bottom"
             android:textAppearance="?android:textAppearanceSmall"/>
 

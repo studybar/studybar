@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -76,7 +78,19 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         viewPagerAdapter.addFragment(new UserFragment());
         viewPager.setAdapter(viewPagerAdapter);
 
-        final BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        final BottomNavigationView navigation = findViewById(R.id.navigation);
+
+
+        Log.e("GET_ACTION",getIntent().getAction());
+        if ("android.intent.action.launch_discussion".equals(getIntent().getAction())){
+            viewPager.setCurrentItem(1);
+            navigation.setSelectedItemId(R.id.navigation_discussion);
+        }
+        if ("android.intent.action.launch_notifications".equals(getIntent().getAction())){
+            viewPager.setCurrentItem(2);
+            navigation.setSelectedItemId(R.id.navigation_notifications);
+        }
+
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
