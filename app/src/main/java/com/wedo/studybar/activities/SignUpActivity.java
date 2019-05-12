@@ -57,9 +57,6 @@ public class SignUpActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = Context.class.getSimpleName();
 
-
-    //Uri imageUri;
-
     private TextInputEditText editTextEmail;
     private TextInputEditText editTextNickname;
     private TextInputEditText editTextPassword;
@@ -116,8 +113,6 @@ public class SignUpActivity extends AppCompatActivity {
         checkBox = findViewById(R.id.sign_up_agreement);
         spinnerGender = findViewById(R.id.sign_up_gender);
 
-        //only for test
-        imageView = findViewById(R.id.decode_test);
 
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

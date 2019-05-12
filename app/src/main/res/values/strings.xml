@@ -143,6 +143,9 @@
     <string name="plz_login_again">Please login again</string>
     <string name="confirm_password">Confirm password</string>
     <string name="check_your_password">Wrong password, check it again.</string>
+    <string name="forget_password"><u>Forget Password</u></string>
+    <string name="retrieve_password">Retrieve password</string>
+    <string name="wait_for_send">Please wait for verification to send.</string>
 
     <string-array name="category_array">
         <item>@string/select_book_category</item>

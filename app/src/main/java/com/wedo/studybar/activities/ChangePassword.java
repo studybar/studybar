@@ -53,6 +53,9 @@ public class ChangePassword extends AppCompatActivity {
 
         newPasswordEditText.setFocusable(false);
         newPasswordEditText.setClickable(true);
+        newPasswordConfirmationEditText.setFocusable(false);
+        newPasswordConfirmationEditText.setClickable(true);
+
         newPasswordEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,8 +70,6 @@ public class ChangePassword extends AppCompatActivity {
             }
         });
 
-        newPasswordConfirmationEditText.setFocusable(false);
-        newPasswordConfirmationEditText.setClickable(true);
         newPasswordConfirmationEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

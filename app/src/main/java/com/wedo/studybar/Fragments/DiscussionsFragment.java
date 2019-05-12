@@ -117,12 +117,12 @@ public class DiscussionsFragment extends Fragment implements androidx.loader.app
                 LoaderManager loaderManager = getLoaderManager();
 
                 if(swipeRefreshLayout.isRefreshing()){
-                    loaderManager.restartLoader(1, null, this);
+                    loaderManager.restartLoader(4, null, this);
                 }else {
                     // 初始化 loader。传递上面定义的整数 ID 常量并为为捆绑
                     // 传递 null。为 LoaderCallbacks 参数（由于
                     // 此活动实现了 LoaderCallbacks 接口而有效）传递此活动。
-                    loaderManager.initLoader(1, null, this);
+                    loaderManager.initLoader(4, null, this);
                 }
             }
             else{

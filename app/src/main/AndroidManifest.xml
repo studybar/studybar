@@ -74,6 +74,10 @@
             android:label="@string/change_password"
             android:theme="@style/Theme.MaterialComponents.DayNight.Dialog"/>
 
+        <activity android:name=".activities.ForgetPassword"
+            android:label="@string/retrieve_password"
+            android:theme="@style/Theme.MaterialComponents.DayNight.Dialog"/>
+
     </application>
 
 </manifest>

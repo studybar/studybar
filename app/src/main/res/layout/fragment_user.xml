@@ -162,6 +162,13 @@
             android:text="@string/action_sign_up"
             android:textStyle="bold" />
 
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:id="@+id/forget_password_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/forget_password" />
+
     </LinearLayout>
 
 </RelativeLayout>
