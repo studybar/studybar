@@ -250,7 +250,7 @@ public class QueryUtils {
      * 读取各个分类下图书数据
      * */
     public static List<Book> extractCategoryDetail(String categoryId){
-        String booksByCategory = "http://39.97.181.175:8080/study/cate_goCate.action";
+        String booksByCategory = "http://39.97.181.175/study/cate_goCate.action";
 
         URL url = createUrl(booksByCategory);
         String booksJSON = null;
@@ -306,7 +306,7 @@ public class QueryUtils {
      * 读取用户发起的话题
      * */
     public static List<Discussion> extractDiscussionsByUser(Context context){
-        String discussionsByUser = "http://39.97.181.175:8080/study/user_GetTopics.action";
+        String discussionsByUser = "http://39.97.181.175/study/user_GetTopics.action";
 
         URL url = createUrl(discussionsByUser);
         String topicsJSON = null;
@@ -345,7 +345,7 @@ public class QueryUtils {
      * 读取用户所参与的话题
      * */
     public static List<Discussion> extractDiscussions(Context context){
-        String discussionsUrl = "http://39.97.181.175:8080/study/user_GetComments.action";
+        String discussionsUrl = "http://39.97.181.175/study/user_GetComments.action";
 
         URL url = createUrl(discussionsUrl);
         String discussionsJSON = null;
@@ -387,7 +387,7 @@ public class QueryUtils {
      * 读取用户发出的评论
      * */
     public static List<Discussion> extractCommentsByUser(Context context){
-        String discussionsUrl = "http://39.97.181.175:8080/study/user_GetComments.action";
+        String discussionsUrl = "http://39.97.181.175/study/user_GetComments.action";
         URL url = createUrl(discussionsUrl);
         String discussionsJSON = null;
         List<Discussion> myComments = new ArrayList<>();
@@ -436,7 +436,7 @@ public class QueryUtils {
      * 读取话题详情
      * */
     public static List<Discussion> extractDiscussionDetail(Context context,String discussionId){
-        String discussionDetailUrl = "http://39.97.181.175:8080/study/topic_goTopic.action";
+        String discussionDetailUrl = "http://39.97.181.175/study/topic_goTopic.action";
 
         URL url = createUrl(discussionDetailUrl);
         String discussionDetailJSON = null;
@@ -471,7 +471,7 @@ public class QueryUtils {
      * 读取书籍下话题列表
      * */
     public static List<Discussion> extractBookDetail(Context context,String bookId){
-        String bookDetailUrl = "http://39.97.181.175:8080/study/type_goType.action";
+        String bookDetailUrl = "http://39.97.181.175/study/type_goType.action";
 
         URL url = createUrl(bookDetailUrl);
         String bookDetailJSON = null;
@@ -507,7 +507,7 @@ public class QueryUtils {
      * 读取用户通知
      * */
     public static List<Notification> extractNotifications(Context context){
-        String notificationUrl = "http://39.97.181.175:8080/study/user_GetNews.action";
+        String notificationUrl = "http://39.97.181.175/study/user_GetNews.action";
 
         URL url = createUrl(notificationUrl);
         String notificationJSON = null;
@@ -549,7 +549,7 @@ public class QueryUtils {
      * 用户搜索结果
      * */
     public static List<Discussion> extractSearchResult(Context context,String content){
-        String searchurl = "http://39.97.181.175:8080/study/topic_Search.action";
+        String searchurl = "http://39.97.181.175/study/topic_Search.action";
 
         URL url = createUrl(searchurl);
         String topicsJSON = null;

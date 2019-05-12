@@ -217,7 +217,7 @@ public class UserFragment extends Fragment {
         @Override
         protected String doInBackground(String... strings) {
             try{
-                URL url = new URL("http://39.97.181.175:8080/study/user_Login.action");
+                URL url = new URL("http://39.97.181.175/study/user_Login.action");
                 HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 
                 conn.setRequestMethod("POST");

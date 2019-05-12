@@ -133,7 +133,7 @@ public class BookCommentActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("Login", Context.MODE_PRIVATE);
         HttpURLConnection urlConnection = null;
         String response;
-        String postUrl = "http://39.97.181.175:8080/study/topic_add.action";
+        String postUrl = "http://39.97.181.175/study/topic_add.action";
 
         @Override
         protected String doInBackground(String... strings) {

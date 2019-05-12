@@ -284,7 +284,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try{
-                    URL url = new URL("http://39.97.181.175:8080/study/user_Register.action");
+                    URL url = new URL("http://39.97.181.175/study/user_Register.action");
                     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("POST");
                     conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");

@@ -61,7 +61,7 @@ public class AddBookActivity extends AppCompatActivity {
 
     private Boolean isCoverChanged = false;
 
-    private String URL_INFO = "http://39.97.181.175:8080/study/type_addtype.action";
+    private String URL_INFO = "http://39.97.181.175/study/type_addtype.action";
 
     private static final String LOG_TAG = Context.class.getSimpleName();
 

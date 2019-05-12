@@ -65,8 +65,8 @@ public class editProfileActivity extends AppCompatActivity {
     private String profession;
     private String gender;
 
-    private String URL_AVATAR = "http://39.97.181.175:8080/study/uploadUserPic.action";
-    private String URL_INFO = "http://39.97.181.175:8080/study/user_UpdateInfo.action";
+    private String URL_AVATAR = "http://39.97.181.175/study/uploadUserPic.action";
+    private String URL_INFO = "http://39.97.181.175/study/user_UpdateInfo.action";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

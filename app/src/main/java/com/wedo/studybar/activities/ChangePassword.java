@@ -118,7 +118,7 @@ public class ChangePassword extends AppCompatActivity {
         @Override
         protected String doInBackground(String... strings) {
             try {
-                URL url = new URL("http://39.97.181.175:8080/study/user_UpdatePass.action");
+                URL url = new URL("http://39.97.181.175/study/user_UpdatePass.action");
 
                 urlConnection = (HttpURLConnection)url.openConnection();
                 urlConnection.setRequestMethod("POST");
