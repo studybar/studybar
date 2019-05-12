@@ -49,6 +49,7 @@ public class CommentAdapter extends ArrayAdapter<Discussion> {
         MathView discussionContent = (MathView)commentItemView.findViewById(R.id.comment_content);
         discussionContent.setDisplayText(currentAndroidAdapter.getDiscussionContent());
         discussionContent.setTextSize(14);
+        discussionContent.setClickable(true);
 
         //TextView discussionNumOfLikes = (TextView)commentItemView.findViewById(R.id.comment_num_likes);
         //discussionNumOfLikes.setText(currentAndroidAdapter.getNumOfLikes());
@@ -67,8 +68,8 @@ public class CommentAdapter extends ArrayAdapter<Discussion> {
             }
         });
 
-        TextView discussionNumOfComments = (TextView)commentItemView.findViewById(R.id.comment_num_replies);
-        discussionNumOfComments.setText(currentAndroidAdapter.getNumOfComments());
+        //TextView discussionNumOfComments = (TextView)commentItemView.findViewById(R.id.comment_num_replies);
+        //discussionNumOfComments.setText(currentAndroidAdapter.getNumOfComments());
 
         return commentItemView;
     }

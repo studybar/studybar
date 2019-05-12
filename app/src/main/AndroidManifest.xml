@@ -66,6 +66,9 @@
         <activity android:name=".activities.MyDiscussionsActivity"
             android:label="@string/my_discussions"/>
 
+        <activity android:name=".activities.MyCommentsActivity"
+            android:label="@string/my_comments"/>
+
         <activity android:name=".activities.editProfileActivity"/>
 
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"/>

@@ -30,6 +30,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.wedo.studybar.R;
 import com.wedo.studybar.activities.ForgetPassword;
+import com.wedo.studybar.activities.MyCommentsActivity;
 import com.wedo.studybar.activities.MyDiscussionsActivity;
 import com.wedo.studybar.activities.SettingsActivity;
 import com.wedo.studybar.activities.SignUpActivity;
@@ -181,6 +182,15 @@ public class UserFragment extends Fragment {
                 }catch (Exception e){
                     e.printStackTrace();
                 }
+            }
+        });
+
+        Button myCommentsButton = rootView.findViewById(R.id.my_comments);
+        myCommentsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MyCommentsActivity.class);
+                startActivity(intent);
             }
         });
 

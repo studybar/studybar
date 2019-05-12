@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">STUDY BAR</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_user">Me</string>
     <string name="title_category">Category</string>
@@ -13,7 +12,6 @@
     <string name="expand">expand</string>
     <string name="notification_avatar">The avatar of this notification.</string>
     <string name="num_of_discussions">Discussions:</string>
-    <string name="top_level">Top</string>
 
     <!--学科名-->
     <string name="Philosophy">Philosophy</string>
@@ -36,7 +34,6 @@
     <string name="for_user_more_info">more user info.</string>
     <string name="num_of_likes">Likes: </string>
     <string name="blank" />
-    <string name="follow">Follow</string>
     <string name="action_add">Add</string>
     <string name="add_book">Add A Book</string>
     <string name="plz_input_book_name">Please input book title here.</string>
@@ -48,7 +45,6 @@
     <string name="Cancel">CANCEL</string>
     <string name="select_book_category">Select Category</string>
     <string name="plz_input_full_info">Input info can\'t be null</string>
-    <string name="correct">Correct mistakes</string>
     <string name="report">Report...</string>
     <string name="login_user_email">Email Address</string>
     <string name="login_user_password">Password</string>
@@ -62,42 +58,18 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+
     <string name="action_sign_up">Sign up</string>
-    <string name="followed">Followed</string>
-    <string name="unfollowed">Unfollowed</string>
-    <string name="order_hot">HOT</string>
-    <string name="order_alphabet">ALPHABET</string>
-    <string name="order_new">NEW</string>
-    <string name="order_rising">RISING</string>
-    <string name="order_by">Order By</string>
     <string name="Confirm">Confirm</string>
     <string name="be_nice">Be Nice.</string>
     <string name="plz_input_title">Discussion Topic</string>
     <string name="report_confirmation">Are you sure to report this book?</string>
     <string name="report_thanks">Thank you.</string>
-    <string name="pick_mistake_item">Pick the wrong part</string>
-    <string name="mistake_book_cover">Book Cover</string>
-    <string name="mistake_book_title">Book Title</string>
-    <string name="mistake_book_author">Author</string>
-    <string name="mistake_book_publisher">Publisher</string>
-    <string name="mistake_book_category">Category</string>
-    <string name="mistakes_categories">Categories</string>
     <string name="ok">OK</string>
-    <string name="plz_correct_cover">Please upload a correct book cover.</string>
-    <string name="plz_correct_title">Please input correct title.</string>
-    <string name="plz_correct_author">Please input the correct author.</string>
-    <string name="plz_correct_publisher">Please input correct publisher.</string>
-    <string name="plz_correct_category">Please select correct category.</string>
-    <string name="correct_book_info">Correct Book Info</string>
-    <string name="sign_up_phone_number">Phone Number</string>
     <string name="sign_up_nickname">Nickname</string>
     <string name="action_sign_up_short">Sign Up</string>
     <string name="verification_code">Verification code</string>
     <string name="get">Get</string>
-    <string name="your_interest">Your Interest</string>
     <string name="i_have_read">I have read the </string>
     <string name="agreement">Agreement</string>
     <string name="sign_up_select_avatar">Select your avatar</string>
@@ -136,16 +108,16 @@
     <string name="always_on">Always ON</string>
     <string name="follow_system">Follow system</string>
     <string name="when_battery_saver_on">Battery saver only</string>
-    <string name="based_on_time">Base on time. (Switch to darkmode on night.)</string>
     <string name="old_password">Old password</string>
     <string name="new_password">New password</string>
     <string name="check_your_intput">Check your input</string>
     <string name="plz_login_again">Please login again</string>
     <string name="confirm_password">Confirm password</string>
     <string name="check_your_password">Wrong password, check it again.</string>
-    <string name="forget_password"><u>Forget Password</u></string>
+    <string name="forget_password">Forget Password</string>
     <string name="retrieve_password">Retrieve password</string>
     <string name="wait_for_send">Please wait for verification to send.</string>
+    <string name="my_comments">My Comments</string>
 
     <string-array name="category_array">
         <item>@string/select_book_category</item>
@@ -159,12 +131,6 @@
         <item>@string/Engineering</item>
         <item>@string/Medicine</item>
         <item>@string/Management</item>
-    </string-array>
-
-    <string-array name="mistakes_list">
-        <item>@string/mistake_book_cover</item>
-        <item>@string/mistake_book_title</item>
-        <item>@string/mistake_book_category</item>
     </string-array>
 
     <string-array name="mistake_category_array">

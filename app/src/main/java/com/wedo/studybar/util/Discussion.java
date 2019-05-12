@@ -9,6 +9,8 @@ public class Discussion {
 
     private String mCommentFloor;
 
+    private Discussion topic;
+
     /**
      * Usr for the topic of discussion
      * */
@@ -30,6 +32,16 @@ public class Discussion {
         mDiscussionAuthor = discussionAuthor;
         mDiscussionContent = discussionContent;
         mCommentFloor = commentFloor;
+        //mDiscussionNumberOfLikes = discussionNumberOfLikes;
+        //mDiscussionNumberOfComments = discussionNumberOfComments;
+    }
+
+    public Discussion(String discussionId,String discussionAuthor,String discussionContent,String commentFloor,Discussion topic){
+        mDiscussionId = discussionId;
+        mDiscussionAuthor = discussionAuthor;
+        mDiscussionContent = discussionContent;
+        mCommentFloor = commentFloor;
+        this.topic = topic;
         //mDiscussionNumberOfLikes = discussionNumberOfLikes;
         //mDiscussionNumberOfComments = discussionNumberOfComments;
     }
@@ -56,5 +68,9 @@ public class Discussion {
 
     public String getCommentFloor(){
         return mCommentFloor;
+    }
+
+    public Discussion getTopic(){
+        return topic;
     }
 }

@@ -79,8 +79,6 @@ public class DiscussionsFragment extends Fragment implements androidx.loader.app
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                position--;
-                Log.e("POSITION",String.valueOf(position));
                 Intent intent = new Intent(getActivity(), DiscussionDetailActivity.class);
                 intent.putExtra("DISCUSSION_ID",discussions.get(position).getDiscussionId());
                 intent.putExtra("DISCUSSION_AUTHOR",discussions.get(position).getDiscussionAuthor());

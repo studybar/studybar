@@ -350,7 +350,6 @@ public class QueryUtils {
         URL url = createUrl(discussionsUrl);
         String discussionsJSON = null;
         List<Discussion> topics = new ArrayList<>();
-        SharedPreferences sharedPreferences = context.getSharedPreferences("Login",Context.MODE_PRIVATE);
 
         try {
             discussionsJSON = makeHttpRequest(context,url);
@@ -382,6 +381,55 @@ public class QueryUtils {
             e.printStackTrace();
         }
         return topics;
+    }
+
+    /**
+     * 读取用户发出的评论
+     * */
+    public static List<Discussion> extractCommentsByUser(Context context){
+        String discussionsUrl = "http://39.97.181.175:8080/study/user_GetComments.action";
+        URL url = createUrl(discussionsUrl);
+        String discussionsJSON = null;
+        List<Discussion> myComments = new ArrayList<>();
+
+        try {
+            discussionsJSON = makeHttpRequest(context,url);
+
+            if(TextUtils.isEmpty(discussionsJSON)){
+                return null;
+            }
+            JSONObject base = new JSONObject(discussionsJSON);
+            if (base.getString("result").matches("success")){
+                JSONArray commentsArray = base.getJSONArray("usercomment");
+
+                for (int i=0; i<commentsArray.length(); i++){
+                    JSONObject comment = commentsArray.getJSONObject(i);
+
+                    String commentId = comment.getString("id");
+                    String commentContent = comment.getString("content");
+                    String commentFloor = comment.getString("floor");
+
+                    JSONObject author = comment.getJSONObject("commentsUser");
+                    String commentUser = author.getString("nickname");
+
+                    JSONObject topic = comment.getJSONObject("commentsTopic");
+
+                    String discussionId = topic.getString("id");
+                    String discussionTitle = topic.getString("title");
+                    String discussionContent = topic.getString("content");
+                    String discussionCommentsNum = topic.getString("countComment");
+
+                    JSONObject authorObject = topic.getJSONObject("topicsUser");
+                    String discussionAuthor = authorObject.getString("nickname");
+
+                    Discussion _topic = new Discussion(discussionId,discussionAuthor,discussionTitle,discussionContent,discussionCommentsNum);
+                    myComments.add(new Discussion(commentId,commentUser,commentContent,commentFloor,_topic));
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return myComments;
     }
 
     /**

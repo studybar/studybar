@@ -167,8 +167,6 @@ public class AddBookActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),R.string.plz_input_full_info,Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    //todo: process the info
-                    //finish();
                     new addBookAsyncTask().execute(URL_INFO);
                 }
             }

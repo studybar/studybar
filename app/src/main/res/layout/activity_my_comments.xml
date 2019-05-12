@@ -5,17 +5,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:id="@+id/discussion_fragment_empty_view"
+        android:id="@+id/my_comments_empty_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:visibility="gone"/>
+        app:layout_constraintRight_toRightOf="parent"/>
 
     <ProgressBar
-        android:id="@+id/discussion_load_progress"
+        android:id="@+id/my_comments_load_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
@@ -24,22 +23,20 @@
         app:layout_constraintRight_toRightOf="parent" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/discussion_refresh_layout"
+        android:id="@+id/my_comments_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:paddingBottom="56dp">
+        xmlns:tools="http://schemas.android.com/tools">
 
         <ListView
-            android:id="@+id/my_discussion_list"
+            android:id="@+id/my_comments_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
-            android:divider="@null"
-            tools:listitem="@layout/discussion_fragment_list_item">
+            tools:listitem="@layout/my_comment_list_item">
 
         </ListView>
 
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

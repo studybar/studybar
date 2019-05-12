@@ -42,6 +42,7 @@ public class DiscussionAdapter extends ArrayAdapter<Discussion> {
         MathView discussionContent = discussionItemView.findViewById(R.id.discussion_content);
         discussionContent.setDisplayText(currentAndroidAdapter.getDiscussionContent());
         discussionContent.setTextSize(14);
+        discussionContent.setClickable(true);
 
         //TextView discussionNumOfLikes = (TextView)discussionItemView.findViewById(R.id.discussion_num_of_likes);
         //discussionNumOfLikes.setText(currentAndroidAdapter.getNumOfLikes());
