@@ -34,7 +34,8 @@
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/sign_up_nickname"
@@ -48,7 +49,8 @@
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/sign_up_password"
@@ -67,14 +69,16 @@
             <Spinner
                 android:id="@+id/sign_up_gender"
                 android:layout_width="match_parent"
-                android:layout_height="32dp">
+                android:layout_height="32dp"
+                android:layout_marginTop="8dp">
 
             </Spinner>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/sign_up_profession"
@@ -88,7 +92,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -145,7 +150,5 @@
         </LinearLayout>
 
     </ScrollView>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

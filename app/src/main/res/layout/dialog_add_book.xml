@@ -21,7 +21,7 @@
             android:id="@+id/add_book_name_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="64dp"
             android:layout_toEndOf="@id/add_book_cover"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp">
@@ -38,7 +38,7 @@
             android:id="@+id/add_book_author_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="64dp"
             android:layout_toEndOf="@id/add_book_cover"
             android:layout_below="@id/add_book_name_layout"
             android:layout_marginStart="8dp"
@@ -55,7 +55,7 @@
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="64dp"
             android:layout_toEndOf="@id/add_book_cover"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"

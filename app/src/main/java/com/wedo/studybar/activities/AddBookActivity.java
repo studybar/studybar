@@ -57,13 +57,9 @@ public class AddBookActivity extends AppCompatActivity {
     private long bookCategoryId;
     private byte[] b;
 
-    private String bookId;
-
     private Boolean isCoverChanged = false;
 
     private String URL_INFO = "http://39.97.181.175/study/type_addtype.action";
-
-    private static final String LOG_TAG = Context.class.getSimpleName();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -232,6 +228,8 @@ public class AddBookActivity extends AppCompatActivity {
                 name.put("name",bookTitle+" "+bookAuthor+" "+bookPublisher);
                 book.put("name",name);
                 book.put("picture",encodedImage);
+
+                Log.e("BOOK",book.toString());
 
                 byte[] JsonString = book.toString().getBytes(StandardCharsets.UTF_8);
                 dataOutputStream.write(JsonString,0,JsonString.length);

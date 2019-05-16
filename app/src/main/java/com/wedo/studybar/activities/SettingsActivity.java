@@ -98,6 +98,9 @@ public class SettingsActivity extends AppCompatActivity {
                     editor.putString("Password","");
                     editor.putString("Username","");
                     editor.putString("Bio","");
+                    editor.putString("Avatar","");
+                    editor.putString("Profession","");
+                    editor.putString("Gender","");
                     editor.putBoolean("LoginState", false);
                     editor.apply();
                     Intent outIntent = new Intent(getActivity(),

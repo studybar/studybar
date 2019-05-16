@@ -279,78 +279,12 @@ public class SignUpActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void sendPost(){
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    URL url = new URL("http://39.97.181.175/study/user_Register.action");
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setRequestMethod("POST");
-                    conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
-                    conn.setRequestProperty("Accept","application/json");
-                    conn.setDoOutput(true);
-                    conn.setDoInput(true);
-
-                    JSONObject newUser = new JSONObject();
-                //    newUser.put("username",email);
-                //    newUser.put("password",password);
-                //    newUser.put("nickname",nickname);
-                //    newUser.put("sex",gender);
-                //    newUser.put("email",email);
-                //    newUser.put("profession",profession);
-                //    newUser.put("verification",verificationCode);
-
-                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
-                    byte[] b = byteArrayOutputStream.toByteArray();
-
-                    String encodedImage = Base64.encodeToString(b,Base64.DEFAULT);
-
-                    Log.e("base64",encodedImage);
-
-               newUser.put("picture",encodedImage);
-
-                    DataOutputStream dataOutputStream = new DataOutputStream(conn.getOutputStream());
-                    dataOutputStream.writeBytes(newUser.toString());
-
-                    Log.e(LOG_TAG,newUser.toString());
-
-                    dataOutputStream.flush();
-                    dataOutputStream.close();
-
-                    BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    String decodedString;
-                    StringBuilder stringBuilder = new StringBuilder();
-                    while ((decodedString = in.readLine()) != null) {
-                        stringBuilder.append(decodedString);
-                    }
-                    in.close();
-                    /*YOUR RESPONSE */
-                    String response = stringBuilder.toString();
-
-                    base = new JSONObject(response);
-                    //JSONObject result = base.getJSONObject("result");
-                    check = base.getString("result");
-
-                    Log.e("STATUS", String.valueOf(conn.getResponseCode()));
-                    Log.e("MSG" , conn.getResponseMessage());
-                    Log.e("RESPONSE",response);
-                    conn.disconnect();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
-    }
-
     private class signUpAsyncTask extends AsyncTask<Void,Void,String>{
 
         @Override
         protected String doInBackground(Void... voids) {
             try{
-                URL url = new URL("http://39.97.181.175:8080/study/user_Register.action");
+                URL url = new URL("http://39.97.181.175/study/user_Register.action");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
