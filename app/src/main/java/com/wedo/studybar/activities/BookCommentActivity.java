@@ -114,6 +114,11 @@ public class BookCommentActivity extends AppCompatActivity {
                     }catch (Exception e){
                         e.printStackTrace();
                     }
+                }else if(title.length()<=5){
+                    Toast.makeText(this,R.string.title_too_short,Toast.LENGTH_SHORT).show();
+                }
+                else if (content.length()<= 15){
+                    Toast.makeText(this,R.string.content_too_short,Toast.LENGTH_SHORT).show();
                 }
                 return true;
             default:

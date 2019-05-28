@@ -114,5 +114,7 @@
     <string name="notification_message">%1$s 在你发表的 %2$s 话题下进行了评论。</string>
     <string name="quote_content"><![CDATA[<fieldset style=\\\"font-size: 12px;border: 1px solid #CCC;word-break: break-word;word-wrap: break-word;overflow-x: hidden;margin: 0 0 5px 0;padding: 0 5px 5px;\\\"><legend style=\\\"font-weight:bold;font-size:14px;\\\">引自 %1$s 楼 %2$s 的回复</legend>%3$s </fieldset>%4$s]]></string>
     <string name="my_comments">发表的评论</string>
+    <string name="title_too_short">标题长度过短</string>
+    <string name="content_too_short">内容长度过短</string>
 
 </resources>

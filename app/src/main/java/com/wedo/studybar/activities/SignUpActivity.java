@@ -49,6 +49,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 import com.wedo.studybar.Fragments.UserFragment;
@@ -88,22 +89,6 @@ public class SignUpActivity extends AppCompatActivity {
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_action_close);
 
-        /*
-        imageViewAvatar = findViewById(R.id.sign_up_avatar);
-        imageViewAvatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                CropImage.activity()
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .setAllowFlipping(false)
-                        .setAllowRotation(false)
-                        .setAspectRatio(1,1)
-                        .start(SignUpActivity.this);
-
-            }
-        });
-        */
         editTextEmail = findViewById(R.id.sign_up_email);
         editTextNickname = findViewById(R.id.sign_up_nickname);
         editTextPassword = findViewById(R.id.sign_up_password);
@@ -199,31 +184,6 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    /*
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
-                try {
-                    imageUri = result.getUri();
-                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-                    imageViewAvatar.setImageURI(imageUri);
-                    //ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                    //bitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
-                    //byte[] b = byteArrayOutputStream.toByteArray();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Exception error = result.getError();
-            }
-        }
-
-    }
-    */
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -301,19 +261,9 @@ public class SignUpActivity extends AppCompatActivity {
                     newUser.put("profession",profession);
                     //newUser.put("verification",verificationCode);
 
-                /*
-                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
-                    byte[] b = byteArrayOutputStream.toByteArray();
-
-                    String encodedImage = Base64.encodeToString(b,Base64.DEFAULT);
-
-                    Log.e("base64",encodedImage);
-
-                newUser.put("picture",encodedImage);
-                */
                 DataOutputStream dataOutputStream = new DataOutputStream(conn.getOutputStream());
-                dataOutputStream.writeBytes(newUser.toString());
+                byte[] JsonString = newUser.toString().getBytes(StandardCharsets.UTF_8);
+                dataOutputStream.write(JsonString,0,JsonString.length);
 
                 Log.e(LOG_TAG,newUser.toString());
 

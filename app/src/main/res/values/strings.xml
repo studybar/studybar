@@ -118,6 +118,8 @@
     <string name="retrieve_password">Retrieve password</string>
     <string name="wait_for_send">Please wait for verification to send.</string>
     <string name="my_comments">My Comments</string>
+    <string name="title_too_short">The title is too short!</string>
+    <string name="content_too_short">Content is too short.</string>
 
     <string-array name="category_array">
         <item>@string/select_book_category</item>

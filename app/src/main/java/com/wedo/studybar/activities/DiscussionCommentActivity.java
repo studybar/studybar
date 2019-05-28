@@ -92,6 +92,9 @@ public class DiscussionCommentActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
+                else{
+                    Toast.makeText(this,R.string.content_too_short,Toast.LENGTH_SHORT).show();
+                }
                 return true;
                 default:
                     return super.onOptionsItemSelected(item);

@@ -132,6 +132,7 @@ public class AddBookActivity extends AppCompatActivity {
             }
         });
 
+        /*
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,6 +153,7 @@ public class AddBookActivity extends AppCompatActivity {
                 finish();
             }
         });
+        */
 
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,7 +220,7 @@ public class AddBookActivity extends AppCompatActivity {
                 urlConnection.setDoInput(true);
 
                 DataOutputStream dataOutputStream = new DataOutputStream(urlConnection.getOutputStream());
-                String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+                //String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
 
                 JSONObject book = new JSONObject();
                 JSONObject bookCategory = new JSONObject();
@@ -227,7 +229,14 @@ public class AddBookActivity extends AppCompatActivity {
                 JSONObject name = new JSONObject();
                 name.put("name",bookTitle+" "+bookAuthor+" "+bookPublisher);
                 book.put("name",name);
-                book.put("picture",encodedImage);
+                //book.put("picture",encodedImage);
+                //book.put("picture","");
+                if(isCoverChanged){
+                    String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+                    book.put("picture",encodedImage);
+                }else{
+                    book.put("picture","");
+                }
 
                 Log.e("BOOK",book.toString());
 
