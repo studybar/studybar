@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -34,7 +33,7 @@ public class ChangePassword extends AppCompatActivity {
 
     private String oldPassword;
     private String newPassword;
-    private String newPasswordConfirmagion;
+    private String newPasswordConfirmation;
 
     private SharedPreferences sharedPreferences;
 
@@ -94,8 +93,8 @@ public class ChangePassword extends AppCompatActivity {
         buttonOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newPasswordConfirmagion = newPasswordConfirmationEditText.getText().toString();
-                if (newPassword.equals(newPasswordConfirmagion)){
+                newPasswordConfirmation = newPasswordConfirmationEditText.getText().toString();
+                if (newPassword.equals(newPasswordConfirmation)){
                     try {
                         JSONObject base = new JSONObject();
                         base.put("password",newPassword);

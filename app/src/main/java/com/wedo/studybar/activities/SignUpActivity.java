@@ -1,5 +1,6 @@
 package com.wedo.studybar.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -62,25 +63,15 @@ public class SignUpActivity extends AppCompatActivity {
     private TextInputEditText editTextNickname;
     private TextInputEditText editTextPassword;
     private TextInputEditText editTextProfession;
-    private TextInputEditText editTextVerificationCode;
-    private Button buttonGetVerificationCode;
-    private CheckBox checkBox;
     private Spinner spinnerGender;
 
     private String gender = "";
     private String email = "";
-    //private String username = "";
     private String nickname = "";
     private String password = "";
     private String profession = "";
-    private String verificationCode = "";
-    private Boolean isAgreementChecked = false;
-    private Bitmap bitmap;
-
     private String check = "";
     private JSONObject base;
-
-    private ImageView imageView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,18 +84,7 @@ public class SignUpActivity extends AppCompatActivity {
         editTextNickname = findViewById(R.id.sign_up_nickname);
         editTextPassword = findViewById(R.id.sign_up_password);
         editTextProfession = findViewById(R.id.sign_up_profession);
-        editTextVerificationCode = findViewById(R.id.sign_up_verification_code);
-        buttonGetVerificationCode = findViewById(R.id.sign_up_button_get_verification_code);
-        checkBox = findViewById(R.id.sign_up_agreement);
         spinnerGender = findViewById(R.id.sign_up_gender);
-
-
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                isAgreementChecked = isChecked;
-            }
-        });
 
         InputFilter inputFilter = new InputFilter() {
             @Override
@@ -122,40 +102,13 @@ public class SignUpActivity extends AppCompatActivity {
         editTextNickname.setFilters(new InputFilter[]{inputFilter});
         editTextPassword.setFilters(new InputFilter[]{inputFilter});
         editTextProfession.setFilters(new InputFilter[]{inputFilter});
-        editTextVerificationCode.setFilters(new InputFilter[]{inputFilter});
-
-        /**
-         * make editTextVerificationCode editable only after clicked the button
-         * */
-        editTextVerificationCode.setFocusable(false);
-        editTextVerificationCode.setClickable(true);
-        editTextVerificationCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),R.string.click_get_code,Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        buttonGetVerificationCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                email = editTextEmail.getText().toString();
-                if(email.matches("")){
-                    Toast.makeText(getApplicationContext(),R.string.plz_input_email,Toast.LENGTH_SHORT).show();
-                }else {
-                    //todo:tell server to send verification
-                    editTextVerificationCode.setFocusableInTouchMode(true);
-                    editTextVerificationCode.setClickable(false);
-                }
-            }
-        });
-
 
         final ArrayAdapter<CharSequence> genderAdapter;
         genderAdapter = ArrayAdapter.createFromResource(this,R.array.gender_identity,android.R.layout.simple_spinner_item);
         genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerGender.setAdapter(genderAdapter);
         spinnerGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @SuppressLint("NewApi")
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (Math.toIntExact(id)){
@@ -194,7 +147,6 @@ public class SignUpActivity extends AppCompatActivity {
                 email = editTextEmail.getText().toString();
                 //username = editTextUsername.getText().toString();
                 password = editTextPassword.getText().toString();
-                verificationCode = editTextVerificationCode.getText().toString();
                 profession = editTextProfession.getText().toString();
                 nickname = editTextNickname.getText().toString();
                 /*

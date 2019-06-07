@@ -15,14 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ForgetPassword extends AppCompatActivity {
 
-    private TextInputEditText verificationCodeEditText;
-    private MaterialButton buttonGet;
     private TextInputEditText passwordNewEditText;
     private TextInputEditText passwordConfirmationEditText;
     private MaterialButton buttonCancel;
     private MaterialButton buttonOk;
 
-    private String verificationCode;
     private String passwordNew;
     private String passwordConfirm;
 
@@ -33,52 +30,15 @@ public class ForgetPassword extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forget_password);
 
-        verificationCodeEditText = findViewById(R.id.forget_password_verification);
-        buttonGet = findViewById(R.id.forget_password_get);
         passwordNewEditText = findViewById(R.id.forget_password_new);
         passwordConfirmationEditText = findViewById(R.id.forget_password_new_confirm);
         buttonCancel = findViewById(R.id.forget_password_cancel);
         buttonOk = findViewById(R.id.forget_password_ok);
 
-        verificationCodeEditText.setFocusable(false);
-        verificationCodeEditText.setClickable(true);
-        passwordNewEditText.setFocusable(false);
-        passwordNewEditText.setClickable(true);
         passwordConfirmationEditText.setFocusable(false);
         passwordConfirmationEditText.setClickable(true);
 
-        verificationCodeEditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isGetClicked){
-                    Toast.makeText(getApplicationContext(),R.string.wait_for_send,Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(getApplicationContext(),R.string.click_get_code,Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        buttonGet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isGetClicked = true;
-
-            }
-        });
-
-        passwordNewEditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                verificationCode = verificationCodeEditText.getText().toString();
-                if (verificationCode!=null&&!verificationCode.matches("")){
-                    passwordNewEditText.setFocusableInTouchMode(true);
-                    passwordNewEditText.requestFocus();
-                    passwordNewEditText.setClickable(false);
-                }else {
-
-                }
-            }
-        });
+        passwordNewEditText.requestFocus();
 
         passwordConfirmationEditText.setOnClickListener(new View.OnClickListener() {
             @Override

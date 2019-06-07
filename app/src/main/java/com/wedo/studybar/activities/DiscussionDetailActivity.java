@@ -128,19 +128,6 @@ public class DiscussionDetailActivity extends AppCompatActivity implements andro
             case android.R.id.home:
                 finish();
                 return true;
-            case R.id.discussion_report:
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.report)
-                        .setMessage(R.string.report_confirmation)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //todo:report operation
-                                Toast.makeText(getApplicationContext(),R.string.report_thanks,Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .setNegativeButton(android.R.string.cancel,null)
-                        .show();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -172,13 +159,6 @@ public class DiscussionDetailActivity extends AppCompatActivity implements andro
             progressBar.setVisibility(View.GONE);
             emptyStateTextView.setText(R.string.no_internet);
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.discussion_menu,menu);
-        return true;
     }
 
     @NonNull

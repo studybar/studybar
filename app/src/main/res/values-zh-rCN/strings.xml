@@ -116,5 +116,7 @@
     <string name="my_comments">发表的评论</string>
     <string name="title_too_short">标题长度过短</string>
     <string name="content_too_short">内容长度过短</string>
+    <string name="start">开始录制语音</string>
+    <string name="stop">结束录制</string>
 
 </resources>

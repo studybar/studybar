@@ -175,30 +175,9 @@ public class BookDetailActivity extends AppCompatActivity implements androidx.lo
             case android.R.id.home:
                 finish();
                 return true;
-            case R.id.report:
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.report)
-                        .setMessage(R.string.report_confirmation)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //todo:report operation
-                                Toast.makeText(getApplicationContext(),R.string.report_thanks,Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .setNegativeButton(android.R.string.cancel,null)
-                        .show();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.book_menu,menu);
-        return true;
     }
 
     @NonNull
