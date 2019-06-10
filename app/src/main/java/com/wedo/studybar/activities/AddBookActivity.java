@@ -132,29 +132,6 @@ public class AddBookActivity extends AppCompatActivity {
             }
         });
 
-        /*
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bookTitle = addBookTitle.getText().toString();
-                bookAuthor = addBookAuthor.getText().toString();
-                bookPublisher = addBookPublisher.getText().toString();
-                if(bookTitle.matches("")||bookAuthor.matches("")||bookPublisher.matches("")|| bookCategoryId ==0 ||!isCoverChanged){
-                    Toast.makeText(getApplicationContext(),R.string.plz_input_full_info,Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    new addBookAsyncTask().execute(URL_INFO);
-                }
-            }
-        });
-        buttonCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        */
-
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -16,6 +16,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.os.Environment;
+import android.util.Base64;
+import android.util.Base64OutputStream;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,9 +34,13 @@ import com.wedo.studybar.R;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -121,7 +127,6 @@ public class DiscussionCommentActivity extends AppCompatActivity {
 
                     fab.setEnabled(false);
                     stopButton.setEnabled(true);
-
                 }
                 else {
 
@@ -134,65 +139,54 @@ public class DiscussionCommentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mediaRecorder.stop();
-            }
-        });
 
-        /*
-        fab.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if(checkPermission()){
-                    Log.e("VOICE","S1");
-                    fileName = Environment.getExternalStorageDirectory().getAbsolutePath()+ File.separator + CreateRandomAudioFileName(5) + "AudioRecording.3gp";
-                    boolean mStartRecording = true;
-                    isPressed = true;
-                    onRecord(mStartRecording);
-                    return true;
-                } else {
-                    requestPermission();
-                    return true;
+                File audioFile = new File(fileName);
+                long fileSize = audioFile.length();
+
+                InputStream inputStream = null;//You can get an inputStream using any IO API
+                try {
+                    inputStream = new FileInputStream(fileName);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
                 }
-            }
-        });
-        */
-
-        //fileName = getExternalCacheDir().getAbsolutePath()+ File.separator + CreateRandomAudioFileName(5) + "AudioRecording.3gp";
-
-        /*
-        fab.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                /*v.onTouchEvent(event);
-                if(event.getAction() == MotionEvent.ACTION_UP){
-                    if(isPressed){
-                        isPressed = false;
-                        onRecord(isPressed);
+                byte[] buffer = new byte[8192];
+                int bytesRead;
+                ByteArrayOutputStream output = new ByteArrayOutputStream();
+                Base64OutputStream output64 = new Base64OutputStream(output, Base64.DEFAULT);
+                try {
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        output64.write(buffer, 0, bytesRead);
                     }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    output64.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
 
-                switch (event.getAction()){
-                    case MotionEvent.ACTION_UP:
-                        Log.v("tag", "ACTION_UP  end record");
-                        if(checkPermission()){
-                            Log.e("VOICE","S1");
-                            //fileName = getExternalCacheDir().getAbsolutePath()+ File.separator + CreateRandomAudioFileName(5) + "AudioRecording.3gp";
-                            //fileName = getExternalCacheDir().getAbsolutePath();
-                            //fileName += "/audiorecordtest.3gp";
-                            onRecord(true);
-                        } else {
-                            requestPermission();
-                        }
-                        break;
-                    case MotionEvent.ACTION_DOWN:
-                        Log.v("tag", "ACTION_DOWN  start record");
-                        onRecord(true);
-                        break;
-                    default:
-                        break;
+                String attachedFile = output.toString();
+
+                try {
+                    JSONObject base = new JSONObject();
+                    JSONObject topic = new JSONObject();
+
+                    topic.put("id",discussionId);
+                    base.put("topic",topic);
+                    base.put("voice",attachedFile);
+
+                    Log.e("VOICE",base.toString());
+
+                    new postVoiceAsyncTask().execute(base.toString());
+
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
-                return false;
+
             }
-        });*/
+        });
+
     }
 
     @Override
@@ -322,6 +316,68 @@ public class DiscussionCommentActivity extends AppCompatActivity {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_confirm,menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private class postVoiceAsyncTask extends  AsyncTask<String,Void,String>{
+
+        SharedPreferences sharedPreferences = getSharedPreferences("Login", Context.MODE_PRIVATE);
+        HttpURLConnection urlConnection = null;
+        String response;
+        String postUrl = "http://39.97.181.175/study/user_VoiceUpload.action";
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try{
+                URL url = new URL(postUrl);
+
+                urlConnection = (HttpURLConnection)url.openConnection();
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                urlConnection.setRequestProperty("Accept","application/json");
+                urlConnection.setRequestProperty("cookie",sharedPreferences.getString("SESSION_ID",""));
+                urlConnection.setDoOutput(true);
+                urlConnection.setDoInput(true);
+
+                DataOutputStream dataOutputStream = new DataOutputStream(urlConnection.getOutputStream());
+                byte[] JsonString = strings[0].getBytes(StandardCharsets.UTF_8);
+                dataOutputStream.write(JsonString,0,JsonString.length);
+
+                dataOutputStream.flush();
+                dataOutputStream.close();
+
+                BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                String decodedString;
+                StringBuilder stringBuilder = new StringBuilder();
+                while ((decodedString = in.readLine()) != null) {
+                    stringBuilder.append(decodedString);
+                }
+
+                in.close();
+                //YOUR RESPONSE
+                response = stringBuilder.toString();
+
+                urlConnection.disconnect();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            String result = "";
+            try {
+                JSONObject base = new JSONObject(response);
+                result = base.getString("result");
+
+                Log.e("POST",result);
+                if(result.matches("success")){
+                    finish();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 
     private class postCommentAsyncTask extends AsyncTask<String,Void,String>{
