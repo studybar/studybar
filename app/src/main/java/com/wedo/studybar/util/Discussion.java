@@ -9,6 +9,8 @@ public class Discussion {
 
     private String mCommentFloor;
 
+    private int mStatus;
+
     private Discussion topic;
 
     /**
@@ -27,13 +29,12 @@ public class Discussion {
      * @param discussionAuthor means the user who wrote this comment
      * @param discussionContent means the content of the comment
      * */
-    public Discussion(String discussionId,String discussionAuthor,String discussionContent,String commentFloor){
+    public Discussion(String discussionId,String discussionAuthor,String discussionContent,String commentFloor,int status){
         mDiscussionId = discussionId;
         mDiscussionAuthor = discussionAuthor;
         mDiscussionContent = discussionContent;
         mCommentFloor = commentFloor;
-        //mDiscussionNumberOfLikes = discussionNumberOfLikes;
-        //mDiscussionNumberOfComments = discussionNumberOfComments;
+        mStatus = status;
     }
 
     public Discussion(String discussionId,String discussionAuthor,String discussionContent,String commentFloor,Discussion topic){
@@ -42,8 +43,6 @@ public class Discussion {
         mDiscussionContent = discussionContent;
         mCommentFloor = commentFloor;
         this.topic = topic;
-        //mDiscussionNumberOfLikes = discussionNumberOfLikes;
-        //mDiscussionNumberOfComments = discussionNumberOfComments;
     }
 
     public String getDiscussionId(){
@@ -72,5 +71,9 @@ public class Discussion {
 
     public Discussion getTopic(){
         return topic;
+    }
+
+    public int getStatus(){
+        return mStatus;
     }
 }

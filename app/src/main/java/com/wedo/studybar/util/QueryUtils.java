@@ -358,6 +358,7 @@ public class QueryUtils {
                 return null;
             }
             JSONObject base = new JSONObject(discussionsJSON);
+
             if (base.getString("result").matches("success")){
                 JSONArray commentsArray = base.getJSONArray("usercomment");
 
@@ -448,18 +449,30 @@ public class QueryUtils {
                 return null;
             }
             JSONObject base = new JSONObject(discussionDetailJSON);
+
             JSONArray commentsArray = base.getJSONArray("topiccomment");
             for (int i = 0; i < commentsArray.length(); i++){
                 JSONObject comment = commentsArray.getJSONObject(i);
 
+                String status = comment.getString("status");
+                int statusValue = Integer.parseInt(status);
+
                 String commentId = comment.getString("id");
                 String commentContent = comment.getString("content");
                 String commentFloor = comment.getString("floor");
+                //String content = null;
+                if (statusValue == 1){
+                    JSONObject commentObject = new JSONObject(commentContent);
+                    String content = commentObject.getString("voice");
+                    commentContent = content;
+                }
+
+                //Log.e("COMMENT",commentContent);
 
                 JSONObject author = comment.getJSONObject("commentsUser");
                 String commentUser = author.getString("nickname");
 
-                comments.add(new Discussion(commentId,commentUser,commentContent,commentFloor));
+                comments.add(new Discussion(commentId,commentUser,commentContent,commentFloor,statusValue));
             }
         }catch (Exception e){
             e.printStackTrace();

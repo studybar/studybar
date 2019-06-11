@@ -102,11 +102,11 @@ public class DiscussionCommentActivity extends AppCompatActivity {
 
         editText = findViewById(R.id.comment_edit_box);
         fab = findViewById(R.id.record_fab);
-
         stopButton = findViewById(R.id.stop_record);
 
-        random = new Random();
+        stopButton.setVisibility(View.GONE);
 
+        random = new Random();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,15 +126,15 @@ public class DiscussionCommentActivity extends AppCompatActivity {
                     }
 
                     fab.setEnabled(false);
+                    stopButton.setVisibility(View.VISIBLE);
                     stopButton.setEnabled(true);
                 }
                 else {
-
                     requestPermission();
-
                 }
             }
         });
+
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,6 +184,18 @@ public class DiscussionCommentActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+            }
+        });
+
+        editText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fab.setVisibility(View.GONE);
+                fab.setClickable(false);
+                fab.setFocusable(false);
+                stopButton.setVisibility(View.GONE);
+                stopButton.setClickable(false);
+                stopButton.setFocusable(false);
             }
         });
 
@@ -252,20 +264,8 @@ public class DiscussionCommentActivity extends AppCompatActivity {
         return stringBuilder.toString();
     }
 
-    private void onRecord(boolean start) {
-        if (start) {
-            Log.e("VOICE","S2");
-            startRecording();
-        } else {
-            stopRecording();
-        }
-    }
-
     private void startRecording() {
-        Log.e("VOICE","S3");
 
-        //fileName = getExternalCacheDir().getAbsolutePath();
-        //fileName += "/audiorecordtest.3gp";
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -281,12 +281,6 @@ public class DiscussionCommentActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-    }
-
-    private void stopRecording() {
-        recorder.stop();
-        recorder.release();
-        recorder = null;
     }
 
     private void requestPermission() {
@@ -323,7 +317,7 @@ public class DiscussionCommentActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("Login", Context.MODE_PRIVATE);
         HttpURLConnection urlConnection = null;
         String response;
-        String postUrl = "http://39.97.181.175/study/user_VoiceUpload.action";
+        String postUrl = "http://39.97.181.175/study/comment_VoiceUpload.action";
 
         @Override
         protected String doInBackground(String... strings) {

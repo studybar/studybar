@@ -118,5 +118,6 @@
     <string name="content_too_short">内容长度过短</string>
     <string name="start">开始录制语音</string>
     <string name="stop">结束录制</string>
+    <string name="voice_message">音频信息</string>
 
 </resources>

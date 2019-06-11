@@ -122,6 +122,7 @@
     <string name="content_too_short">Content is too short.</string>
     <string name="start">Start</string>
     <string name="stop">Stop</string>
+    <string name="voice_message">Voice Message</string>
 
     <string-array name="category_array">
         <item>@string/select_book_category</item>
