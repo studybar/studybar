@@ -406,9 +406,17 @@ public class QueryUtils {
                 for (int i=0; i<commentsArray.length(); i++){
                     JSONObject comment = commentsArray.getJSONObject(i);
 
+                    String status = comment.getString("status");
+                    int statusValue = Integer.parseInt(status);
+
                     String commentId = comment.getString("id");
                     String commentContent = comment.getString("content");
                     String commentFloor = comment.getString("floor");
+                    if (statusValue == 1){
+                        JSONObject commentObject = new JSONObject(commentContent);
+                        String content = commentObject.getString("voice");
+                        commentContent = content;
+                    }
 
                     JSONObject author = comment.getJSONObject("commentsUser");
                     String commentUser = author.getString("nickname");
@@ -423,8 +431,10 @@ public class QueryUtils {
                     JSONObject authorObject = topic.getJSONObject("topicsUser");
                     String discussionAuthor = authorObject.getString("nickname");
 
+                    Log.e("COMMENT",commentContent);
+
                     Discussion _topic = new Discussion(discussionId,discussionAuthor,discussionTitle,discussionContent,discussionCommentsNum);
-                    myComments.add(new Discussion(commentId,commentUser,commentContent,commentFloor,_topic));
+                    myComments.add(new Discussion(commentId,commentUser,commentContent,commentFloor,statusValue,_topic));
                 }
             }
         }catch (Exception e){
@@ -467,7 +477,7 @@ public class QueryUtils {
                     commentContent = content;
                 }
 
-                //Log.e("COMMENT",commentContent);
+                Log.e("COMMENT",commentContent);
 
                 JSONObject author = comment.getJSONObject("commentsUser");
                 String commentUser = author.getString("nickname");

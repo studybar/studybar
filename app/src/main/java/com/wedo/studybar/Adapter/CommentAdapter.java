@@ -36,6 +36,8 @@ public class CommentAdapter extends ArrayAdapter<Discussion> {
     String topicId;
     String fileName="ABCDEFG";
     Random random;
+    String path = null;
+    ArrayList<String> pathList = new ArrayList<>();
 
     public CommentAdapter(Activity context, ArrayList<Discussion> commentArrayList,String topicId){
         super(context,0,commentArrayList);
@@ -88,26 +90,11 @@ public class CommentAdapter extends ArrayAdapter<Discussion> {
 
                 random = new Random();
                 fileName = CreateRandomAudioFileName(5) + "AudioRecording.3gp";
-                final String path = getContext().getExternalCacheDir().getAbsolutePath() + "/" + fileName;
+                path = getContext().getExternalCacheDir().getAbsolutePath() + "/" + fileName;
                 File file = new File(path);
                 FileOutputStream fos = new FileOutputStream(file);
                 fos.write(Base64.decode(currentAndroidAdapter.getDiscussionContent().getBytes(), Base64.DEFAULT));
                 fos.close();
-
-                buttonPlay.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        try {
-                            MediaPlayer mp = null;
-                            mp = new MediaPlayer();
-                            mp.setDataSource(path);
-                            mp.prepare();
-                            mp.start();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -128,8 +115,13 @@ public class CommentAdapter extends ArrayAdapter<Discussion> {
             });
         }
 
+        pathList.add(path);
 
         return commentItemView;
+    }
+
+    public String getPath(int position){
+        return pathList.get(position);
     }
 
     public String CreateRandomAudioFileName(int string){

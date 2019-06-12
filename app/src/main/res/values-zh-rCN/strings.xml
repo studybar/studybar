@@ -119,5 +119,6 @@
     <string name="start">开始录制语音</string>
     <string name="stop">结束录制</string>
     <string name="voice_message">音频信息</string>
+    <string name="no_comments_found">未找到评论</string>
 
 </resources>

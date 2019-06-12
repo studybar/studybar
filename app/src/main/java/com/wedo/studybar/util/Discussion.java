@@ -37,11 +37,12 @@ public class Discussion {
         mStatus = status;
     }
 
-    public Discussion(String discussionId,String discussionAuthor,String discussionContent,String commentFloor,Discussion topic){
+    public Discussion(String discussionId,String discussionAuthor,String discussionContent,String commentFloor,int status,Discussion topic){
         mDiscussionId = discussionId;
         mDiscussionAuthor = discussionAuthor;
         mDiscussionContent = discussionContent;
         mCommentFloor = commentFloor;
+        mStatus = status;
         this.topic = topic;
     }
 

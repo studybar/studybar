@@ -3,6 +3,8 @@ package com.wedo.studybar.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -41,12 +43,43 @@ public class MyCommentsActivity extends AppCompatActivity implements androidx.lo
 
     private MyCommentAdapter commentAdapter;
 
+    private MediaPlayer mediaPlayer;
+
+    private MediaPlayer.OnCompletionListener mCompletionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            releaseMediaPlayer();
+        }
+    };
+
+    private AudioManager am;
+    AudioManager.OnAudioFocusChangeListener afChangeListener =
+            new AudioManager.OnAudioFocusChangeListener() {
+                public void onAudioFocusChange(int focusChange) {
+                    if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
+                        // Permanent loss of audio focus
+                        // Pause playback immediately
+                        releaseMediaPlayer();
+                    }
+                    else if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT || focusChange==AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) {
+                        // Pause playback
+                        mediaPlayer.pause();
+                        mediaPlayer.seekTo(0);
+                    } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
+                        // Your app has been granted audio focus again
+                        // Raise volume to normal, restart playback if necessary
+                        mediaPlayer.start();
+                    }
+                }
+            };
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_comments);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
 
         emptyStateTextView = findViewById(R.id.my_comments_empty_view);
         progressBar = findViewById(R.id.my_comments_load_progress);
@@ -70,9 +103,10 @@ public class MyCommentsActivity extends AppCompatActivity implements androidx.lo
         commentAdapter = new MyCommentAdapter(this,0,comments);
         toggleEmptyView(commentAdapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("CLICK",String.valueOf(position));
                 Intent intent = new Intent(getApplicationContext(),DiscussionDetailActivity.class);
                 intent.putExtra("DISCUSSION_ID",comments.get(position).getTopic().getDiscussionId());
@@ -80,6 +114,32 @@ public class MyCommentsActivity extends AppCompatActivity implements androidx.lo
                 intent.putExtra("DISCUSSION_TITLE",comments.get(position).getTopic().getDiscussionTitle());
                 intent.putExtra("DISCUSSION_CONTENT",comments.get(position).getTopic().getDiscussionContent());
                 startActivity(intent);
+                return true;
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                position--;
+                if (comments.get(position).getStatus() == 1){
+                    releaseMediaPlayer();
+
+                    int result = am.requestAudioFocus(afChangeListener,AudioManager.STREAM_MUSIC,AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+                    if(result==AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                        try {
+                            mediaPlayer = new MediaPlayer();
+                            mediaPlayer.setDataSource(commentAdapter.getPath(position));
+                            Log.e("PATH",commentAdapter.getPath(position));
+                            //mMediaPlayer = MediaPlayer.create(PhrasesActivity.this, word.getAudioResourceID());
+                            mediaPlayer.prepare();
+                            mediaPlayer.start();
+                            mediaPlayer.setOnCompletionListener(mCompletionListener);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }
             }
         });
 
@@ -150,7 +210,7 @@ public class MyCommentsActivity extends AppCompatActivity implements androidx.lo
     @Override
     public void onLoadFinished(@NonNull Loader<List<Discussion>> loader, List<Discussion> comments) {
         progressBar.setVisibility(View.GONE);
-        emptyStateTextView.setText(R.string.no_discussion);
+        emptyStateTextView.setText(R.string.no_comments_found);
         listView.setVisibility(View.VISIBLE);
         swipeRefreshLayout.setRefreshing(false);
         if(commentAdapter!=null){
@@ -164,5 +224,33 @@ public class MyCommentsActivity extends AppCompatActivity implements androidx.lo
     @Override
     public void onLoaderReset(@NonNull Loader<List<Discussion>> loader) {
         commentAdapter.clear();
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        releaseMediaPlayer();
+    }
+
+    /**
+     * Clean up the media player by releasing its resources.
+     */
+    private void releaseMediaPlayer() {
+        // If the media player is not null, then it may be currently playing a sound.
+        if (mediaPlayer != null) {
+            // Regardless of the current state of the media player, release its resources
+            // because we no longer need it.
+            mediaPlayer.release();
+
+            // Set the media player back to null. For our code, we've decided that
+            // setting the media player to null is an easy way to tell that the media player
+            // is not configured to play an audio file at the moment.
+            mediaPlayer = null;
+
+            // Regardless of whether or not we were granted audio focus, abandon it. This also
+            // unregisters the AudioFocusChangeListener so we don't get anymore callbacks.
+            // mAudioManager.abandonAudioFocus(mOnAudioFocusChangeListener);
+            am.abandonAudioFocus(afChangeListener);
+        }
     }
 }

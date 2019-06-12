@@ -74,6 +74,7 @@
                 android:textAlignment="viewStart"
                 android:drawableEnd="@drawable/ic_settings_arrow"/>
 
+            <!--
             <com.google.android.material.button.MaterialButton
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:id="@+id/my_comments"
@@ -86,6 +87,7 @@
                 android:drawablePadding="16dp"
                 android:textAlignment="viewStart"
                 android:drawableEnd="@drawable/ic_settings_arrow"/>
+                -->
 
             <com.google.android.material.button.MaterialButton
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"

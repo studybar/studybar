@@ -185,6 +185,7 @@ public class UserFragment extends Fragment {
             }
         });
 
+        /*
         Button myCommentsButton = rootView.findViewById(R.id.my_comments);
         myCommentsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,6 +194,7 @@ public class UserFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        */
 
 
         Button settingsButton = (Button) rootView.findViewById(R.id.settings_button);

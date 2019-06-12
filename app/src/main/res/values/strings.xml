@@ -123,6 +123,7 @@
     <string name="start">Start</string>
     <string name="stop">Stop</string>
     <string name="voice_message">Voice Message</string>
+    <string name="no_comments_found">No Comments Found.</string>
 
     <string-array name="category_array">
         <item>@string/select_book_category</item>
