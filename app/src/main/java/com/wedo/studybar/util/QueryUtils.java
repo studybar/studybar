@@ -2,17 +2,11 @@ package com.wedo.studybar.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.JsonReader;
 import android.util.Log;
 
-import com.wedo.studybar.R;
-
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -27,8 +21,12 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class QueryUtils {
+
+    String fileName = "ABCDEFG";
+    Random random;
 
     private static final String LOG_TAG = Context.class.getSimpleName();
 
@@ -653,5 +651,16 @@ public class QueryUtils {
             e.printStackTrace();
         }
         return topics;
+    }
+
+    private String CreateRandomAudioFileName(int string) {
+
+        StringBuilder stringBuilder = new StringBuilder(string);
+        int i = 0;
+        while (i < string) {
+            stringBuilder.append(fileName.charAt(random.nextInt(fileName.length())));
+            i++;
+        }
+        return stringBuilder.toString();
     }
 }
