@@ -33,9 +33,8 @@
             android:id="@+id/comments_of_discussion"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="@null"
             android:headerDividersEnabled="false"
-            android:dividerHeight="0dp"
+            android:dividerHeight="1dp"
             tools:listitem="@layout/comment_list_item"
             tools:listheader="@layout/comment_topic_header_view">
         </ListView>
