@@ -11,13 +11,6 @@ public class Book {
     private byte[] mBookCoverId;        //book_image
     private String mNumOfComments;
 
-    public Book(String bookId, String bookName, byte[] bookCoverId, String bookAuthor){
-        mBookId = bookId;
-        mBookName = bookName;
-        mBookCoverId = bookCoverId;
-        mBookAuthor = bookAuthor;
-    }
-
     public Book(String bookId, String bookName, byte[] bookCoverId, String bookAuthor, String bookPublisher, String numOfComments){
         mBookId = bookId;
         mBookName = bookName;

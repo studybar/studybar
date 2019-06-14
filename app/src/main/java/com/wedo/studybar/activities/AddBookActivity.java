@@ -166,7 +166,7 @@ public class AddBookActivity extends AppCompatActivity {
                     bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
                     imageView.setImageURI(imageUri);
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG,60,byteArrayOutputStream);
+                    bitmap.compress(Bitmap.CompressFormat.PNG,40,byteArrayOutputStream);
                     b = byteArrayOutputStream.toByteArray();
                     isCoverChanged = true;
                 }catch (Exception e){

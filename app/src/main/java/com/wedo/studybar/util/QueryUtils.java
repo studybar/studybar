@@ -111,7 +111,7 @@ public class QueryUtils {
                 jsonResponse = readFromStream(inputStream);
             }
             else{
-                Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
+                Log.e(LOG_TAG, "Error response code: " + urlConnection.getErrorStream());
             }
         }catch (IOException e){
             Log.e(LOG_TAG, "Problem retrieving the JSON results.", e);
@@ -288,7 +288,12 @@ public class QueryUtils {
 
                     //String bookName = book.getString("name");
                     String bookCover = "";
-                    bookCover = book.getString("typespicture");
+                    try{
+                        bookCover = book.getString("typespicture");
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        bookCover = "";
+                    }
                     byte[] bytes = Base64.decode(bookCover, Base64.DEFAULT);
                     String bookCommentsNum = book.getString("countTopics");
 
@@ -345,9 +350,11 @@ public class QueryUtils {
      * 读取用户所参与的话题
      * */
     public static List<Discussion> extractDiscussions(Context context){
-        String discussionsUrl = "http://39.97.181.175/study/user_GetComments.action";
+        //String discussionsUrl = "http://39.97.181.175/study/user_GetComments.action";
+        String discussionsUrl = "http://39.97.181.175/study/topic_getIndexHotTopic.action";
 
         URL url = createUrl(discussionsUrl);
+
         String discussionsJSON = null;
         List<Discussion> topics = new ArrayList<>();
 
@@ -359,13 +366,16 @@ public class QueryUtils {
             }
             JSONObject base = new JSONObject(discussionsJSON);
 
-            if (base.getString("result").matches("success")){
-                JSONArray commentsArray = base.getJSONArray("usercomment");
+            //if (base.getString("result").matches("success")){
+                //JSONArray commentsArray = base.getJSONArray("usercomment");
 
-                for (int i=0; i<commentsArray.length(); i++){
-                    JSONObject comment = commentsArray.getJSONObject(i);
+            JSONArray commentsArray = base.getJSONArray("hottopic");
 
-                    JSONObject topic = comment.getJSONObject("commentsTopic");
+            for (int i=0; i<commentsArray.length(); i++){
+                    //JSONObject comment = commentsArray.getJSONObject(i);
+
+                    //JSONObject topic = comment.getJSONObject("commentsTopic");
+                JSONObject topic = commentsArray.getJSONObject(i);
 
                     String discussionId = topic.getString("id");
                     String discussionTitle = topic.getString("title");
@@ -377,7 +387,7 @@ public class QueryUtils {
 
                     topics.add(new Discussion(discussionId,discussionAuthor,discussionTitle,discussionContent,discussionCommentsNum));
                 }
-            }
+            //}
         }catch (Exception e){
             e.printStackTrace();
         }

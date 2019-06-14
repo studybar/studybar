@@ -252,7 +252,7 @@ public class editProfileActivity extends AppCompatActivity {
                     bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
                     imageView.setImageURI(imageUri);
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG,60,byteArrayOutputStream);
+                    bitmap.compress(Bitmap.CompressFormat.PNG,40,byteArrayOutputStream);
                     byte[] b = byteArrayOutputStream.toByteArray();
                     if(!isAvatarChanged){ countChanges++; }
                     isAvatarChanged = true;

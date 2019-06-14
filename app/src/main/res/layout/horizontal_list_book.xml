@@ -37,13 +37,15 @@
             android:textStyle="bold"
             android:gravity="bottom"
             android:maxLines="2"
+            tools:text="计算机算法与分析"
             android:textAppearance="?android:textAppearanceSmall"/>
 
         <TextView
             android:id="@+id/book_author"
             android:layout_width="match_parent"
             android:layout_height="@dimen/list_book_author_height"
-            android:gravity="bottom"
+            android:gravity="center_vertical"
+            tools:text="作者"
             android:textAppearance="?android:textAppearanceSmall"/>
 
     </LinearLayout>
