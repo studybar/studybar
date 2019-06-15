@@ -3,13 +3,10 @@
     <string name="title_home">Home</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_user">Me</string>
-    <string name="title_category">Category</string>
     <string name="title_discussion">Discussion</string>
     <string name="action_search">Search</string>
     <string name="search_hint">Search topics</string>
     <string name="settings">Settings</string>
-    <string name="personal_suggestion">Based on your interest</string>
-    <string name="expand">expand</string>
     <string name="notification_avatar">The avatar of this notification.</string>
     <string name="num_of_discussions">Discussions:</string>
 
@@ -22,22 +19,14 @@
     <string name="History">History</string>
     <string name="formalScience">Formal science</string>
     <string name="Engineering">Engineering</string>
-    <string name="Agronomy">Agronomy</string>
     <string name="Medicine">Medicine</string>
-    <string name="militaryScience">Military science</string>
     <string name="Management">Management</string>
-    <string name="artTheory">Art Theory</string>
 
-    <string name="discussion_author_pre">u/</string>
-    <string name="my_books">My Books</string>
     <string name="my_discussions">My Discussions</string>
-    <string name="for_user_more_info">more user info.</string>
     <string name="num_of_likes">Likes: </string>
     <string name="blank" />
     <string name="action_add">Add</string>
     <string name="add_book">Add A Book</string>
-    <string name="plz_input_book_name">Please input book title here.</string>
-    <string name="plz_input_book_author">Please input the author of this book.</string>
     <string name="input_book_name">Book Title</string>
     <string name="input_book_author">Author of this book</string>
     <string name="input_book_publisher">Publisher of this book</string>
@@ -45,49 +34,31 @@
     <string name="Cancel">CANCEL</string>
     <string name="select_book_category">Select Category</string>
     <string name="plz_input_full_info">Input info can\'t be null</string>
-    <string name="report">Report...</string>
-    <string name="login_user_email">Email Address</string>
-    <string name="login_user_password">Password</string>
-    <string name="title_activity_login">Sign in</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
 
     <string name="action_sign_up">Sign up</string>
     <string name="Confirm">Confirm</string>
     <string name="be_nice">Be Nice.</string>
     <string name="plz_input_title">Discussion Topic</string>
-    <string name="report_confirmation">Are you sure to report this book?</string>
-    <string name="report_thanks">Thank you.</string>
     <string name="ok">OK</string>
     <string name="sign_up_nickname">Nickname</string>
     <string name="action_sign_up_short">Sign Up</string>
-    <string name="verification_code">Verification code</string>
-    <string name="get">Get</string>
-    <string name="i_have_read">I have read the </string>
-    <string name="agreement">Agreement</string>
     <string name="sign_up_select_avatar">Select your avatar</string>
     <string name="select_gender_identity">Gender identity(can be null)</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="agender">Agender</string>
-    <string name="sign_up_user_name">Name</string>
     <string name="sign_up_profession">Profession</string>
-    <string name="sign_up_info_not_null">Email, Name, Password, Verification Code can not be null! Or you haven\'t agree the agreement.</string>
     <string name="login_failed">Login failed, please check your password.</string>
     <string name="email_null">Please input email address.</string>
     <string name="password_null">Please input password.</string>
     <string name="logout">Log out</string>
     <string name="summary_logout">Log out</string>
     <string name="plz_login_first">Please login first.</string>
-    <string name="click_get_code">Please get Verification code first!</string>
-    <string name="plz_input_email">Please input email address first!</string>
     <string name="no_internet">No Internet Connection.</string>
     <string name="no_books">No Books Found.</string>
     <string name="avatar">Avatar</string>
@@ -116,7 +87,6 @@
     <string name="check_your_password">Wrong password, check it again.</string>
     <string name="forget_password">Forget Password</string>
     <string name="retrieve_password">Retrieve password</string>
-    <string name="wait_for_send">Please wait for verification to send.</string>
     <string name="my_comments">My Comments</string>
     <string name="title_too_short">The title is too short!</string>
     <string name="content_too_short">Content is too short.</string>
@@ -127,19 +97,6 @@
 
     <string-array name="category_array">
         <item>@string/select_book_category</item>
-        <item>@string/Philosophy</item>
-        <item>@string/Economics</item>
-        <item>@string/Jurisprudence</item>
-        <item>@string/Pedagogy</item>
-        <item>@string/Literature</item>
-        <item>@string/History</item>
-        <item>@string/formalScience</item>
-        <item>@string/Engineering</item>
-        <item>@string/Medicine</item>
-        <item>@string/Management</item>
-    </string-array>
-
-    <string-array name="mistake_category_array">
         <item>@string/Philosophy</item>
         <item>@string/Economics</item>
         <item>@string/Jurisprudence</item>

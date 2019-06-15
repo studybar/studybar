@@ -50,7 +50,6 @@
             android:layout_gravity="bottom">
 
             <LinearLayout
-                android:id="@+id/num_likes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -62,7 +61,6 @@
                     android:text="@string/num_of_likes"/>
 
                 <TextView
-                    android:id="@+id/search_num_of_likes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"

@@ -295,7 +295,6 @@ public class QueryUtils {
                     byte[] bytes = Base64.decode(bookCover, Base64.DEFAULT);
                     String bookCommentsNum = book.getString("countTopics");
 
-                    //books.add(new Book(bookId,bookName,R.drawable.test,bookCommentsNum));
                     books.add(new Book(bookId, bookName, bytes, bookAuthor, bookPublisher, bookCommentsNum));
             }
             }

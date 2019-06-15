@@ -25,7 +25,6 @@
             android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/home_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -75,6 +74,7 @@
                         android:layout_marginStart="16dp"
                         tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:listitem="@layout/horizontal_list_book"
+                        android:nestedScrollingEnabled="false"
                         tools:orientation="horizontal">
 
                     </androidx.recyclerview.widget.RecyclerView>

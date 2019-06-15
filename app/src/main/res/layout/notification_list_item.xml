@@ -7,7 +7,6 @@
     android:padding="16dp">
 
     <ImageView
-        android:id="@+id/notification_avatar"
         android:layout_width="48dp"
         android:layout_height="match_parent"
         android:src="@drawable/ic_notification_alert"

@@ -2,11 +2,6 @@
 <resources>
     <color name="colorPrimary">#2196f3</color>
     <color name="colorPrimaryDark">#0069c0</color>
-    <color name="colorPrimaryLight">#6ec6ff</color>
     <color name="colorAccent">#ffff00</color>
     <color name="colorAccentDark">#c7cc00</color>
-    <color name="buttonBackground">#eeeeee</color>
-    <color name="categoryBackground">#2196f3</color>
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
 </resources>
