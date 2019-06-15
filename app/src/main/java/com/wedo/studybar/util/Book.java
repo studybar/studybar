@@ -1,7 +1,5 @@
 package com.wedo.studybar.util;
 
-import android.graphics.Bitmap;
-
 public class Book {
     private String mBookId;         //book_id
     private String mBookName;       //book_name
@@ -10,6 +8,17 @@ public class Book {
     //private int mBookCoverId;
     private byte[] mBookCoverId;        //book_image
     private String mNumOfComments;
+
+    private String mCoverUrl;
+
+    public Book(String bookId, String bookName, String bookAuthor, String coverUrl, String bookPublisher, String numOfComments) {
+        mBookId = bookId;
+        mBookName = bookName;
+        mBookAuthor = bookAuthor;
+        mCoverUrl = coverUrl;
+        mBookPublisher = bookPublisher;
+        mNumOfComments = numOfComments;
+    }
 
     public Book(String bookId, String bookName, byte[] bookCoverId, String bookAuthor, String bookPublisher, String numOfComments){
         mBookId = bookId;
@@ -42,5 +51,9 @@ public class Book {
 
     public String getBookPublisher(){
         return mBookPublisher;
+    }
+
+    public String getCoverUrl() {
+        return mCoverUrl;
     }
 }

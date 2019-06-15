@@ -1,7 +1,6 @@
 package com.wedo.studybar.activities;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.media.AudioManager;
@@ -9,44 +8,32 @@ import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.Loader;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import katex.hourglass.in.mathlib.MathView;
-
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.wedo.studybar.Adapter.CommentAdapter;
 import com.wedo.studybar.R;
 import com.wedo.studybar.loader.discussionDetailLoader;
 import com.wedo.studybar.util.Discussion;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import katex.hourglass.in.mathlib.MathView;
 
 public class DiscussionDetailActivity extends AppCompatActivity implements androidx.loader.app.LoaderManager.LoaderCallbacks<List<Discussion>> {
 
@@ -139,10 +126,8 @@ public class DiscussionDetailActivity extends AppCompatActivity implements andro
                     if(result==AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                         try {
                             mediaPlayer = new MediaPlayer();
-                            Log.e("PATH",commentAdapter.getPath(position));
 
                             mediaPlayer.setDataSource(commentAdapter.getPath(position));
-                            //mMediaPlayer = MediaPlayer.create(PhrasesActivity.this, word.getAudioResourceID());
                             mediaPlayer.prepare();
                             mediaPlayer.start();
                             mediaPlayer.setOnCompletionListener(mCompletionListener);

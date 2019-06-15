@@ -1,30 +1,13 @@
 package com.wedo.studybar.activities;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.Loader;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,17 +16,24 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.bumptech.glide.Glide;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.wedo.studybar.Adapter.DiscussionAdapter;
 import com.wedo.studybar.R;
 import com.wedo.studybar.loader.bookDetailLoader;
-import com.wedo.studybar.util.Book;
 import com.wedo.studybar.util.Discussion;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class BookDetailActivity extends AppCompatActivity implements androidx.loader.app.LoaderManager.LoaderCallbacks<List<Discussion>>{
 
@@ -62,6 +52,10 @@ public class BookDetailActivity extends AppCompatActivity implements androidx.lo
     private String bookName;
     private Bitmap bookCover;
     private String bookCommentsNum;
+
+    private String coverUrl;
+
+    private String url = "http://39.97.181.175/study/image/";
 
     private DiscussionAdapter discussionAdapter;
 
@@ -90,9 +84,9 @@ public class BookDetailActivity extends AppCompatActivity implements androidx.lo
         });
         bookId = getIntent().getStringExtra("BOOK_ID");
         bookName = getIntent().getStringExtra("BOOK_NAME");
-        bookCover = BitmapFactory.decodeByteArray(
-                getIntent().getByteArrayExtra("BOOK_COVER"),0,getIntent().getByteArrayExtra("BOOK_COVER").length);
-        //bookCover = getIntent().getStringExtra("BOOK_COVER");
+
+        coverUrl = getIntent().getStringExtra("BOOK_COVER");
+
         bookCommentsNum = getIntent().getStringExtra("BOOK_COMMENT_COUNT");
 
         loadBookDetail();
@@ -124,10 +118,10 @@ public class BookDetailActivity extends AppCompatActivity implements androidx.lo
         bookTitleView = findViewById(R.id.book_search_title);
         bookCommentNumView = findViewById(R.id.search_num_of_discuss);
 
-        //byte[] coverBytesArray = Base64.decode(bookCover,Base64.DEFAULT);
-        //Bitmap bitmap = BitmapFactory.decodeByteArray(coverBytesArray,0,coverBytesArray.length);
-        bookCoverView.setImageBitmap(bookCover);
-        //bookCoverView.setImageResource(R.drawable.test);
+        Glide.with(this)
+                .load(url + coverUrl)
+                .into(bookCoverView);
+
         bookTitleView.setText(bookName);
         bookCommentNumView.setText(bookCommentsNum);
 

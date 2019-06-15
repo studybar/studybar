@@ -1,28 +1,28 @@
 package com.wedo.studybar.Adapter;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.wedo.studybar.R;
 import com.wedo.studybar.util.Book;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class HorizontalBookAdapter extends RecyclerView.Adapter<HorizontalBookAdapter.horizontalBookViewHolder> {
 
     private List<Book> books;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
+
+    private String coverUrl = "http://39.97.181.175/study/image/";
 
     public HorizontalBookAdapter(Context context, List<Book> books){
         this.mInflater = LayoutInflater.from(context);
@@ -39,16 +39,14 @@ public class HorizontalBookAdapter extends RecyclerView.Adapter<HorizontalBookAd
     @Override
     public void onBindViewHolder(@NonNull HorizontalBookAdapter.horizontalBookViewHolder horizontalBookViewHolder, int position) {
         String horizontalBookId = books.get(position).getBookId();
-        //int horizontalBookCover = books.get(position).getBookCoverId();
-        byte[] horizontalBookCover = books.get(position).getBookCoverId();
         String horizontalBookName = books.get(position).getBookName();
         String horizontalBookAuthor = books.get(position).getBookAuthor();
-        //horizontalBookViewHolder.horizontalBookCoverView.setImageResource(horizontalBookCover);
-        byte[] coverBytesArray = books.get(position).getBookCoverId();
-        Bitmap bitmap = BitmapFactory.decodeByteArray(coverBytesArray,0,coverBytesArray.length);
-        horizontalBookViewHolder.horizontalBookCoverView.setImageBitmap(bitmap);
         horizontalBookViewHolder.horizontalBookNameView.setText(horizontalBookName);
         horizontalBookViewHolder.horizontalBookAuthorView.setText(horizontalBookAuthor);
+
+        Glide.with(horizontalBookViewHolder.horizontalBookCoverView.getContext())
+                .load(coverUrl + books.get(position).getCoverUrl())
+                .into(horizontalBookViewHolder.horizontalBookCoverView);
     }
 
     public String getBookName(int position) {
@@ -109,5 +107,10 @@ public class HorizontalBookAdapter extends RecyclerView.Adapter<HorizontalBookAd
     public void addAll(List<Book> books){
         this.books=books;
         this.notifyDataSetChanged();
+    }
+
+
+    public String getCoverUrl(int id) {
+        return books.get(id).getCoverUrl();
     }
 }

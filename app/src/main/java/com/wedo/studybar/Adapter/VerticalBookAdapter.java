@@ -1,30 +1,25 @@
 package com.wedo.studybar.Adapter;
 
 import android.app.Activity;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ToggleButton;
 
+import com.bumptech.glide.Glide;
 import com.wedo.studybar.R;
 import com.wedo.studybar.util.Book;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 public class VerticalBookAdapter extends ArrayAdapter<Book> {
+
+    private String coverUrl = "http://39.97.181.175/study/image/";
 
     public VerticalBookAdapter(Activity context, ArrayList<Book> bookArrayList){
         super(context, 0, bookArrayList);
@@ -42,10 +37,12 @@ public class VerticalBookAdapter extends ArrayAdapter<Book> {
         Book  currentAndroidAdapter = getItem(position);
 
         ImageView verticalBookCover = bookItemView.findViewById(R.id.book_search_cover);
-        //verticalBookCover.setImageResource(currentAndroidAdapter.getBookCoverId());
-        byte[] coverBytesArray = currentAndroidAdapter.getBookCoverId();
-        Bitmap bitmap = BitmapFactory.decodeByteArray(coverBytesArray,0,coverBytesArray.length);
-        verticalBookCover.setImageBitmap(bitmap);
+        //byte[] coverBytesArray = currentAndroidAdapter.getBookCoverId();
+        //Bitmap bitmap = BitmapFactory.decodeByteArray(coverBytesArray,0,coverBytesArray.length);
+        //verticalBookCover.setImageBitmap(bitmap);
+        Glide.with(parent)
+                .load(coverUrl + currentAndroidAdapter.getCoverUrl())
+                .into(verticalBookCover);
 
         TextView verticalBookTitle = (TextView)bookItemView.findViewById(R.id.book_search_title);
         verticalBookTitle.setText(currentAndroidAdapter.getBookName());

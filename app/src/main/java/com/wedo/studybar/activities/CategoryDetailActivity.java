@@ -3,20 +3,9 @@ package com.wedo.studybar.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.loader.content.Loader;
-import androidx.loader.app.LoaderManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,12 +15,18 @@ import android.widget.TextView;
 
 import com.wedo.studybar.Adapter.VerticalBookAdapter;
 import com.wedo.studybar.R;
-import com.wedo.studybar.util.Book;
 import com.wedo.studybar.loader.BooksLoader;
+import com.wedo.studybar.util.Book;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class CategoryDetailActivity extends AppCompatActivity implements androidx.loader.app.LoaderManager.LoaderCallbacks<List<Book>> {
 
@@ -69,21 +64,6 @@ public class CategoryDetailActivity extends AppCompatActivity implements android
         });
 
         categoryId = getIntent().getStringExtra("CATEGORY_ID");
-        /*
-        category = "";
-        switch (categoryId){
-            case "1": category = "哲学";break;
-            case "2": category = "经济学";break;
-            case "3": category = "法学";break;
-            case "4": category = "教育学";break;
-            case "5": category = "文学";break;
-            case "6": category = "历史学";break;
-            case "7": category = "理学";break;
-            case "8": category = "工学";break;
-            case "9": category = "医学";break;
-            case "10": category = "管理学";break;
-        }
-        */
 
         loadBooks();
 
@@ -96,7 +76,7 @@ public class CategoryDetailActivity extends AppCompatActivity implements android
                 Intent intent = new Intent(getApplicationContext(),BookDetailActivity.class);
                 intent.putExtra("BOOK_ID",books.get(position).getBookId());
                 intent.putExtra("BOOK_NAME",books.get(position).getBookName());
-                intent.putExtra("BOOK_COVER",books.get(position).getBookCoverId());
+                intent.putExtra("BOOK_COVER", books.get(position).getCoverUrl());
                 intent.putExtra("BOOK_COMMENT_COUNT",books.get(position).getNumOfComments());
                 startActivity(intent);
             }

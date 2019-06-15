@@ -11,11 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.loader.content.AsyncTaskLoader;
 
-public class BooksLoader extends AsyncTaskLoader<List<Book>> {
-
+public class categoryDetailLoader extends AsyncTaskLoader<List<Book>> {
     private String categoryId;
 
-    public BooksLoader(@NonNull Context context, String categoryId) {
+    public categoryDetailLoader(@NonNull Context context, String categoryId) {
         super(context);
         this.categoryId = categoryId;
     }

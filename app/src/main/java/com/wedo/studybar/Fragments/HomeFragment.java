@@ -5,16 +5,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.Loader;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +24,15 @@ import com.wedo.studybar.util.Category;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class HomeFragment extends Fragment implements androidx.loader.app.LoaderManager.LoaderCallbacks<List<Book>>{
 
@@ -136,7 +135,7 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
                 Intent intent = new Intent(getActivity(), BookDetailActivity.class);
                 intent.putExtra("BOOK_ID", horizontalBookAdapter_one.getBookId(position));
                 intent.putExtra("BOOK_NAME", horizontalBookAdapter_one.getBookName(position));
-                intent.putExtra("BOOK_COVER",horizontalBookAdapter_one.getBookCover(position));
+                intent.putExtra("BOOK_COVER", horizontalBookAdapter_one.getCoverUrl(position));
                 intent.putExtra("BOOK_COMMENT_COUNT", horizontalBookAdapter_one.getBookCountNum(position));
                 startActivity(intent);
             }
@@ -152,7 +151,7 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
                 Intent intent = new Intent(getActivity(), BookDetailActivity.class);
                 intent.putExtra("BOOK_ID", horizontalBookAdapter_two.getBookId(position));
                 intent.putExtra("BOOK_NAME", horizontalBookAdapter_two.getBookName(position));
-                intent.putExtra("BOOK_COVER",horizontalBookAdapter_two.getBookCover(position));
+                intent.putExtra("BOOK_COVER", horizontalBookAdapter_two.getCoverUrl(position));
                 intent.putExtra("BOOK_COMMENT_COUNT", horizontalBookAdapter_two.getBookCountNum(position));
                 startActivity(intent);
             }
@@ -168,7 +167,7 @@ public class HomeFragment extends Fragment implements androidx.loader.app.Loader
                 Intent intent = new Intent(getActivity(), BookDetailActivity.class);
                 intent.putExtra("BOOK_ID", horizontalBookAdapter_three.getBookId(position));
                 intent.putExtra("BOOK_NAME", horizontalBookAdapter_three.getBookName(position));
-                intent.putExtra("BOOK_COVER",horizontalBookAdapter_three.getBookCover(position));
+                intent.putExtra("BOOK_COVER", horizontalBookAdapter_three.getCoverUrl(position));
                 intent.putExtra("BOOK_COMMENT_COUNT", horizontalBookAdapter_three.getBookCountNum(position));
                 startActivity(intent);
             }

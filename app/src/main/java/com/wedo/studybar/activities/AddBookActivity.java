@@ -1,15 +1,11 @@
 package com.wedo.studybar.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.provider.MediaStore;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -19,7 +15,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -38,6 +33,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class AddBookActivity extends AppCompatActivity {
 
@@ -59,7 +57,7 @@ public class AddBookActivity extends AppCompatActivity {
 
     private Boolean isCoverChanged = false;
 
-    private String URL_INFO = "http://39.97.181.175/study/type_addtype.action";
+    private String URL_INFO = "http://39.97.181.175/study/type_addtype1.action";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

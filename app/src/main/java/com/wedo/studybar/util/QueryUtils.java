@@ -218,9 +218,6 @@ public class QueryUtils {
             if(urlConnection != null){
                 urlConnection.disconnect();
             }
-            //if(inputStream != null){
-            //  inputStream.close();
-            //}
         }
         return jsonResponse;
     }
@@ -299,6 +296,62 @@ public class QueryUtils {
             }
             }
         }catch (Exception e){
+            e.printStackTrace();
+        }
+        return books;
+    }
+
+    public static List<Book> getCategoryDetail(String categoryId) {
+        String booksByCategory = "http://39.97.181.175/study/cate_goCate.action";
+
+        URL url = createUrl(booksByCategory);
+        String booksJSON = null;
+        List<Book> books = new ArrayList<>();
+        try {
+            booksJSON = makeHttpRequest(url, categoryId);
+
+            Log.e("ID", categoryId);
+            Log.e("BOOK_JSON", booksJSON);
+
+            if (TextUtils.isEmpty(booksJSON)) {
+                return null;
+            }
+            JSONObject base = new JSONObject(booksJSON);
+            String result = base.getString("result");
+            if (result.matches("success")) {
+                JSONArray booksArray = base.getJSONArray("categoryall");
+
+                for (int i = 0; i < booksArray.length(); i++) {
+                    JSONObject book = booksArray.getJSONObject(i);
+
+                    String bookId = book.getString("id");
+
+                    String[] strings = book.getString("name").split("\\s+");
+                    String bookName = strings[0];
+                    String bookAuthor = "";
+                    String bookPublisher = "";
+                    String bookUrl = "";
+                    if (strings.length == 3) {
+                        bookAuthor = strings[1];
+                        bookPublisher = strings[2];
+                    }
+                    if (strings.length == 2) {
+                        bookAuthor = strings[1];
+                    }
+
+                    try {
+                        bookUrl = book.getString("typespicture");
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    String bookCommentsNum = book.getString("countTopics");
+
+                    books.add(new Book(bookId, bookName, bookAuthor, bookUrl, bookPublisher, bookCommentsNum));
+                }
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return books;
